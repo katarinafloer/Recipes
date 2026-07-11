@@ -169,8 +169,6 @@ h3 {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 38px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
 }
 
 .tab {
@@ -237,9 +235,7 @@ h3 {
   top: 96px;
   display: grid;
   gap: 18px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 18px 0;
+  padding: 0;
 }
 
 .filter-panel h2 {
@@ -253,10 +249,8 @@ h3 {
 
 .panel {
   min-width: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   background: var(--panel);
-  padding: 18px 0;
+  padding: 0;
 }
 
 .form-panel {
@@ -495,12 +489,11 @@ textarea:focus {
 
 .recipe-name-list {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .recipe-name-item {
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--line);
+  padding: 0;
 }
 
 .recipe-name-item a {
