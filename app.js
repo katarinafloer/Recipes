@@ -24,6 +24,8 @@ const recipeSections = [
   { label: "Snack/Appetizers", id: "snack-appetizers" }
 ];
 
+const pantrySections = ["Meats", "Grains", "Produce", "Spread", "Dairy", "Condiments"];
+
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => showView(tab.dataset.view));
 });
@@ -177,18 +179,29 @@ function renderPantry() {
 
   if (!siteData.pantry.length) return list.append(emptyState("No pantry rows found."));
 
-  siteData.pantry
-    .slice()
-    .sort((a, b) => a.category.localeCompare(b.category) || a.item.localeCompare(b.item))
-    .forEach((item) => {
+  const categories = [
+    ...pantrySections,
+    ...unique(siteData.pantry.map((item) => item.category).filter((category) => !pantrySections.includes(category)))
+  ];
+
+  categories.forEach((category) => {
+    const sectionItems = siteData.pantry.filter((item) => item.category === category);
+    const section = document.createElement("section");
+    section.className = "pantry-section";
+    section.innerHTML = `<h3>${escapeHtml(category)}</h3>`;
+
+    sectionItems.forEach((item) => {
       const row = document.createElement("div");
       row.className = "pantry-row";
       row.innerHTML = `
         <strong>${escapeHtml(item.item)}</strong>
-        <span>${escapeHtml([item.category, item.quantity, item.notes].filter(Boolean).join(" · "))}</span>
+        <span>${escapeHtml([item.quantity, item.notes].filter(Boolean).join(" · "))}</span>
       `;
-      list.append(row);
+      section.append(row);
     });
+
+    list.append(section);
+  });
 }
 
 function renderRecommendations() {

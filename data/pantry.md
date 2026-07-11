@@ -1,6 +1,6 @@
 # Pantry
 
-## Protein
+## Meats
 
 
 ## Grains

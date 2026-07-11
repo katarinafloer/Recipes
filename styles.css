@@ -472,7 +472,19 @@ textarea:focus {
 }
 
 .item-list {
+  gap: 22px;
+}
+
+.pantry-section {
+  display: grid;
   gap: 8px;
+}
+
+.pantry-section h3 {
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  margin: 0;
 }
 
 .pantry-row {
