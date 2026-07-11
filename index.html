@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipe Pantry Planner</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="./" aria-label="Recipe Pantry Planner home">Kate Flöer</a>
+        <div class="nav-links">
+          <a class="nav-link" href="https://github.com/katarinafloer">My Repositories</a>
+          <a class="nav-link" href="https://github.com/katarinafloer/katarinafloer.github.io">Website Repo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Kitchen notebook</p>
+        <h1 id="page-title">Recipe Pantry Planner</h1>
+        <p class="lede">
+          A file-based recipe browser for pantry matching, ingredient labels, tags, ratings, and repeat meals.
+        </p>
+      </section>
+
+      <nav class="tabs" aria-label="Recipe planner sections">
+        <button class="tab active" type="button" data-view="recipes">Recipes</button>
+        <button class="tab" type="button" data-view="pantry">Pantry</button>
+        <button class="tab" type="button" data-view="planner">Calendar</button>
+        <button class="tab" type="button" data-view="about">Data</button>
+      </nav>
+
+      <section class="view active" id="recipesView">
+        <div class="recipe-browser">
+          <aside class="filter-panel" aria-label="Recipe filters">
+            <h2>Filter</h2>
+            <label>
+              Search
+              <input id="recipeSearch" class="search-input" placeholder="lentils, lunch, quick">
+            </label>
+            <label>
+              Category
+              <select id="categoryFilter"></select>
+            </label>
+            <div>
+              <span class="filter-label">Tags</span>
+              <div id="tagFilters" class="filter-chip-list"></div>
+            </div>
+            <div>
+              <span class="filter-label">Ingredients</span>
+              <div id="ingredientFilters" class="filter-chip-list tall"></div>
+            </div>
+          </aside>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Recipes</h2>
+              <span id="recipeCount" class="stat-pill">0 recipes</span>
+            </div>
+            <div id="recipeList" class="recipe-grid"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="pantryView">
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Pantry</h2>
+              <span id="pantryCount" class="stat-pill">0 pantry items</span>
+            </div>
+            <div id="pantryList" class="item-list"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Best Matches</h2>
+            </div>
+            <div id="recommendationsList" class="recommendation-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="plannerView">
+        <div class="planner-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Meal Heatmap</h2>
+              <select id="heatmapMonth"></select>
+            </div>
+            <div id="mealHeatmap" class="heatmap"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Meal Log</h2>
+              <span id="monthMealCount" class="stat-pill">0 meals</span>
+            </div>
+            <div id="mealLogList" class="item-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="aboutView">
+        <section class="panel data-panel">
+          <h2>How To Edit</h2>
+          <p>
+            Add or edit recipes in the <code>recipes/</code> folder. Each recipe is a Markdown file with front matter for category,
+            ingredients, tags, pantry labels, rating, and source. Then run the R build script to regenerate the site data.
+          </p>
+          <pre><code>Rscript scripts/build-recipes.R</code></pre>
+          <p>
+            Pantry items live in <code>data/pantry.csv</code>, and meals/reviews live in <code>data/meal_log.csv</code>.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Kate Flöer</span>
+      <span>Recipe Pantry Planner</span>
+      <a href="https://github.com/katarinafloer">GitHub</a>
+    </footer>
+
+    <template id="emptyStateTemplate">
+      <div class="empty-state">
+        <strong>Nothing here yet.</strong>
+        <span>Edit the recipe, pantry, or meal log files, then rebuild the data.</span>
+      </div>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
