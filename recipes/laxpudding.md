@@ -1,28 +1,27 @@
 ---
-title: Laxpudding
+title: "Laxpudding"
 category: Lunch/Dinner
-prep_time:
+prep_time: null
 servings: 6 servings
 ingredients:
-  - 800g waxy potatoes
-  - 1 onion
-  - 300ml cream
-  - 100ml milk
-  - 3 eggs
-  - 240g smoked salmon
-  - 100g butter
-  - 1 bunch of fresh dill, minced
+- 800g waxy potatoes
+- 1 onion
+- 300ml cream
+- 100ml milk
+- 3 eggs
+- 240g smoked salmon
+- 100g butter
+- 1 bunch of fresh dill, minced
 labels:
-  - potato
-  - onion
-  - cream
-  - egg
-  - salmon
-  - butter
-  - dill
-tags:
-  - pescatarian
-dates_cooked: 2026-07-08
+- potato
+- onion
+- cream
+- egg
+- salmon
+- butter
+- dill
+tags: pescatarian
+dates_cooked: "2026-07-08"
 source: https://www.instagram.com/p/DCE3Y40MTCZ/
 ---
 
