@@ -2,21 +2,28 @@
 
 ## Protein
 
-- chickpeas | 2 cans
-- eggs | 8
 
 ## Grains
-
-- rice | 1 bag | jasmine
+- granola | 1 bag
 
 ## Produce
 
-- spinach | 1 box | use soon
+- dates | 1 box | use soon
+- strawberry | 1 box | use soon
+- tomato | two left
+
+## Spread
+
+- hummus | 1 box | use soon
 
 ## Dairy
 
 - Greek yogurt | large tub
+- Milk | 1 bottle
+- Mozzarella | 1 box
 
 ## Condiments
 
-- peanut butter | 1 jar
+- balsamic vinegar | 1 bottle
+- olive oil | 1 bottle
+
