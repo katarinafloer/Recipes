@@ -501,22 +501,21 @@ textarea:focus {
   color: var(--text);
 }
 
-.recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-}
-
-.recipe-card {
+.recipe-name-list {
   display: grid;
   gap: 10px;
-  padding: 14px;
 }
 
-.recipe-card-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
+.recipe-name-item {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.recipe-name-item a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .tag-row {

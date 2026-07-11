@@ -119,42 +119,10 @@ function renderRecipes() {
 }
 
 function recipeCard(recipe) {
-  const card = document.createElement("article");
-  card.className = "recipe-card";
-  const missing = getMissingIngredients(recipe);
-  card.innerHTML = `
-    <div class="recipe-card-top">
-      <span class="category-badge">${escapeHtml(recipe.category)}</span>
-      ${recipe.rating ? `<span class="rating-badge">${Number(recipe.rating).toFixed(1)} ★</span>` : ""}
-    </div>
-    <h3>${escapeHtml(recipe.title)}</h3>
-    <p>${escapeHtml([recipe.prep_time, recipe.servings ? `${recipe.servings} servings` : ""].filter(Boolean).join(" · "))}</p>
-    <div class="tag-row">${recipe.tags.map((tag) => chipMarkup(tag, "tag")).join("")}</div>
-    <div class="label-block">
-      <strong>Ingredient labels</strong>
-      <div class="tag-row">${recipe.labels.map((label) => chipMarkup(label, "ingredient")).join("")}</div>
-    </div>
-    <details>
-      <summary>Ingredients</summary>
-      <ul>${recipe.ingredients.map((ingredient) => `<li>${escapeHtml(ingredient)}</li>`).join("")}</ul>
-    </details>
-    <p class="${missing.length ? "missing" : "ready"}">
-      ${missing.length ? `Need: ${escapeHtml(missing.join(", "))}` : "Matches your pantry"}
-    </p>
-    ${renderMarkdownPreview(recipe.body)}
-    <a class="recipe-file-link" href="${escapeHtml(recipe.file)}">Open Markdown</a>
-  `;
-
-  card.querySelectorAll("[data-filter-kind]").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const kind = chip.dataset.filterKind === "tag" ? "tags" : "ingredients";
-      activeFilters[kind].add(chip.dataset.filterValue);
-      syncFilterButtons();
-      renderRecipes();
-    });
-  });
-
-  return card;
+  const item = document.createElement("article");
+  item.className = "recipe-name-item";
+  item.innerHTML = `<a href="${escapeHtml(recipe.file)}">${escapeHtml(recipe.title)}</a>`;
+  return item;
 }
 
 function renderPantry() {
