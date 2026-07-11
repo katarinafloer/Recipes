@@ -556,7 +556,37 @@ textarea:focus {
   padding: 0;
 }
 
-.recipe-name-item a {
+.recipe-name-item summary {
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.recipe-name-item summary::marker {
+  color: var(--text);
+}
+
+.recipe-preview {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  padding-left: 22px;
+}
+
+.recipe-preview span {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.recipe-preview-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.recipe-preview a {
   color: var(--accent-strong);
   font-weight: 700;
   text-decoration: underline;
@@ -583,6 +613,11 @@ details {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 9px 0;
+}
+
+.recipe-name-item {
+  border: 0;
+  padding: 0;
 }
 
 summary {

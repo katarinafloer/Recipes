@@ -152,9 +152,21 @@ function getRecipeSection(recipe) {
 }
 
 function recipeCard(recipe) {
-  const item = document.createElement("article");
+  const item = document.createElement("details");
   item.className = "recipe-name-item";
-  item.innerHTML = `<a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(recipe.title)}</a>`;
+  const sourceLink = recipe.source
+    ? `<a href="${escapeHtml(recipe.source)}" target="_blank" rel="noopener noreferrer">Source</a>`
+    : "<span>No source saved</span>";
+  item.innerHTML = `
+    <summary>${escapeHtml(recipe.title)}</summary>
+    <div class="recipe-preview">
+      <span>${escapeHtml([recipe.category, recipe.prep_time, recipe.servings].filter(Boolean).join(" · "))}</span>
+      <div class="recipe-preview-links">
+        ${sourceLink}
+        <a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">Open recipe</a>
+      </div>
+    </div>
+  `;
   return item;
 }
 
