@@ -169,14 +169,11 @@ function renderPantry() {
     .slice()
     .sort((a, b) => a.category.localeCompare(b.category) || a.item.localeCompare(b.item))
     .forEach((item) => {
-      const row = document.createElement("article");
-      row.className = "list-row";
+      const row = document.createElement("div");
+      row.className = "pantry-row";
       row.innerHTML = `
-        <div>
-          <strong>${escapeHtml(item.item)}</strong>
-          <span>${escapeHtml(item.category)}${item.quantity ? ` · ${escapeHtml(item.quantity)}` : ""}</span>
-          ${item.notes ? `<p>${escapeHtml(item.notes)}</p>` : ""}
-        </div>
+        <strong>${escapeHtml(item.item)}</strong>
+        <span>${escapeHtml([item.category, item.quantity, item.notes].filter(Boolean).join(" · "))}</span>
       `;
       list.append(row);
     });

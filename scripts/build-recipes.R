@@ -417,6 +417,7 @@ parse_pantry <- function(path) {
 
 recipe_files <- sort(list.files(recipes_dir, pattern = "\\.md$", full.names = TRUE))
 recipes <- lapply(recipe_files, parse_recipe)
+unlink(list.files(recipes_dir, pattern = "\\.html$", full.names = TRUE))
 invisible(lapply(recipes, write_recipe_page))
 
 pantry <- parse_pantry(pantry_file)

@@ -471,6 +471,26 @@ textarea:focus {
   gap: 10px;
 }
 
+.item-list {
+  gap: 8px;
+}
+
+.pantry-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  padding: 2px 0;
+}
+
+.pantry-row strong {
+  color: var(--accent-strong);
+}
+
+.pantry-row span {
+  color: var(--muted);
+}
+
 .list-row,
 .recommendation-row,
 .mini-row {
