@@ -4,6 +4,7 @@ project_dir <- normalizePath(file.path(dirname(script_path), ".."), mustWork = T
 recipes_dir <- file.path(project_dir, "recipes")
 data_dir <- file.path(project_dir, "data")
 output_file <- file.path(data_dir, "site-data.json")
+pantry_file <- file.path(data_dir, "pantry.md")
 
 slugify <- function(x) {
   x <- tolower(x)
@@ -139,19 +140,6 @@ parse_recipe <- function(path) {
   if (is.null(x) || length(x) == 0 || (length(x) == 1 && !nzchar(x))) y else x
 }
 
-read_csv_or_empty <- function(path, columns) {
-  if (!file.exists(path)) {
-    return(as.data.frame(setNames(replicate(length(columns), character(), simplify = FALSE), columns)))
-  }
-
-  data <- read.csv(path, stringsAsFactors = FALSE, na.strings = c(""))
-  missing <- setdiff(columns, names(data))
-  for (column in missing) {
-    data[[column]] <- ""
-  }
-  data[columns]
-}
-
 markdown_to_html <- function(markdown) {
   lines <- strsplit(markdown, "\n", fixed = TRUE)[[1]]
   html <- character()
@@ -263,19 +251,55 @@ write_recipe_page <- function(recipe) {
   writeLines(page, file.path(project_dir, recipe$page))
 }
 
+parse_pantry <- function(path) {
+  if (!file.exists(path)) {
+    return(data.frame(item = character(), category = character(), quantity = character(), notes = character()))
+  }
+
+  lines <- readLines(path, warn = FALSE)
+  rows <- list()
+  category <- "Pantry"
+  part_or_empty <- function(parts, index) {
+    if (length(parts) >= index) parts[[index]] else ""
+  }
+
+  for (line in lines) {
+    stripped <- trim(line)
+
+    if (!nzchar(stripped)) {
+      next
+    }
+
+    if (grepl("^##\\s+", stripped)) {
+      category <- trim(sub("^##\\s+", "", stripped))
+      next
+    }
+
+    if (grepl("^-\\s+", stripped)) {
+      parts <- strsplit(sub("^-\\s+", "", stripped), "|", fixed = TRUE)[[1]]
+      parts <- trim(parts)
+      rows[[length(rows) + 1]] <- data.frame(
+        item = part_or_empty(parts, 1),
+        category = category,
+        quantity = part_or_empty(parts, 2),
+        notes = part_or_empty(parts, 3),
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+
+  if (!length(rows)) {
+    return(data.frame(item = character(), category = character(), quantity = character(), notes = character()))
+  }
+
+  do.call(rbind, rows)
+}
+
 recipe_files <- sort(list.files(recipes_dir, pattern = "\\.md$", full.names = TRUE))
 recipes <- lapply(recipe_files, parse_recipe)
 invisible(lapply(recipes, write_recipe_page))
 
-pantry <- read_csv_or_empty(
-  file.path(data_dir, "pantry.csv"),
-  c("item", "category", "quantity", "notes")
-)
-
-meal_log <- read_csv_or_empty(
-  file.path(data_dir, "meal_log.csv"),
-  c("date", "recipe", "review")
-)
+pantry <- parse_pantry(pantry_file)
 
 date_rows <- do.call(
   rbind,
@@ -296,9 +320,9 @@ if (is.null(date_rows)) {
   date_rows <- data.frame(date = character(), recipe = character(), review = character())
 }
 
-meal_log <- rbind(date_rows, meal_log)
-meal_log <- meal_log[order(meal_log$date, meal_log$recipe, nzchar(meal_log$review)), ]
-meal_log <- meal_log[!duplicated(paste(meal_log$date, meal_log$recipe), fromLast = TRUE), ]
+meal_log <- date_rows
+meal_log <- meal_log[order(meal_log$date, meal_log$recipe), ]
+meal_log <- meal_log[!duplicated(paste(meal_log$date, meal_log$recipe)), ]
 row.names(meal_log) <- NULL
 
 site_data <- list(
