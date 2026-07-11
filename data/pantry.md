@@ -26,4 +26,17 @@
 
 - balsamic vinegar | 1 bottle
 - olive oil | 1 bottle
+- fennel
+- coriander
+- bay leaf
+- cinnamon powder
+- cinnamon stick
+- soy sauce
+- sesame oil
+- chili oil
+- chili powder
+- chili crisp
+- onion powder
+- garlic powder
+- black pepper
 
