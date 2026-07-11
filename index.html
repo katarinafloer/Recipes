@@ -32,13 +32,23 @@
       <section class="view active" id="recipesView">
         <div class="recipe-browser">
           <aside class="filter-panel" aria-label="Recipe filters">
+            <nav class="on-page-nav" aria-label="Recipe sections">
+              <h2>On This Page</h2>
+              <ul>
+                <li><a href="#breakfast">Breakfast</a></li>
+                <li><a href="#lunch-dinner">Lunch/Dinner</a></li>
+                <li><a href="#drinks">Drinks</a></li>
+                <li><a href="#desserts">Desserts</a></li>
+                <li><a href="#snack-appetizers">Snack/Appetizers</a></li>
+              </ul>
+            </nav>
             <h2>Filter</h2>
             <label>
               Search
               <input id="recipeSearch" class="search-input" placeholder="lentils, lunch, quick">
             </label>
             <label>
-              Category
+              Section
               <select id="categoryFilter"></select>
             </label>
             <div>

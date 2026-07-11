@@ -17,11 +17,11 @@ const views = {
 };
 
 const recipeSections = [
-  { label: "Breakfast", keys: ["breakfast", "brunch"] },
-  { label: "Lunch/Dinner", keys: ["lunch", "dinner", "lunch dinner", "main"] },
-  { label: "Drinks", keys: ["drink", "drinks", "cocktail", "mocktail"] },
-  { label: "Desserts", keys: ["dessert", "desserts", "sweet"] },
-  { label: "Snack/Appetizers", keys: ["snack", "snacks", "appetizer", "appetizers", "side dish", "bread"] }
+  { label: "Breakfast", id: "breakfast" },
+  { label: "Lunch/Dinner", id: "lunch-dinner" },
+  { label: "Drinks", id: "drinks" },
+  { label: "Desserts", id: "desserts" },
+  { label: "Snack/Appetizers", id: "snack-appetizers" }
 ];
 
 document.querySelectorAll(".tab").forEach((tab) => {
@@ -63,7 +63,7 @@ function showView(name) {
 }
 
 function renderFilterControls() {
-  const categories = ["All", ...unique(siteData.recipes.map((recipe) => recipe.category)).sort()];
+  const categories = ["All", ...recipeSections.map((section) => section.label)];
   document.querySelector("#categoryFilter").innerHTML = categories
     .map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
     .join("");
@@ -112,7 +112,7 @@ function renderRecipes() {
         recipe.body
       ].join(" ").toLowerCase();
       const matchesSearch = !search || searchable.includes(search);
-      const matchesCategory = category === "All" || recipe.category === category;
+      const matchesCategory = category === "All" || getRecipeSection(recipe) === category;
       const matchesTags = [...activeFilters.tags].every((tag) => recipe.tags.includes(tag));
       const matchesIngredients = [...activeFilters.ingredients].every((ingredient) => recipe.labels.includes(ingredient));
       return matchesSearch && matchesCategory && matchesTags && matchesIngredients;
@@ -136,6 +136,7 @@ function renderRecipeSections(container, recipes) {
 
     const block = document.createElement("section");
     block.className = "recipe-section";
+    block.id = section.id;
     block.innerHTML = `<h3>${escapeHtml(section.label)}</h3>`;
 
     const sectionList = document.createElement("div");
@@ -147,11 +148,7 @@ function renderRecipeSections(container, recipes) {
 }
 
 function getRecipeSection(recipe) {
-  const category = normalize(String(recipe.category).replace(/\//g, " "));
-  const tags = recipe.tags.map((tag) => normalize(tag));
-  const values = [category, ...tags];
-  const section = recipeSections.find((item) => item.keys.some((key) => values.includes(key)));
-  return section?.label ?? "Lunch/Dinner";
+  return recipe.section || "Lunch/Dinner";
 }
 
 function recipeCard(recipe) {

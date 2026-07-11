@@ -55,7 +55,7 @@ The website groups recipes into these main-page sections:
 - Desserts
 - Snack/Appetizers
 
-The R build script standardizes common ingredient labels when it generates the site data. For example, `potato` and `potatoes` become `potatoes`, `egg` and `eggs` become `eggs`, and `Medjool dates` becomes `dates`.
+The R build script assigns each recipe to one of those sections from its `category` first, then its `tags` if needed. It also standardizes common ingredient labels when it generates the site data. For example, `potato` and `potatoes` become `potatoes`, `egg` and `eggs` become `eggs`, and `Medjool dates` becomes `dates`.
 
 ## Pantry Markdown Format
 

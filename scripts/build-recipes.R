@@ -100,6 +100,57 @@ canonical_labels <- function(x) {
   json_array(unique(canonical_label(as.character(x))))
 }
 
+recipe_section <- function(category, tags) {
+  clean_value <- function(x) {
+    x <- tolower(x)
+    x <- gsub("[^a-z0-9]+", " ", x)
+    trim(gsub("\\s+", " ", x))
+  }
+
+  category_value <- clean_value(category)
+  tag_values <- clean_value(tags)
+
+  if (category_value %in% c("breakfast", "brunch")) {
+    return("Breakfast")
+  }
+
+  if (category_value %in% c("drink", "drinks", "cocktail", "mocktail")) {
+    return("Drinks")
+  }
+
+  if (category_value %in% c("dessert", "desserts", "sweet")) {
+    return("Desserts")
+  }
+
+  if (category_value %in% c("snack", "snacks", "appetizer", "appetizers", "side dish", "bread")) {
+    return("Snack/Appetizers")
+  }
+
+  if (category_value %in% c("lunch", "dinner", "lunch dinner", "main")) {
+    return("Lunch/Dinner")
+  }
+
+  values <- c(category_value, tag_values)
+
+  if (any(values %in% c("breakfast", "brunch"))) {
+    return("Breakfast")
+  }
+
+  if (any(values %in% c("drink", "drinks", "cocktail", "mocktail"))) {
+    return("Drinks")
+  }
+
+  if (any(values %in% c("dessert", "desserts", "sweet"))) {
+    return("Desserts")
+  }
+
+  if (any(values %in% c("snack", "snacks", "appetizer", "appetizers", "side dish", "bread"))) {
+    return("Snack/Appetizers")
+  }
+
+  "Lunch/Dinner"
+}
+
 to_json <- function(x) {
   if (is.null(x)) {
     return("null")
@@ -180,16 +231,19 @@ parse_recipe <- function(path) {
   parsed <- parse_front_matter(lines)
   metadata <- parsed$metadata
   title <- metadata$title %||% tools::file_path_sans_ext(basename(path))
+  category <- metadata$category %||% "Uncategorized"
+  tags <- metadata$tags %||% character()
 
   list(
     id = slugify(title),
     title = title,
-    category = metadata$category %||% "Uncategorized",
+    category = category,
+    section = recipe_section(category, tags),
     prep_time = metadata$prep_time %||% "",
     servings = metadata$servings %||% "",
     ingredients = json_array(metadata$ingredients %||% character()),
     labels = canonical_labels(metadata$labels %||% metadata$ingredients %||% character()),
-    tags = json_array(metadata$tags %||% character()),
+    tags = json_array(tags),
     dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
     file = file.path("recipes", basename(path)),

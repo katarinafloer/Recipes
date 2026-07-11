@@ -234,17 +234,38 @@ h3 {
   position: sticky;
   top: 96px;
   display: grid;
-  gap: 18px;
+  gap: 20px;
   padding: 0;
 }
 
-.filter-panel h2 {
+.filter-panel h2,
+.on-page-nav h2 {
   color: var(--muted);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.on-page-nav {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0 20px;
+}
+
+.on-page-nav ul {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding-left: 20px;
+}
+
+.on-page-nav a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .panel {
@@ -495,10 +516,13 @@ textarea:focus {
 .recipe-section {
   display: grid;
   gap: 10px;
+  scroll-margin-top: 90px;
 }
 
 .recipe-section + .recipe-section {
-  margin-top: 26px;
+  margin-top: 42px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
 }
 
 .recipe-section h3 {
