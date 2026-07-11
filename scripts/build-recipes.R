@@ -16,10 +16,21 @@ trim <- function(x) {
   gsub("^\\s+|\\s+$", "", x)
 }
 
+clean_front_matter_value <- function(x) {
+  x <- trim(x)
+  if (tolower(x) == "null") {
+    return("")
+  }
+  if (grepl('^".*"$', x) || grepl("^'.*'$", x)) {
+    return(substr(x, 2, nchar(x) - 1))
+  }
+  x
+}
+
 json_escape <- function(x) {
   x <- ifelse(is.na(x), "", as.character(x))
   x <- gsub("\\\\", "\\\\\\\\", x)
-  x <- gsub('"', '\\"', x)
+  x <- gsub('"', "\\u0022", x, fixed = TRUE)
   x <- gsub("\n", "\\\\n", x, fixed = TRUE)
   x <- gsub("\r", "", x, fixed = TRUE)
   x
@@ -96,7 +107,7 @@ parse_front_matter <- function(lines) {
 
   for (line in front) {
     if (grepl("^\\s*-\\s+", line) && !is.null(current_key)) {
-      value <- trim(sub("^\\s*-\\s+", "", line))
+      value <- clean_front_matter_value(sub("^\\s*-\\s+", "", line))
       metadata[[current_key]] <- c(metadata[[current_key]], value)
       next
     }
@@ -104,7 +115,7 @@ parse_front_matter <- function(lines) {
     if (grepl("^[A-Za-z_]+:", line)) {
       parts <- strsplit(line, ":", fixed = TRUE)[[1]]
       key <- trim(parts[[1]])
-      value <- trim(paste(parts[-1], collapse = ":"))
+      value <- clean_front_matter_value(paste(parts[-1], collapse = ":"))
       current_key <- key
       metadata[[key]] <- if (nzchar(value)) value else character()
     }
@@ -125,9 +136,9 @@ parse_recipe <- function(path) {
     category = metadata$category %||% "Uncategorized",
     prep_time = metadata$prep_time %||% "",
     servings = metadata$servings %||% "",
-    ingredients = as.character(metadata$ingredients %||% character()),
-    labels = as.character(metadata$labels %||% metadata$ingredients %||% character()),
-    tags = as.character(metadata$tags %||% character()),
+    ingredients = json_array(metadata$ingredients %||% character()),
+    labels = json_array(metadata$labels %||% metadata$ingredients %||% character()),
+    tags = json_array(metadata$tags %||% character()),
     dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
     file = file.path("recipes", basename(path)),
