@@ -24,6 +24,15 @@ json_escape <- function(x) {
   x
 }
 
+html_escape <- function(x) {
+  x <- ifelse(is.na(x), "", as.character(x))
+  x <- gsub("&", "&amp;", x, fixed = TRUE)
+  x <- gsub("<", "&lt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub('"', "&quot;", x, fixed = TRUE)
+  x
+}
+
 to_json <- function(x) {
   if (is.null(x)) {
     return("null")
@@ -109,9 +118,9 @@ parse_recipe <- function(path) {
     ingredients = as.character(metadata$ingredients %||% character()),
     labels = as.character(metadata$labels %||% metadata$ingredients %||% character()),
     tags = as.character(metadata$tags %||% character()),
-    rating = suppressWarnings(as.numeric(metadata$rating %||% NA)),
     source = metadata$source %||% "",
     file = file.path("recipes", basename(path)),
+    page = file.path("recipes", paste0(slugify(title), ".html")),
     body = parsed$body
   )
 }
@@ -133,8 +142,100 @@ read_csv_or_empty <- function(path, columns) {
   data[columns]
 }
 
+markdown_to_html <- function(markdown) {
+  lines <- strsplit(markdown, "\n", fixed = TRUE)[[1]]
+  html <- character()
+  in_ol <- FALSE
+  in_ul <- FALSE
+
+  close_lists <- function() {
+    closing <- character()
+    if (in_ol) {
+      closing <- c(closing, "</ol>")
+      in_ol <<- FALSE
+    }
+    if (in_ul) {
+      closing <- c(closing, "</ul>")
+      in_ul <<- FALSE
+    }
+    closing
+  }
+
+  for (line in lines) {
+    stripped <- trim(line)
+
+    if (!nzchar(stripped)) {
+      next
+    }
+
+    if (grepl("^##\\s+", stripped)) {
+      html <- c(html, close_lists(), paste0("<h2>", html_escape(sub("^##\\s+", "", stripped)), "</h2>"))
+      next
+    }
+
+    if (grepl("^#\\s+", stripped)) {
+      html <- c(html, close_lists(), paste0("<h1>", html_escape(sub("^#\\s+", "", stripped)), "</h1>"))
+      next
+    }
+
+    if (grepl("^\\d+\\.\\s+", stripped)) {
+      if (!in_ol) {
+        html <- c(html, close_lists(), "<ol>")
+        in_ol <- TRUE
+      }
+      html <- c(html, paste0("<li>", html_escape(sub("^\\d+\\.\\s+", "", stripped)), "</li>"))
+      next
+    }
+
+    if (grepl("^-\\s+", stripped)) {
+      if (!in_ul) {
+        html <- c(html, close_lists(), "<ul>")
+        in_ul <- TRUE
+      }
+      html <- c(html, paste0("<li>", html_escape(sub("^-\\s+", "", stripped)), "</li>"))
+      next
+    }
+
+    html <- c(html, close_lists(), paste0("<p>", html_escape(stripped), "</p>"))
+  }
+
+  paste(c(html, close_lists()), collapse = "\n")
+}
+
+write_recipe_page <- function(recipe) {
+  meta <- paste(Filter(nzchar, c(recipe$category, recipe$prep_time, recipe$servings)), collapse = " · ")
+  source_link <- if (nzchar(recipe$source)) {
+    paste0('<p><a href="', html_escape(recipe$source), '">Source</a></p>')
+  } else {
+    ""
+  }
+
+  page <- c(
+    "<!doctype html>",
+    '<html lang="en">',
+    "  <head>",
+    '    <meta charset="utf-8">',
+    '    <meta name="viewport" content="width=device-width, initial-scale=1">',
+    paste0("    <title>", html_escape(recipe$title), "</title>"),
+    '    <link rel="stylesheet" href="../styles.css">',
+    "  </head>",
+    '  <body class="recipe-page">',
+    '    <main class="recipe-page-main">',
+    paste0("      <h1>", html_escape(recipe$title), "</h1>"),
+    paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),
+    source_link,
+    markdown_to_html(recipe$body),
+    "    </main>",
+    "  </body>",
+    "</html>"
+  )
+
+  writeLines(page, file.path(project_dir, recipe$page))
+}
+
 recipe_files <- sort(list.files(recipes_dir, pattern = "\\.md$", full.names = TRUE))
 recipes <- lapply(recipe_files, parse_recipe)
+invisible(lapply(recipes, write_recipe_page))
 
 pantry <- read_csv_or_empty(
   file.path(data_dir, "pantry.csv"),
@@ -143,7 +244,7 @@ pantry <- read_csv_or_empty(
 
 meal_log <- read_csv_or_empty(
   file.path(data_dir, "meal_log.csv"),
-  c("date", "recipe", "rating", "review")
+  c("date", "recipe", "review")
 )
 
 site_data <- list(

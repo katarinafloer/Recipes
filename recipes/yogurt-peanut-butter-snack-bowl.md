@@ -14,7 +14,6 @@ labels:
 tags:
   - quick
   - high protein
-rating: 5
 source:
 ---
 

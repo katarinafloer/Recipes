@@ -121,7 +121,7 @@ function renderRecipes() {
 function recipeCard(recipe) {
   const item = document.createElement("article");
   item.className = "recipe-name-item";
-  item.innerHTML = `<a href="${escapeHtml(recipe.file)}">${escapeHtml(recipe.title)}</a>`;
+  item.innerHTML = `<a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(recipe.title)}</a>`;
   return item;
 }
 
@@ -166,13 +166,10 @@ function renderRecommendations() {
   recommendations.forEach((recommendation) => {
     const row = document.createElement("article");
     row.className = "recommendation-row";
-    const percent = recommendation.recipe.labels.length
-      ? Math.round((recommendation.matchCount / recommendation.recipe.labels.length) * 100)
-      : 0;
     row.innerHTML = `
       <div>
         <strong>${escapeHtml(recommendation.recipe.title)}</strong>
-        <span>${escapeHtml(recommendation.recipe.category)} · ${percent}% pantry-label match</span>
+        <span>${escapeHtml(recommendation.recipe.category)}</span>
         <p>${recommendation.missing.length ? `Need ${escapeHtml(recommendation.missing.join(", "))}` : "All labels are in your pantry."}</p>
       </div>
     `;
@@ -230,7 +227,7 @@ function renderMealLog() {
     row.innerHTML = `
       <div>
         <strong>${escapeHtml(recipe?.title ?? meal.recipe)}</strong>
-        <span>${escapeHtml(formatDate(meal.date))}${meal.rating ? ` · ${escapeHtml(meal.rating)} ★` : ""}</span>
+        <span>${escapeHtml(formatDate(meal.date))}</span>
         ${meal.review ? `<p>${escapeHtml(meal.review)}</p>` : ""}
       </div>
     `;

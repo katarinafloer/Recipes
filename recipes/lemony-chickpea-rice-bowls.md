@@ -18,7 +18,6 @@ tags:
   - meal prep
   - vegetarian
   - high protein
-rating: 4.5
 source:
 ---
 

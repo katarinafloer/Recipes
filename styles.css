@@ -418,7 +418,6 @@ textarea:focus {
 
 .stat-pill,
 .category-badge,
-.rating-badge,
 .tag-row span,
 .inline-chip,
 .filter-chip {
@@ -450,11 +449,6 @@ textarea:focus {
   color: #fff;
 }
 
-.rating-badge {
-  background: rgba(154, 106, 58, 0.12);
-  color: var(--label);
-}
-
 .item-list,
 .recommendation-list,
 .stacked-list {
@@ -464,8 +458,7 @@ textarea:focus {
 
 .list-row,
 .recommendation-row,
-.mini-row,
-.recipe-card {
+.mini-row {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
@@ -483,8 +476,7 @@ textarea:focus {
 
 .list-row span,
 .recommendation-row span,
-.mini-row span,
-.recipe-card p {
+.mini-row span {
   color: var(--muted);
   font-size: 0.94rem;
 }
@@ -669,6 +661,38 @@ pre {
   color: var(--accent-strong);
   font-weight: 700;
   text-decoration: none;
+}
+
+.recipe-page-main {
+  width: min(760px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 78px 0;
+}
+
+.recipe-page-main h1 {
+  margin-bottom: 12px;
+}
+
+.recipe-page-main h2 {
+  margin: 34px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.recipe-page-main a {
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.recipe-page-meta {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.recipe-page-main li {
+  margin-bottom: 8px;
 }
 
 @media (max-width: 860px) {

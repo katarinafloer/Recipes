@@ -15,7 +15,6 @@ labels:
 tags:
   - quick
   - vegetarian
-rating: 4
 source:
 ---
 

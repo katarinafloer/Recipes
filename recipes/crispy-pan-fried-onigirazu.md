@@ -33,7 +33,6 @@ tags:
   - meal prep
   - high protein
   - seafood
-rating:
 source: https://www.instagram.com/p/DZDFKL2JuQ1/
 ---
 
