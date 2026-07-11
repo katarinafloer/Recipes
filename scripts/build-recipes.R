@@ -209,6 +209,15 @@ write_recipe_page <- function(recipe) {
   } else {
     ""
   }
+  ingredients_html <- if (length(recipe$ingredients)) {
+    paste0(
+      "<h2>Ingredients</h2>\n<ul>\n",
+      paste0("<li>", html_escape(recipe$ingredients), "</li>", collapse = "\n"),
+      "\n</ul>"
+    )
+  } else {
+    ""
+  }
 
   page <- c(
     "<!doctype html>",
@@ -224,6 +233,7 @@ write_recipe_page <- function(recipe) {
     paste0("      <h1>", html_escape(recipe$title), "</h1>"),
     paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),
     source_link,
+    ingredients_html,
     markdown_to_html(recipe$body),
     "    </main>",
     "  </body>",
