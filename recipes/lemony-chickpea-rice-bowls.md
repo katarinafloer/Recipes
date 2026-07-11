@@ -18,6 +18,8 @@ tags:
   - meal prep
   - vegetarian
   - high protein
+dates_cooked:
+  - 2026-07-08
 source:
 ---
 

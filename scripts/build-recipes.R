@@ -33,9 +33,18 @@ html_escape <- function(x) {
   x
 }
 
+json_array <- function(x) {
+  structure(as.character(x), class = "json_array")
+}
+
 to_json <- function(x) {
   if (is.null(x)) {
     return("null")
+  }
+
+  if (inherits(x, "json_array")) {
+    values <- unclass(x)
+    return(paste0("[", paste(vapply(as.list(values), to_json, character(1)), collapse = ","), "]"))
   }
 
   if (is.data.frame(x)) {
@@ -118,6 +127,7 @@ parse_recipe <- function(path) {
     ingredients = as.character(metadata$ingredients %||% character()),
     labels = as.character(metadata$labels %||% metadata$ingredients %||% character()),
     tags = as.character(metadata$tags %||% character()),
+    dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
     file = file.path("recipes", basename(path)),
     page = file.path("recipes", paste0(slugify(title), ".html")),
@@ -218,6 +228,15 @@ write_recipe_page <- function(recipe) {
   } else {
     ""
   }
+  dates_cooked_html <- if (length(recipe$dates_cooked)) {
+    paste0(
+      "<h2>Date Cooked</h2>\n<ul>\n",
+      paste0("<li>", html_escape(recipe$dates_cooked), "</li>", collapse = "\n"),
+      "\n</ul>"
+    )
+  } else {
+    "<h2>Date Cooked</h2>\n<p>Not logged yet.</p>"
+  }
 
   page <- c(
     "<!doctype html>",
@@ -234,6 +253,7 @@ write_recipe_page <- function(recipe) {
     paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),
     source_link,
     ingredients_html,
+    dates_cooked_html,
     markdown_to_html(recipe$body),
     "    </main>",
     "  </body>",
@@ -256,6 +276,30 @@ meal_log <- read_csv_or_empty(
   file.path(data_dir, "meal_log.csv"),
   c("date", "recipe", "review")
 )
+
+date_rows <- do.call(
+  rbind,
+  lapply(recipes, function(recipe) {
+    if (!length(recipe$dates_cooked)) {
+      return(NULL)
+    }
+    data.frame(
+      date = as.character(recipe$dates_cooked),
+      recipe = recipe$id,
+      review = "",
+      stringsAsFactors = FALSE
+    )
+  })
+)
+
+if (is.null(date_rows)) {
+  date_rows <- data.frame(date = character(), recipe = character(), review = character())
+}
+
+meal_log <- rbind(date_rows, meal_log)
+meal_log <- meal_log[order(meal_log$date, meal_log$recipe, nzchar(meal_log$review)), ]
+meal_log <- meal_log[!duplicated(paste(meal_log$date, meal_log$recipe), fromLast = TRUE), ]
+row.names(meal_log) <- NULL
 
 site_data <- list(
   generated_at = format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"),

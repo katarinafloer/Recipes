@@ -15,6 +15,8 @@ labels:
 tags:
   - quick
   - vegetarian
+dates_cooked:
+  - 2026-07-09
 source:
 ---
 

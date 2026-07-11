@@ -14,6 +14,8 @@ labels:
 tags:
   - quick
   - high protein
+dates_cooked:
+  - 2026-07-10
 source:
 ---
 
