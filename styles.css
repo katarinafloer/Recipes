@@ -492,6 +492,22 @@ textarea:focus {
   gap: 12px;
 }
 
+.recipe-section {
+  display: grid;
+  gap: 10px;
+}
+
+.recipe-section + .recipe-section {
+  margin-top: 26px;
+}
+
+.recipe-section h3 {
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 1.8vw, 1.9rem);
+  margin: 0;
+}
+
 .recipe-name-item {
   padding: 0;
 }

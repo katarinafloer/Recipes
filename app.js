@@ -16,6 +16,14 @@ const views = {
   about: document.querySelector("#aboutView")
 };
 
+const recipeSections = [
+  { label: "Breakfast", keys: ["breakfast", "brunch"] },
+  { label: "Lunch/Dinner", keys: ["lunch", "dinner", "lunch dinner", "main"] },
+  { label: "Drinks", keys: ["drink", "drinks", "cocktail", "mocktail"] },
+  { label: "Desserts", keys: ["dessert", "desserts", "sweet"] },
+  { label: "Snack/Appetizers", keys: ["snack", "snacks", "appetizer", "appetizers", "side dish", "bread"] }
+];
+
 document.querySelectorAll(".tab").forEach((tab) => {
   tab.addEventListener("click", () => showView(tab.dataset.view));
 });
@@ -115,7 +123,35 @@ function renderRecipes() {
   const list = document.querySelector("#recipeList");
   list.innerHTML = "";
   if (!recipes.length) return list.append(emptyState("No recipes match these filters."));
-  recipes.forEach((recipe) => list.append(recipeCard(recipe)));
+  renderRecipeSections(list, recipes);
+}
+
+function renderRecipeSections(container, recipes) {
+  recipeSections.forEach((section) => {
+    const sectionRecipes = recipes
+      .filter((recipe) => getRecipeSection(recipe) === section.label)
+      .sort((a, b) => a.title.localeCompare(b.title));
+
+    if (!sectionRecipes.length) return;
+
+    const block = document.createElement("section");
+    block.className = "recipe-section";
+    block.innerHTML = `<h3>${escapeHtml(section.label)}</h3>`;
+
+    const sectionList = document.createElement("div");
+    sectionList.className = "recipe-name-list";
+    sectionRecipes.forEach((recipe) => sectionList.append(recipeCard(recipe)));
+    block.append(sectionList);
+    container.append(block);
+  });
+}
+
+function getRecipeSection(recipe) {
+  const category = normalize(String(recipe.category).replace(/\//g, " "));
+  const tags = recipe.tags.map((tag) => normalize(tag));
+  const values = [category, ...tags];
+  const section = recipeSections.find((item) => item.keys.some((key) => values.includes(key)));
+  return section?.label ?? "Lunch/Dinner";
 }
 
 function recipeCard(recipe) {

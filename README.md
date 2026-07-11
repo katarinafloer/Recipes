@@ -47,6 +47,16 @@ Recipe notes go here.
 
 `ingredients` are the full ingredient list. `labels` are the pantry/filter labels used for matching, so they can be simpler than the full ingredient list. `dates_cooked` feeds the calendar and also appears on each recipe page.
 
+The website groups recipes into these main-page sections:
+
+- Breakfast
+- Lunch/Dinner
+- Drinks
+- Desserts
+- Snack/Appetizers
+
+The R build script standardizes common ingredient labels when it generates the site data. For example, `potato` and `potatoes` become `potatoes`, `egg` and `eggs` become `eggs`, and `Medjool dates` becomes `dates`.
+
 ## Pantry Markdown Format
 
 Edit `data/pantry.md` with category headings and pantry item bullets:

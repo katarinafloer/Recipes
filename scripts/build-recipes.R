@@ -49,6 +49,57 @@ json_array <- function(x) {
   structure(as.character(x), class = "json_array")
 }
 
+canonical_label <- function(x) {
+  value <- tolower(trim(x))
+  value <- gsub("\\s+", " ", value)
+
+  canonical <- c(
+    "aleppo pepper" = "aleppo pepper",
+    "aperol" = "aperol",
+    "campari" = "campari",
+    "lotus biscoff biscuits" = "biscoff cookies",
+    "medjool dates" = "dates",
+    "nutella" = "nutella",
+    "parmesan" = "parmesan",
+    "sriracha" = "sriracha",
+    "thai red curry paste" = "red curry paste",
+    "agave" = "agave syrup",
+    "anchovies" = "anchovies",
+    "beef chuck" = "beef",
+    "bread flour" = "flour",
+    "cannellini beans" = "beans",
+    "carrot" = "carrots",
+    "chickpeas" = "chickpeas",
+    "ciabatta" = "bread",
+    "egg" = "eggs",
+    "green onion" = "scallions",
+    "king oyster mushroom" = "mushrooms",
+    "ladyfinger biscuits" = "ladyfingers",
+    "leek greens" = "leeks",
+    "lion's mane mushrooms" = "mushrooms",
+    "mascarpone cheese" = "mascarpone",
+    "mayo" = "mayonnaise",
+    "milk" = "milk",
+    "mozzarella" = "mozzarella",
+    "mushroom" = "mushrooms",
+    "potato" = "potatoes",
+    "red lentils" = "lentils",
+    "soda water" = "sparkling water",
+    "strawberry" = "strawberries",
+    "sweet potato" = "sweet potatoes",
+    "tomato" = "tomatoes",
+    "vegetable broth" = "vegetable stock",
+    "vermicelli rice noodles" = "rice noodles",
+    "whole milk" = "milk"
+  )
+
+  ifelse(value %in% names(canonical), canonical[value], value)
+}
+
+canonical_labels <- function(x) {
+  json_array(unique(canonical_label(as.character(x))))
+}
+
 to_json <- function(x) {
   if (is.null(x)) {
     return("null")
@@ -137,7 +188,7 @@ parse_recipe <- function(path) {
     prep_time = metadata$prep_time %||% "",
     servings = metadata$servings %||% "",
     ingredients = json_array(metadata$ingredients %||% character()),
-    labels = json_array(metadata$labels %||% metadata$ingredients %||% character()),
+    labels = canonical_labels(metadata$labels %||% metadata$ingredients %||% character()),
     tags = json_array(metadata$tags %||% character()),
     dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
@@ -290,7 +341,7 @@ parse_pantry <- function(path) {
       parts <- strsplit(sub("^-\\s+", "", stripped), "|", fixed = TRUE)[[1]]
       parts <- trim(parts)
       rows[[length(rows) + 1]] <- data.frame(
-        item = part_or_empty(parts, 1),
+        item = canonical_label(part_or_empty(parts, 1)),
         category = category,
         quantity = part_or_empty(parts, 2),
         notes = part_or_empty(parts, 3),
