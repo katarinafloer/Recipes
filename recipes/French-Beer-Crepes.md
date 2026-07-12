@@ -26,7 +26,7 @@ tags:
   - breakfast
   - French
   - crêpes
-dates_cooked:
+dates_cooked: "2026-07-12"
 source: https://www.instagram.com/p/C22KwwOyF5O/
 ---
 
