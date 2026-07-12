@@ -21,7 +21,7 @@ labels:
 - butter
 - dill
 tags: pescatarian
-dates_cooked: "2026-07-08"
+dates_cooked: 
 source: https://www.instagram.com/p/DCE3Y40MTCZ/
 ---
 
