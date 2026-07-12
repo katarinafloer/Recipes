@@ -26,7 +26,6 @@
         <button class="tab active" type="button" data-view="recipes">Recipes</button>
         <button class="tab" type="button" data-view="pantry">Pantry</button>
         <button class="tab" type="button" data-view="planner">Calendar</button>
-        <button class="tab" type="button" data-view="about">Data</button>
       </nav>
 
       <section class="view active" id="recipesView">
@@ -110,19 +109,6 @@
         </div>
       </section>
 
-      <section class="view" id="aboutView">
-        <section class="panel data-panel">
-          <h2>How To Edit</h2>
-          <p>
-            Add or edit recipes in the <code>recipes/</code> folder. Each recipe is a Markdown file with front matter for category,
-            ingredients, tags, pantry labels, and source. Then run the R build script to regenerate the site data and recipe pages.
-          </p>
-          <pre><code>Rscript scripts/build-recipes.R</code></pre>
-          <p>
-            Pantry items live in <code>data/pantry.md</code>. Calendar meals come from each recipe's <code>dates_cooked</code> field.
-          </p>
-        </section>
-      </section>
     </main>
 
     <footer class="site-footer">

@@ -12,8 +12,7 @@ const activeFilters = {
 const views = {
   recipes: document.querySelector("#recipesView"),
   pantry: document.querySelector("#pantryView"),
-  planner: document.querySelector("#plannerView"),
-  about: document.querySelector("#aboutView")
+  planner: document.querySelector("#plannerView")
 };
 
 const recipeSections = [
