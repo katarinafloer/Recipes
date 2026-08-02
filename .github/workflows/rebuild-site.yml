@@ -30,14 +30,6 @@ jobs:
       - name: Rebuild generated site data and recipe pages
         run: Rscript scripts/build-recipes.R
 
-      - name: Commit generated files
+      - name: Verify generated files are up to date
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/site-data.json recipes
-          if git diff --cached --quiet; then
-            echo "No generated changes to commit."
-          else
-            git commit -m "Rebuild generated recipe site"
-            git push
-          fi
+          git diff --exit-code data/site-data.json recipes/ || (echo "Generated files are out of date. Run build-recipes.R locally before committing." && exit 1)

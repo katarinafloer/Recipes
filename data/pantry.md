@@ -90,3 +90,4 @@
 
 - eggs
 - coffee
+- beer
