@@ -94,7 +94,11 @@ canonical_label <- function(x) {
     "tomato" = "tomatoes",
     "vegetable broth" = "vegetable stock",
     "vermicelli rice noodles" = "rice noodles",
-    "whole milk" = "milk"
+    "whole milk" = "milk",
+    "roasted sesame seeds" = "sesame seeds",
+    "seafood blend" = "mixed seafood",
+    "sushi rice" = "rice",
+    "cooking cream" = "heavy cream"
   )
 
   ifelse(value %in% names(canonical), canonical[value], value)
