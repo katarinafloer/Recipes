@@ -4,6 +4,7 @@
 
 - seafood blend
 - Skipjack tuna | 2 cans
+- uncured ham
 
 ## Grains
 
@@ -12,23 +13,27 @@
 - gnocchi
 - semolina flour
 - flour
+- sushi rice
 
 ## Produce
 
 - dates | 1 box | use soon
 - strawberry | 1 box | use soon
-- tomato | two left
 - great northern beans | 1 can
-- avocado | 3 left
 - cucumber
 - garlic
 - lemon
+- lime
+- carrots
+- bananas
+- leek
+- mushrooms
 - Nori seaweed sheets
 
 ## Spread
 
-- hummus | 1 box | use soon
 - peanut butter
+- almond butter
 - strawberry preserve
 - mayonnaise
 
@@ -36,9 +41,10 @@
 
 - Greek yogurt | large tub
 - Milk | 1 bottle
-- Mozzarella | 1 box
 - Butter
 - Parmesan | freezer
+- gouda cheese
+- cooking cream
 
 ## Condiments
 
@@ -69,12 +75,16 @@
 - rosemary | freezer
 - roasted sesame seeds
 - smoked paprika
+- tomato basil marinara sauce
+- beef bouillon | dry
+- vegetable stock | liquid
+- maple syrup
 
 ## Snacks
 
 - naan garlic crackers
-- tortilla chips
 - scandinavian swimmers
+- roasted unsalted peanuts
 
 ## Other
 
