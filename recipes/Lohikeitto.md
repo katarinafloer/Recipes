@@ -31,6 +31,7 @@ tags:
   - seafood
   - one pot
 dates_cooked:
+  - 2026-07-27
 source: https://www.instagram.com/p/Cyfq_QZpnyT/
 ---
 
