@@ -280,7 +280,7 @@ function renderMealLog() {
     row.className = "list-row";
     row.innerHTML = `
       <div>
-        <strong>${escapeHtml(recipe?.title ?? meal.recipe)}</strong>
+        <strong>${recipe?.page ? `<a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(recipe.title)}</a>` : escapeHtml(recipe?.title ?? meal.recipe)}</strong>
         <span>${escapeHtml(formatDate(meal.date))}</span>
         ${meal.review ? `<p>${escapeHtml(meal.review)}</p>` : ""}
       </div>

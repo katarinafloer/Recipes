@@ -34,6 +34,7 @@ tags:
   - high protein
   - seafood
 dates_cooked:
+  - 2026-07-21
 source: https://www.instagram.com/p/DZDFKL2JuQ1/
 ---
 
