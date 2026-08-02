@@ -42,6 +42,8 @@ source: https://www.instagram.com/p/DZDFKL2JuQ1/
 
 Fair warning: regular tuna sandwiches are never going to hit the same after this.
 
+Wasn't really crispy — more squishy and gummy, but still very yummy.
+
 ## Instructions
 
 1. Mix tuna with mayo, Sriracha, salt, and pepper. Set aside.

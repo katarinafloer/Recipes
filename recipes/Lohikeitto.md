@@ -39,6 +39,8 @@ source: https://www.instagram.com/p/Cyfq_QZpnyT/
 
 Use a thick salmon fillet so it can be cut into large cubes without falling apart during cooking.
 
+This has become an absolute soup favorite.
+
 Fish stock gives the soup the most traditional flavor, but vegetable stock or chicken stock can be substituted.
 
 Do not allow the cream to boil after adding it to the soup.
