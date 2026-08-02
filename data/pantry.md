@@ -22,6 +22,7 @@
 - great northern beans | 1 can
 - cucumber
 - garlic
+- onion
 - lemon
 - lime
 - carrots
