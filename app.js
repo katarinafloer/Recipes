@@ -31,7 +31,13 @@ document.querySelectorAll(".tab").forEach((tab) => {
 
 document.querySelector("#recipeSearch").addEventListener("input", renderRecipes);
 document.querySelector("#categoryFilter").addEventListener("change", renderRecipes);
-document.querySelector("#heatmapMonth").addEventListener("change", renderPlanner);
+document.querySelector("#heatmapMonth").addEventListener("change", () => {
+  const month = document.querySelector("#heatmapMonth").value;
+  history.replaceState(null, "", `#calendar/${month}`);
+  renderPlanner();
+});
+
+window.addEventListener("popstate", applyHash);
 
 loadSiteData();
 
@@ -56,11 +62,36 @@ function render() {
   renderRecommendations();
   renderMealControls();
   renderPlanner();
+  applyHash();
+}
+
+function applyHash() {
+  const hash = window.location.hash;
+  const calendarMatch = hash.match(/^#calendar\/(\d{4}-\d{2})$/);
+  if (calendarMatch) {
+    showView("planner");
+    const select = document.querySelector("#heatmapMonth");
+    if ([...select.options].some((o) => o.value === calendarMatch[1])) {
+      select.value = calendarMatch[1];
+      renderPlanner();
+    }
+    return;
+  }
+  if (hash === "#pantry") { showView("pantry"); return; }
+  if (hash === "#recipes") { showView("recipes"); return; }
 }
 
 function showView(name) {
   document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.view === name));
   Object.entries(views).forEach(([key, view]) => view.classList.toggle("active", key === name));
+  if (name === "planner") {
+    const month = document.querySelector("#heatmapMonth").value;
+    history.replaceState(null, "", `#calendar/${month}`);
+  } else if (name === "pantry") {
+    history.replaceState(null, "", "#pantry");
+  } else {
+    history.replaceState(null, "", "#recipes");
+  }
 }
 
 function renderFilterControls() {
