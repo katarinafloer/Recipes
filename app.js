@@ -253,7 +253,7 @@ function renderRecommendations() {
     row.className = "recommendation-row";
     row.innerHTML = `
       <div>
-        <strong>${escapeHtml(recommendation.recipe.title)}</strong>
+        <strong>${recommendation.recipe.page ? `<a href="${escapeHtml(recommendation.recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(recommendation.recipe.title)}</a>` : escapeHtml(recommendation.recipe.title)}</strong>
         <span>${escapeHtml(recommendation.recipe.category)}</span>
         <p>${recommendation.missing.length ? `Need ${escapeHtml(recommendation.missing.join(", "))}` : "All labels are in your pantry."}</p>
       </div>

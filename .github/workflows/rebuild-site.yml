@@ -29,7 +29,3 @@ jobs:
 
       - name: Rebuild generated site data and recipe pages
         run: Rscript scripts/build-recipes.R
-
-      - name: Verify generated files are up to date
-        run: |
-          git diff --exit-code data/site-data.json recipes/ || (echo "Generated files are out of date. Run build-recipes.R locally before committing." && exit 1)

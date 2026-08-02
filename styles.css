@@ -540,12 +540,14 @@ textarea:focus {
   color: var(--text);
 }
 
-.list-row strong a {
+.list-row strong a,
+.recommendation-row strong a {
   color: var(--accent);
   text-decoration: none;
 }
 
-.list-row strong a:hover {
+.list-row strong a:hover,
+.recommendation-row strong a:hover {
   text-decoration: underline;
 }
 
