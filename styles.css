@@ -540,6 +540,15 @@ textarea:focus {
   color: var(--text);
 }
 
+.list-row strong a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.list-row strong a:hover {
+  text-decoration: underline;
+}
+
 .recipe-name-list {
   display: grid;
   gap: 12px;
