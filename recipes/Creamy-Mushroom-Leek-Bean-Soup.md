@@ -44,9 +44,9 @@ source:
 
 ## Notes
 
-Beef stock works better than vegetable stock here — richer and more depth.
+Beef stock works better than vegetable stock here.
 
-Blend this soup — without blending the mushrooms and beans floating around is a bit odd. Blend after adding the stock, then stir in the cream and beans.
+Make this a cream soup. Without blending the mushrooms and beans floating around is a bit odd.
 
 Serves well with toast with butter and parmesan.
 
