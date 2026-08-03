@@ -19,7 +19,6 @@
 
 - dates | 1 box | use soon
 - strawberry | 1 box | use soon
-- great northern beans | 1 can
 - cucumber
 - garlic
 - onion
@@ -27,8 +26,6 @@
 - lime
 - carrots
 - bananas
-- leek
-- mushrooms
 - Nori seaweed sheets
 
 ## Spread
