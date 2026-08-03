@@ -48,6 +48,8 @@ Beef stock works better than vegetable stock here — richer and more depth.
 
 Could also be excellent as a blended cream soup — blend after adding the stock, then stir in the cream and beans.
 
+Serves well with toast with butter and parmesan.
+
 ## Instructions
 
 1. Sauté the diced onion in butter over medium heat for 2-3 minutes until softened.
