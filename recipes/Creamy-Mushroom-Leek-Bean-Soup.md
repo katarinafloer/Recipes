@@ -46,7 +46,7 @@ source:
 
 Beef stock works better than vegetable stock here — richer and more depth.
 
-Could also be excellent as a blended cream soup — blend after adding the stock, then stir in the cream and beans.
+Blend this soup — without blending the mushrooms and beans floating around is a bit odd. Blend after adding the stock, then stir in the cream and beans.
 
 Serves well with toast with butter and parmesan.
 
