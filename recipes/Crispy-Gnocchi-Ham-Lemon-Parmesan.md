@@ -31,7 +31,6 @@ tags:
   - meal prep
   - pan fried
 dates_cooked:
-  - 2026-08-02
 source:
 ---
 
