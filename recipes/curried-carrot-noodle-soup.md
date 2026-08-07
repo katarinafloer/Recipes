@@ -1,5 +1,5 @@
 ---
-title: Curried Carrot Noodle Soup
+title: Curried Carrot Rice Soup
 category: Dinner
 prep_time: 15 minutes
 cook_time: 35 minutes
@@ -13,7 +13,7 @@ ingredients:
   - 1 garlic clove, minced
   - salt
   - black pepper
-  - 100 g vermicelli rice noodles
+  - 1 cup jasmine rice
   - 1 can (240 g) chickpeas, drained
   - olive oil, for cooking
   - coconut cream, for serving (optional)
@@ -26,14 +26,14 @@ labels:
   - Thai red curry paste
   - onion
   - garlic
-  - vermicelli rice noodles
+  - jasmine rice
   - chickpeas
 tags:
   - soup
   - vegan
   - plant based
   - curry
-  - noodles
+  - rice
 dates_cooked:
 source: https://www.instagram.com/p/Cyg7FU9hOaW/
 ---
@@ -42,7 +42,7 @@ source: https://www.instagram.com/p/Cyg7FU9hOaW/
 
 Blend the carrots, coconut milk, and vegetable broth until completely smooth for a creamy soup base.
 
-The soup will thicken as the vermicelli noodles absorb the liquid. Add additional vegetable broth or water if you prefer a thinner consistency.
+The soup will thicken as the rice absorbs the liquid. Add additional vegetable broth or water if you prefer a thinner consistency.
 
 ## Instructions
 
@@ -52,13 +52,12 @@ The soup will thicken as the vermicelli noodles absorb the liquid. Add additiona
 4. Drain the carrots and transfer them to a blender.
 5. Add the coconut milk, vegetable broth, salt, and black pepper.
 6. Blend until completely smooth and creamy. Set aside.
-7. Place the vermicelli rice noodles in a heatproof bowl and cover with hot water.
-8. Let the noodles sit for 5 minutes, then drain and set aside.
+7. Cook the jasmine rice according to package directions and set aside.
 9. Heat a small amount of olive oil in a large pot or deep skillet over medium-high heat.
 10. Add the diced onion and sauté for 2-3 minutes, or until softened.
 11. Add the garlic, Thai red curry paste, and drained chickpeas.
 12. Cook for another 1-2 minutes, stirring frequently.
-13. Pour in the blended carrot soup mixture and add the cooked vermicelli noodles.
+13. Pour in the blended carrot soup mixture and add the cooked rice.
 14. Reduce the heat to low-medium and cook for 5-10 minutes, stirring regularly, until the soup has thickened slightly and is heated through.
 15. Remove from the heat and serve hot.
 16. Garnish with coconut cream, fresh herbs, and crushed nuts if desired.
