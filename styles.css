@@ -591,8 +591,8 @@ textarea:focus {
   color: var(--text);
 }
 
-.recipe-name-item.favorite summary {
-  color: #3a8c5c;
+.recipe-name-item.favorite > summary {
+  color: #3a8c5c !important;
 }
 
 .recipe-preview {
