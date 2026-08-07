@@ -189,6 +189,7 @@ function recipeCard(recipe) {
   const sourceLink = recipe.source
     ? `<a href="${escapeHtml(recipe.source)}" target="_blank" rel="noopener noreferrer">Source</a>`
     : "<span>No source saved</span>";
+  if (recipe.title.includes("(favorite!)")) item.classList.add("favorite");
   item.innerHTML = `
     <summary>${escapeHtml(recipe.title)}</summary>
     <div class="recipe-preview">
