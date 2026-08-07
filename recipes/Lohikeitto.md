@@ -1,5 +1,5 @@
 ---
-title: Finnish Salmon Soup (Lohikeitto)
+title: Finnish Salmon Soup (Lohikeitto) (favorite!)
 category: Dinner
 prep_time: 10 minutes
 cook_time: 20 minutes

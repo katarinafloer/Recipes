@@ -1,5 +1,5 @@
 ---
-title: Pasta with Shallot, Peas & Gorgonzola Cream
+title: Pasta with Shallot, Peas & Gorgonzola Cream (favorite!)
 category: Dinner
 prep_time: 5 minutes
 cook_time: 20 minutes

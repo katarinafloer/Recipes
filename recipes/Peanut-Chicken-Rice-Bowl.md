@@ -1,5 +1,5 @@
 ---
-title: Peanut Chicken Rice Bowl
+title: Peanut Chicken Rice Bowl (favorite!)
 category: Dinner
 prep_time: 5 minutes
 cook_time: 10 minutes
