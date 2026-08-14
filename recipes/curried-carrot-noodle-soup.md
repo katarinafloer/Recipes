@@ -35,6 +35,7 @@ tags:
   - curry
   - rice
 dates_cooked:
+  - 2026-08-09
 source: https://www.instagram.com/p/Cyg7FU9hOaW/
 ---
 
@@ -43,6 +44,8 @@ source: https://www.instagram.com/p/Cyg7FU9hOaW/
 Blend the carrots, coconut milk, and vegetable broth until completely smooth for a creamy soup base.
 
 The soup will thicken as the rice absorbs the liquid. Add additional vegetable broth or water if you prefer a thinner consistency.
+
+Used lentils instead of chickpeas and added lime — worked well.
 
 ## Instructions
 

@@ -38,6 +38,7 @@ tags:
   - comfort food
   - mashed potatoes
 dates_cooked:
+  - 2026-08-13
 source: https://www.instagram.com/reels/DaSxjNHtL2J/
 ---
 
