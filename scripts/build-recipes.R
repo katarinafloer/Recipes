@@ -5,6 +5,7 @@ recipes_dir <- file.path(project_dir, "recipes")
 data_dir <- file.path(project_dir, "data")
 output_file <- file.path(data_dir, "site-data.json")
 pantry_file <- file.path(data_dir, "pantry.md")
+restaurants_file <- file.path(data_dir, "restaurants.md")
 
 slugify <- function(x) {
   x <- tolower(x)
@@ -419,12 +420,76 @@ parse_pantry <- function(path) {
   do.call(rbind, rows)
 }
 
+parse_restaurants <- function(path) {
+  if (!file.exists(path)) return(list())
+  lines <- readLines(path, warn = FALSE)
+  cities <- list()
+  current_city <- NULL
+  current_venue <- NULL
+  current_url <- ""
+  current_type <- ""
+  current_dishes <- list()
+
+  flush_venue <- function() {
+    if (!is.null(current_venue) && !is.null(current_city)) {
+      if (is.null(cities[[current_city]])) cities[[current_city]] <<- list()
+      cities[[current_city]][[length(cities[[current_city]]) + 1]] <<- list(
+        name = current_venue,
+        url = current_url,
+        type = current_type,
+        dishes = current_dishes
+      )
+    }
+  }
+
+  for (line in lines) {
+    s <- trim(line)
+    if (!nzchar(s) || grepl("^#[^#]", s)) next
+    if (grepl("^##\\s+", s)) {
+      flush_venue()
+      current_city <- trim(sub("^##\\s+", "", s))
+      current_venue <- NULL
+      current_url <- ""
+      current_type <- ""
+      current_dishes <- list()
+      next
+    }
+    if (grepl("^###\\s+", s)) {
+      flush_venue()
+      current_venue <- trim(sub("^###\\s+", "", s))
+      current_url <- ""
+      current_type <- ""
+      current_dishes <- list()
+      next
+    }
+    if (grepl("^url:", s)) { current_url <- trim(sub("^url:\\s*", "", s)); next }
+    if (grepl("^type:", s)) { current_type <- trim(sub("^type:\\s*", "", s)); next }
+    if (grepl("^-\\s+", s)) {
+      parts <- strsplit(sub("^-\\s+", "", s), "|", fixed = TRUE)[[1]]
+      parts <- trim(parts)
+      get_part <- function(i) if (length(parts) >= i) parts[[i]] else ""
+      current_dishes[[length(current_dishes) + 1]] <- list(
+        name = get_part(1),
+        kind = get_part(2),
+        description = get_part(3),
+        note = get_part(4)
+      )
+    }
+  }
+  flush_venue()
+
+  lapply(names(cities), function(city) {
+    list(city = city, venues = cities[[city]])
+  })
+}
+
 recipe_files <- sort(list.files(recipes_dir, pattern = "\\.md$", full.names = TRUE))
 recipes <- lapply(recipe_files, parse_recipe)
 unlink(list.files(recipes_dir, pattern = "\\.html$", full.names = TRUE))
 invisible(lapply(recipes, write_recipe_page))
 
 pantry <- parse_pantry(pantry_file)
+restaurants <- parse_restaurants(restaurants_file)
 
 date_rows <- do.call(
   rbind,
@@ -454,7 +519,8 @@ site_data <- list(
   generated_at = format(Sys.time(), "%Y-%m-%d %H:%M:%S %Z"),
   recipes = recipes,
   pantry = pantry,
-  meal_log = meal_log
+  meal_log = meal_log,
+  restaurants = restaurants
 )
 
 dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)

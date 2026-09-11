@@ -936,7 +936,118 @@ pre {
     font-size: 0.9rem;
   }
 
-  .intro {
+  /* ── Restaurants ─────────────────────────────────────────── */
+#restaurantsList {
+  max-width: 720px;
+  padding-bottom: 60px;
+}
+
+.restaurant-city {
+  margin-bottom: 52px;
+}
+
+.restaurant-city-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 1.8vw, 2rem);
+  font-style: italic;
+  color: var(--text);
+  margin: 0 0 24px;
+}
+
+.restaurant-city-heading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.restaurant-card {
+  border-left: 3px solid var(--line);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  transition: border-color 180ms ease;
+}
+
+.restaurant-card:hover {
+  border-left-color: var(--accent);
+}
+
+.restaurant-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.restaurant-card-header h3 {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.restaurant-card-header h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.restaurant-card-header h3 a:hover {
+  color: var(--accent);
+}
+
+.restaurant-type {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dish-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.dish-item {
+  display: grid;
+  gap: 3px;
+}
+
+.dish-item strong {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.dish-item.dish-favorite strong {
+  color: #3a8c5c;
+}
+
+.dish-kind {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.dish-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── Media queries ───────────────────────────────────────── */
+
+.intro {
     padding: 52px 0 30px;
   }
 

@@ -1,7 +1,8 @@
 let siteData = {
   recipes: [],
   pantry: [],
-  meal_log: []
+  meal_log: [],
+  restaurants: []
 };
 
 const activeFilters = {
@@ -12,7 +13,8 @@ const activeFilters = {
 const views = {
   recipes: document.querySelector("#recipesView"),
   pantry: document.querySelector("#pantryView"),
-  planner: document.querySelector("#plannerView")
+  planner: document.querySelector("#plannerView"),
+  restaurants: document.querySelector("#restaurantsView")
 };
 
 const recipeSections = [
@@ -78,6 +80,7 @@ function applyHash() {
     return;
   }
   if (hash === "#pantry") { showView("pantry"); return; }
+  if (hash === "#restaurants") { showView("restaurants"); return; }
   if (hash === "#recipes") { showView("recipes"); return; }
 }
 
@@ -89,6 +92,9 @@ function showView(name) {
     history.replaceState(null, "", `#calendar/${month}`);
   } else if (name === "pantry") {
     history.replaceState(null, "", "#pantry");
+  } else if (name === "restaurants") {
+    history.replaceState(null, "", "#restaurants");
+    renderRestaurants();
   } else {
     history.replaceState(null, "", "#recipes");
   }
@@ -232,6 +238,45 @@ function renderPantry() {
     });
 
     list.append(section);
+  });
+}
+
+function renderRestaurants() {
+  const container = document.querySelector("#restaurantsList");
+  container.innerHTML = "";
+  const data = siteData.restaurants || [];
+  if (!data.length) return container.append(emptyState("No restaurants added yet."));
+
+  data.forEach((cityGroup) => {
+    const citySection = document.createElement("section");
+    citySection.className = "restaurant-city";
+    citySection.innerHTML = `<h2 class="restaurant-city-heading">${escapeHtml(cityGroup.city)}</h2>`;
+
+    (cityGroup.venues || []).forEach((venue) => {
+      const card = document.createElement("article");
+      card.className = "restaurant-card";
+      const nameHtml = venue.url
+        ? `<a href="${escapeHtml(venue.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(venue.name)}</a>`
+        : escapeHtml(venue.name);
+      card.innerHTML = `
+        <header class="restaurant-card-header">
+          <h3>${nameHtml}</h3>
+          ${venue.type ? `<span class="restaurant-type">${escapeHtml(venue.type)}</span>` : ""}
+        </header>
+        <ul class="dish-list">
+          ${(venue.dishes || []).map((dish) => `
+            <li class="dish-item${dish.note === "favorite" ? " dish-favorite" : ""}">
+              <strong>${escapeHtml(dish.name)}</strong>
+              ${dish.kind ? `<span class="dish-kind">${escapeHtml(dish.kind)}</span>` : ""}
+              ${dish.description ? `<p class="dish-desc">${escapeHtml(dish.description)}</p>` : ""}
+            </li>
+          `).join("")}
+        </ul>
+      `;
+      citySection.append(card);
+    });
+
+    container.append(citySection);
   });
 }
 
