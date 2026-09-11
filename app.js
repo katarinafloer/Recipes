@@ -94,7 +94,7 @@ function showView(name) {
     history.replaceState(null, "", "#pantry");
   } else if (name === "restaurants") {
     history.replaceState(null, "", "#restaurants");
-    renderRestaurants();
+    setTimeout(renderRestaurants, 0);
   } else {
     history.replaceState(null, "", "#recipes");
   }

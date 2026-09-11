@@ -16,12 +16,6 @@ type: restaurant
 
 - Caldo De Pollo | soup | Homemade soup, chicken breast, vegetables, rice, pico de gallo
 
-### Las Fuentes
-url: https://lasfuentesrestaurant.com/chicago-lincoln-park-or-alsip-or-morton-grove-or-bucktown-manchamanteles-restaurant-las-fuentes-food-menu
-type: restaurant
-
-- Caldo De Pollo | soup | Homemade soup, chicken breast, vegetables, rice, pico de gallo
-
 ### The Dearborn Tavern
 url: https://www.thedearborntavern.com/menus/
 type: bar
@@ -63,6 +57,14 @@ url: https://le-colimacon.fr/le-menu/
 type: restaurant
 
 - Burgundy Snail Crisps | appetizer | 6 snails with persillade - butter, garlic and parsley. Maison Jacot Billey.
+
+## Rigi Kaltbad, Switzerland
+lat: 47.0553
+lng: 8.4849
+
+### Gratalp Stübli
+url: https://www.rigi.ch/en/gastronomy/gratalp-stuebli-7b74841a47
+type: restaurant
 
 ## Étretat
 lat: 49.7072
