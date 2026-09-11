@@ -937,6 +937,14 @@ pre {
   }
 
   /* ── Restaurants ─────────────────────────────────────────── */
+.restaurants-lede {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 32px;
+}
+
 #restaurantsList {
   max-width: 720px;
   padding-bottom: 60px;
