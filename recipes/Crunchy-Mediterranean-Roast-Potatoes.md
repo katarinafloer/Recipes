@@ -15,7 +15,6 @@ ingredients:
   - 1 block feta cheese, crumbled
   - vegetable oil, for roasting
 labels:
-  - potatoes
   - lemon
   - olive oil
   - oregano
@@ -25,7 +24,6 @@ labels:
 tags:
   - side dish
   - Mediterranean
-  - potatoes
 dates_cooked:
 source: https://www.instagram.com/p/C5wZddLSq2r/
 ---

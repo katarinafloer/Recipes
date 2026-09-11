@@ -35,7 +35,6 @@ labels:
   - jasmine rice
   - millet
   - vegetable stock
-  - tofu
   - carrots
   - red cabbage
   - peanut butter
@@ -49,7 +48,6 @@ tags:
   - meal prep
   - vegan
   - high protein
-  - tofu
 dates_cooked:
 source: https://www.pickuplimes.com
 ---

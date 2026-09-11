@@ -24,7 +24,6 @@ labels:
   - flour
   - curry powder
   - cayenne pepper
-  - chicken
   - Greek yogurt
   - jalapeño
   - cilantro
@@ -32,7 +31,6 @@ labels:
 tags:
   - lunch
   - sandwich
-  - chicken
   - curry
 dates_cooked:
 source:

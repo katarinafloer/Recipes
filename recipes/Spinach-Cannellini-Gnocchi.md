@@ -19,7 +19,6 @@ ingredients:
   - additional chopped chili, for serving
   - additional olive oil, for serving
 labels:
-  - gnocchi
   - spinach
   - cannellini beans
   - lemon
@@ -31,7 +30,6 @@ tags:
   - dinner
   - vegetarian
   - high protein
-  - gnocchi
 dates_cooked:
 source: https://www.instagram.com/p/CsT8jS_qLTt/
 ---

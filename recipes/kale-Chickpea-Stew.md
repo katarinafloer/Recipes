@@ -18,7 +18,6 @@ ingredients:
   - crusty bread, for serving
 labels:
   - cavolo nero
-  - chickpeas
   - garlic
   - onion
   - chili
@@ -28,7 +27,6 @@ labels:
 tags:
   - stew
   - vegetarian
-  - chickpeas
   - one pot
 dates_cooked:
 source: https://www.instagram.com/p/Cyavo0BKfUa/

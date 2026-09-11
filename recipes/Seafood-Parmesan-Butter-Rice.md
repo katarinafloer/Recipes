@@ -16,7 +16,6 @@ ingredients:
   - black pepper
   - salt
 labels:
-  - rice
   - mixed seafood
   - butter
   - garlic
@@ -26,7 +25,6 @@ labels:
   - lemon
 tags:
   - seafood
-  - rice
   - quick
 dates_cooked:
   - 2026-07-24

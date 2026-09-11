@@ -15,7 +15,6 @@ ingredients:
   - 1 tablespoon fresh sage, minced
   - 1 tablespoon lemon juice
 labels:
-  - scallops
   - butternut squash
   - butter
   - cayenne pepper
@@ -25,7 +24,6 @@ labels:
 tags:
   - dinner
   - seafood
-  - scallops
 dates_cooked:
 source: The ultimate meal prep cookbook
 ---

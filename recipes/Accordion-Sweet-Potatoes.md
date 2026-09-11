@@ -16,7 +16,6 @@ ingredients:
   - 1/2 teaspoon dried rosemary
   - fresh parsley, for serving
 labels:
-  - sweet potatoes
   - olive oil
   - smoked paprika
   - garlic powder
@@ -26,7 +25,6 @@ labels:
   - parsley
 tags:
   - side dish
-  - sweet potatoes
   - roasted
   - vegetarian
 dates_cooked:

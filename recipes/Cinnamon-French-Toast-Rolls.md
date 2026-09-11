@@ -22,7 +22,6 @@ labels:
   - bread
   - butter
   - brown sugar
-  - cinnamon
   - egg
   - milk
   - vanilla extract
@@ -33,7 +32,6 @@ labels:
 tags:
   - dessert
   - French toast
-  - cinnamon
 dates_cooked:
 source: https://www.instagram.com/p/CxMCLoWSI7t/
 ---
