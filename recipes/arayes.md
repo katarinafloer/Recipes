@@ -33,6 +33,7 @@ labels:
 tags:
   - snack
 dates_cooked:
+  - 2026-08-28
 source: https://www.instagram.com/p/C5JTGNbOKC3/
 ---
 
