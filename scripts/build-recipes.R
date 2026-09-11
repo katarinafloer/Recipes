@@ -450,7 +450,7 @@ parse_restaurants <- function(path) {
     if (!nzchar(s) || grepl("^#[^#]", s)) next
     if (grepl("^##\\s+", s)) {
       flush_venue()
-      if (!is.null(current_city)) city_coords[[current_city]] <<- list(lat = current_lat, lng = current_lng)
+      if (!is.null(current_city)) city_coords[[current_city]] <- list(lat = current_lat, lng = current_lng)
       current_city <- trim(sub("^##\\s+", "", s))
       current_venue <- NULL
       current_url <- ""
