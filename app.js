@@ -270,7 +270,7 @@ function renderRestaurants() {
     cityPoints.forEach((g) => {
       const venueLines = (g.venues || []).map((v) => {
         const dishes = (v.dishes || []).map((d) => `<em>${d.name}</em>`).join(", ");
-        return `<strong>${v.name}</strong>${dishes ? ` — ${dishes}` : ""}`;
+        return `<strong>${v.name}</strong>${dishes ? `: ${dishes}` : ""}`;
       }).join("<br>");
       L.marker([g.lat, g.lng], { icon: accentIcon })
         .addTo(restaurantMap)
@@ -298,7 +298,7 @@ function renderRestaurants() {
       const dishes = (venue.dishes || [])
         .filter((d) => d.name && d.name !== "Everything")
         .map((d) => {
-          const parts = [d.name, d.description].filter(Boolean).join(" — ");
+          const parts = [d.name, d.description].filter(Boolean).join(": ");
           return `<span class="venue-dish">${escapeHtml(parts)}</span>`;
         }).join("");
       const everythingNote = (venue.dishes || []).find((d) => d.name === "Everything");
@@ -351,53 +351,82 @@ function renderMealControls() {
 }
 
 function renderPlanner() {
-  renderHeatmap();
-  renderMealLog();
+  renderCalendar();
 }
 
-function renderHeatmap() {
-  const target = document.querySelector("#mealHeatmap");
+function renderCalendar() {
   const selectedMonth = document.querySelector("#heatmapMonth").value || monthKey(new Date());
   const [year, month] = selectedMonth.split("-").map(Number);
-  const days = new Date(year, month, 0).getDate();
-  const counts = countMealsByDate();
+  const daysInMonth = new Date(year, month, 0).getDate();
 
-  target.innerHTML = "";
-  for (let day = 1; day <= days; day += 1) {
-    const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    const count = counts.get(date) ?? 0;
-    const cell = document.createElement("div");
-    cell.className = `heat-cell level-${Math.min(count, 4)}`;
-    cell.title = `${date}: ${count} meal${count === 1 ? "" : "s"}`;
-    cell.textContent = day;
-    target.append(cell);
-  }
-}
-
-function renderMealLog() {
-  const selectedMonth = document.querySelector("#heatmapMonth").value || monthKey(new Date());
-  const meals = siteData.meal_log
+  // Group meals by date
+  const mealsByDate = new Map();
+  siteData.meal_log
     .filter((meal) => meal.date.startsWith(selectedMonth))
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .forEach((meal) => {
+      if (!mealsByDate.has(meal.date)) mealsByDate.set(meal.date, []);
+      mealsByDate.get(meal.date).push(meal);
+    });
 
-  document.querySelector("#monthMealCount").textContent = `${meals.length} meal${meals.length === 1 ? "" : "s"}`;
-  const list = document.querySelector("#mealLogList");
-  list.innerHTML = "";
-  if (!meals.length) return list.append(emptyState("No meals logged for this month."));
+  const totalMeals = [...mealsByDate.values()].reduce((sum, arr) => sum + arr.length, 0);
+  document.querySelector("#monthMealCount").textContent = `${totalMeals} meal${totalMeals === 1 ? "" : "s"}`;
 
-  meals.forEach((meal) => {
-    const recipe = siteData.recipes.find((item) => item.id === meal.recipe);
-    const row = document.createElement("article");
-    row.className = "list-row";
-    row.innerHTML = `
-      <div>
-        <strong>${recipe?.page ? `<a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(recipe.title)}</a>` : escapeHtml(recipe?.title ?? meal.recipe)}</strong>
-        <span>${escapeHtml(formatDate(meal.date))}</span>
-        ${meal.review ? `<p>${escapeHtml(meal.review)}</p>` : ""}
-      </div>
-    `;
-    list.append(row);
+  const container = document.querySelector("#mealCalendar");
+  container.innerHTML = "";
+
+  // Day-of-week headers (Mon first)
+  const DOW = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const header = document.createElement("div");
+  header.className = "cal-header";
+  DOW.forEach((d) => {
+    const cell = document.createElement("div");
+    cell.className = "cal-dow";
+    cell.textContent = d;
+    header.append(cell);
   });
+  container.append(header);
+
+  const grid = document.createElement("div");
+  grid.className = "cal-grid";
+
+  // Offset: Monday = 0
+  const firstDow = new Date(year, month - 1, 1).getDay(); // 0=Sun
+  const offset = (firstDow + 6) % 7; // Mon-based
+
+  for (let i = 0; i < offset; i++) {
+    const empty = document.createElement("div");
+    empty.className = "cal-day cal-day-empty";
+    grid.append(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const meals = mealsByDate.get(date) || [];
+    const isToday = date === monthKey(new Date()) + `-${String(new Date().getDate()).padStart(2, "0")}`.slice(-3);
+
+    const cell = document.createElement("div");
+    cell.className = `cal-day${meals.length ? " cal-day-has-meal" : ""}${date === `${monthKey(new Date())}-${String(new Date().getDate()).padStart(2, "0")}` ? " cal-day-today" : ""}`;
+
+    const num = document.createElement("span");
+    num.className = "cal-day-num";
+    num.textContent = day;
+    cell.append(num);
+
+    meals.forEach((meal) => {
+      const recipe = siteData.recipes.find((r) => r.id === meal.recipe);
+      const title = recipe?.title ?? meal.recipe;
+      const link = document.createElement("a");
+      link.className = "cal-meal";
+      link.textContent = title.replace(/\s*\(favorite!\)\s*/i, "");
+      if (recipe?.page) { link.href = recipe.page; link.target = "_blank"; link.rel = "noopener noreferrer"; }
+      else { link.href = "#"; link.addEventListener("click", (e) => e.preventDefault()); }
+      cell.append(link);
+    });
+
+    grid.append(cell);
+  }
+
+  container.append(grid);
 }
 
 function getMissingIngredients(recipe) {

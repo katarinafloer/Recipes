@@ -1,5 +1,5 @@
 ---
-title: Easy Potato Moussaka With Eggplant
+title: Easy Potato Moussaka With Eggplant (favorite!)
 category: Dinner
 prep_time: 20 minutes
 cook_time: 65 minutes

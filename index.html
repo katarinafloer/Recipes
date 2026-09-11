@@ -96,23 +96,11 @@
       </section>
 
       <section class="view" id="plannerView">
-        <div class="planner-grid">
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>Meal Heatmap</h2>
-              <select id="heatmapMonth"></select>
-            </div>
-            <div id="mealHeatmap" class="heatmap"></div>
-          </section>
-
-          <section class="panel">
-            <div class="panel-heading">
-              <h2>Meal Log</h2>
-              <span id="monthMealCount" class="stat-pill">0 meals</span>
-            </div>
-            <div id="mealLogList" class="item-list"></div>
-          </section>
+        <div class="calendar-controls">
+          <select id="heatmapMonth"></select>
+          <span id="monthMealCount" class="stat-pill">0 meals</span>
         </div>
+        <div id="mealCalendar"></div>
       </section>
 
       <section class="view" id="restaurantsView">
