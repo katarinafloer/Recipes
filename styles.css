@@ -1,16 +1,18 @@
 :root {
   color-scheme: light;
-  --bg: #fff;
-  --panel: #fff;
-  --text: #0f3a57;
-  --muted: #185d8b;
-  --line: #97caed;
-  --accent: #3498db;
-  --accent-strong: #2280bf;
-  --label: #9a6a3a;
-  --rose: #63b0e3;
-  --soft-blue: #cbe5f6;
+  --bg: #faf8f4;
+  --panel: #ffffff;
+  --text: #2c1a0e;
+  --muted: #8b6347;
+  --line: #e0d5c5;
+  --accent: #c1440e;
+  --accent-strong: #963508;
+  --label: #8b6347;
+  --rose: #c4856a;
+  --soft-blue: #f2ebe0;
   --danger: #a75145;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Lato', ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
@@ -25,9 +27,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: var(--sans);
   line-height: 1.55;
 }
 
@@ -66,7 +66,7 @@ button {
 }
 
 .brand {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--serif);
   font-size: 1.35rem;
   font-weight: 700;
   text-decoration: none;
@@ -137,7 +137,7 @@ p {
 h1,
 h2,
 h3 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--serif);
 }
 
 h1 {
@@ -241,9 +241,9 @@ h3 {
 .filter-panel h2,
 .on-page-nav h2 {
   color: var(--muted);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -302,6 +302,33 @@ label {
   font-weight: 700;
 }
 
+.filter-group {
+  border: none;
+}
+
+.filter-group summary.filter-label {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+.filter-group summary.filter-label::after {
+  content: "▸";
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+
+.filter-group[open] summary.filter-label::after {
+  transform: rotate(90deg);
+}
+
+.filter-group[open] .filter-chip-list {
+  margin-top: 10px;
+}
+
 .filter-label {
   display: block;
   margin-bottom: 10px;
@@ -342,7 +369,7 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent-strong);
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.16);
+  box-shadow: 0 0 0 3px rgba(193, 68, 14, 0.16);
 }
 
 .search-input {
@@ -442,7 +469,7 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 3px 9px;
-  background: rgba(151, 202, 237, 0.28);
+  background: rgba(193, 68, 14, 0.07);
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 750;
@@ -704,22 +731,22 @@ ul {
   aspect-ratio: 1;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: rgba(151, 202, 237, 0.16);
+  background: rgba(193, 68, 14, 0.07);
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 750;
 }
 
 .level-1 {
-  background: rgba(99, 176, 227, 0.28);
+  background: rgba(193, 68, 14, 0.22);
 }
 
 .level-2 {
-  background: rgba(52, 152, 219, 0.46);
+  background: rgba(193, 68, 14, 0.45);
 }
 
 .level-3 {
-  background: rgba(34, 128, 191, 0.7);
+  background: rgba(150, 53, 8, 0.72);
   color: #fff;
 }
 
@@ -738,7 +765,7 @@ pre {
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #f7fbfe;
+  background: #faf6f1;
   color: var(--text);
   padding: 16px;
   font-size: 0.82rem;

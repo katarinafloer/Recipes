@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Recipe Pantry Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -49,14 +52,14 @@
               Section
               <select id="categoryFilter"></select>
             </label>
-            <div>
-              <span class="filter-label">Tags</span>
+            <details class="filter-group">
+              <summary class="filter-label">Tags</summary>
               <div id="tagFilters" class="filter-chip-list"></div>
-            </div>
-            <div>
-              <span class="filter-label">Ingredients</span>
+            </details>
+            <details class="filter-group">
+              <summary class="filter-label">Ingredients</summary>
               <div id="ingredientFilters" class="filter-chip-list tall"></div>
-            </div>
+            </details>
           </aside>
 
           <section class="panel">
