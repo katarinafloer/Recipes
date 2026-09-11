@@ -941,76 +941,55 @@ pre {
   background: var(--line);
 }
 
-.restaurant-card {
-  border-left: 3px solid var(--line);
-  padding: 16px 20px;
-  margin-bottom: 20px;
-  transition: border-color 180ms ease;
-}
-
-.restaurant-card:hover {
-  border-left-color: var(--accent);
-}
-
-.restaurant-card-header {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.restaurant-card-header h3 {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  margin: 0;
-  color: var(--text);
-}
-
-.restaurant-card-header h3 a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.restaurant-card-header h3 a:hover {
-  color: var(--accent);
-}
-
-.dish-list {
+.venue-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
-.dish-item {
+.venue-row {
   display: grid;
-  gap: 3px;
+  grid-template-columns: 180px 1fr;
+  gap: 8px 16px;
+  align-items: baseline;
+  font-size: 0.9rem;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
 }
 
-.dish-item strong {
-  font-family: var(--sans);
-  font-size: 0.95rem;
+.venue-name {
+  font-family: var(--serif);
+  font-size: 1rem;
   color: var(--text);
 }
 
-.dish-item.dish-favorite strong {
-  color: #3a8c5c;
+.venue-name a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.dish-kind {
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--rose);
+.venue-name a:hover {
+  color: var(--accent);
 }
 
-.dish-desc {
-  font-size: 0.88rem;
+.venue-dishes {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.venue-dish {
   color: var(--muted);
-  margin: 0;
+  font-size: 0.88rem;
+}
+
+.venue-note {
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-style: italic;
+  grid-column: 2;
 }
 
 @media (max-width: 860px) {

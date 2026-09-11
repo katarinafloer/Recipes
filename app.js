@@ -286,31 +286,30 @@ function renderRestaurants() {
   data.forEach((cityGroup) => {
     const citySection = document.createElement("section");
     citySection.className = "restaurant-city";
-    citySection.innerHTML = `<h2 class="restaurant-city-heading">${escapeHtml(cityGroup.city)}</h2>`;
+    citySection.innerHTML = `<h3 class="restaurant-city-heading">${escapeHtml(cityGroup.city)}</h3>`;
+
+    const venueList = document.createElement("ul");
+    venueList.className = "venue-list";
 
     (cityGroup.venues || []).forEach((venue) => {
-      const card = document.createElement("article");
-      card.className = "restaurant-card";
       const nameHtml = venue.url
         ? `<a href="${escapeHtml(venue.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(venue.name)}</a>`
         : escapeHtml(venue.name);
-      card.innerHTML = `
-        <header class="restaurant-card-header">
-          <h3>${nameHtml}</h3>
-        </header>
-        <ul class="dish-list">
-          ${(venue.dishes || []).map((dish) => `
-            <li class="dish-item${dish.note === "favorite" ? " dish-favorite" : ""}">
-              <strong>${escapeHtml(dish.name)}</strong>
-              ${dish.kind ? `<span class="dish-kind">${escapeHtml(dish.kind)}</span>` : ""}
-              ${dish.description ? `<p class="dish-desc">${escapeHtml(dish.description)}</p>` : ""}
-            </li>
-          `).join("")}
-        </ul>
-      `;
-      citySection.append(card);
+      const dishes = (venue.dishes || [])
+        .filter((d) => d.name && d.name !== "Everything")
+        .map((d) => {
+          const parts = [d.name, d.description].filter(Boolean).join(" — ");
+          return `<span class="venue-dish">${escapeHtml(parts)}</span>`;
+        }).join("");
+      const everythingNote = (venue.dishes || []).find((d) => d.name === "Everything");
+
+      const li = document.createElement("li");
+      li.className = "venue-row";
+      li.innerHTML = `<span class="venue-name">${nameHtml}</span>${dishes ? `<span class="venue-dishes">${dishes}</span>` : ""}${everythingNote ? `<span class="venue-note">${escapeHtml(everythingNote.description)}</span>` : ""}`;
+      venueList.append(li);
     });
 
+    citySection.append(venueList);
     container.append(citySection);
   });
 }
