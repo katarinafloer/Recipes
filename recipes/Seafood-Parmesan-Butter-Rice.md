@@ -30,6 +30,7 @@ tags:
   - quick
 dates_cooked:
   - 2026-07-24
+  - 2026-09-09
 source:
 ---
 

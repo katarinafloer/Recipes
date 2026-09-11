@@ -32,6 +32,7 @@ tags:
   - one pot
 dates_cooked:
   - 2026-07-27
+  - 2026-09-02
 source: https://www.instagram.com/p/Cyfq_QZpnyT/
 ---
 
