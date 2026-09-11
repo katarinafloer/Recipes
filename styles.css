@@ -116,16 +116,19 @@ main {
 }
 
 .intro {
-  padding: 78px 0 38px;
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 38px;
 }
 
 .eyebrow {
   margin: 0 0 14px;
-  color: var(--rose);
+  color: var(--accent);
   font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 900;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  font-family: var(--sans);
 }
 
 h1,
@@ -169,7 +172,7 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 38px;
+  margin-bottom: 32px;
 }
 
 .tab {
@@ -604,7 +607,17 @@ textarea:focus {
 }
 
 .recipe-name-item {
-  padding: 0;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--line) !important;
+  border-left: 3px solid var(--accent) !important;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: box-shadow 180ms ease;
+}
+
+.recipe-name-item:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 .recipe-name-item summary {
