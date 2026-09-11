@@ -169,30 +169,38 @@ h3 {
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 32px;
+  gap: 0;
+  margin-bottom: 36px;
+  border-bottom: 2px solid var(--line);
 }
 
 .tab {
-  min-height: 36px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--panel);
+  min-height: 40px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
   color: var(--muted);
-  padding: 0 12px;
-  font-weight: 650;
+  padding: 0 20px;
+  margin-bottom: -2px;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .tab:hover,
 .tab:focus-visible {
-  color: var(--accent-strong);
+  color: var(--text);
+  border-bottom-color: var(--rose);
   outline: none;
 }
 
 .tab.active {
-  background: var(--text);
-  border-color: var(--text);
-  color: #fff;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  background: transparent;
 }
 
 .view {
@@ -510,10 +518,31 @@ textarea:focus {
 }
 
 .pantry-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   color: var(--text);
   font-family: var(--serif);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
+  font-style: italic;
   margin: 0;
+}
+
+.pantry-section h3::before {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  width: 4px;
+  height: 1em;
+  background: var(--rose);
+  border-radius: 2px;
+}
+
+.pantry-section h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
 
 .pantry-row {
@@ -592,16 +621,35 @@ textarea:focus {
 }
 
 .recipe-section + .recipe-section {
-  margin-top: 42px;
-  padding-top: 24px;
-  border-top: 1px solid var(--line);
+  margin-top: 48px;
 }
 
 .recipe-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   color: var(--text);
   font-family: var(--serif);
-  font-size: clamp(1.4rem, 1.8vw, 1.9rem);
-  margin: 0;
+  font-size: clamp(1.2rem, 1.5vw, 1.6rem);
+  font-style: italic;
+  margin: 0 0 4px;
+}
+
+.recipe-section h3::before {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  width: 4px;
+  height: 1.1em;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.recipe-section h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
 
 .recipe-name-item {
