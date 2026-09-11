@@ -937,6 +937,14 @@ pre {
   }
 
   /* ── Restaurants ─────────────────────────────────────────── */
+#restaurantsMap {
+  width: 100%;
+  height: 340px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+  border: 1px solid var(--line);
+}
+
 .restaurants-lede {
   font-family: var(--sans);
   font-size: 0.95rem;

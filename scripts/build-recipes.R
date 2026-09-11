@@ -424,11 +424,14 @@ parse_restaurants <- function(path) {
   if (!file.exists(path)) return(list())
   lines <- readLines(path, warn = FALSE)
   cities <- list()
+  city_coords <- list()
   current_city <- NULL
   current_venue <- NULL
   current_url <- ""
   current_type <- ""
   current_dishes <- list()
+  current_lat <- NA
+  current_lng <- NA
 
   flush_venue <- function() {
     if (!is.null(current_venue) && !is.null(current_city)) {
@@ -447,13 +450,18 @@ parse_restaurants <- function(path) {
     if (!nzchar(s) || grepl("^#[^#]", s)) next
     if (grepl("^##\\s+", s)) {
       flush_venue()
+      if (!is.null(current_city)) city_coords[[current_city]] <<- list(lat = current_lat, lng = current_lng)
       current_city <- trim(sub("^##\\s+", "", s))
       current_venue <- NULL
       current_url <- ""
       current_type <- ""
       current_dishes <- list()
+      current_lat <- NA
+      current_lng <- NA
       next
     }
+    if (grepl("^lat:", s)) { current_lat <- as.numeric(trim(sub("^lat:\\s*", "", s))); next }
+    if (grepl("^lng:", s)) { current_lng <- as.numeric(trim(sub("^lng:\\s*", "", s))); next }
     if (grepl("^###\\s+", s)) {
       flush_venue()
       current_venue <- trim(sub("^###\\s+", "", s))
@@ -477,9 +485,11 @@ parse_restaurants <- function(path) {
     }
   }
   flush_venue()
+  if (!is.null(current_city)) city_coords[[current_city]] <- list(lat = current_lat, lng = current_lng)
 
   lapply(names(cities), function(city) {
-    list(city = city, venues = cities[[city]])
+    coords <- if (!is.null(city_coords[[city]])) city_coords[[city]] else list(lat = NA, lng = NA)
+    list(city = city, lat = coords$lat, lng = coords$lng, venues = cities[[city]])
   })
 }
 

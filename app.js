@@ -241,11 +241,47 @@ function renderPantry() {
   });
 }
 
+let restaurantMap = null;
+
 function renderRestaurants() {
   const container = document.querySelector("#restaurantsList");
   container.innerHTML = "";
   const data = siteData.restaurants || [];
   if (!data.length) return container.append(emptyState("No restaurants added yet."));
+
+  // Build map
+  const mapEl = document.querySelector("#restaurantsMap");
+  const cityPoints = data.filter((g) => g.lat && g.lng);
+  if (typeof L !== "undefined" && cityPoints.length) {
+    if (restaurantMap) { restaurantMap.remove(); restaurantMap = null; }
+    restaurantMap = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
+    }).addTo(restaurantMap);
+
+    const accentIcon = L.divIcon({
+      className: "",
+      html: `<div style="width:12px;height:12px;background:#b83a0a;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)"></div>`,
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    cityPoints.forEach((g) => {
+      const venueLines = (g.venues || []).map((v) => {
+        const dishes = (v.dishes || []).map((d) => `<em>${d.name}</em>`).join(", ");
+        return `<strong>${v.name}</strong>${dishes ? ` — ${dishes}` : ""}`;
+      }).join("<br>");
+      L.marker([g.lat, g.lng], { icon: accentIcon })
+        .addTo(restaurantMap)
+        .bindPopup(`<div style="font-family:sans-serif;font-size:13px"><strong style="font-size:14px">${g.city}</strong><br><br>${venueLines}</div>`);
+    });
+
+    const bounds = L.latLngBounds(cityPoints.map((g) => [g.lat, g.lng]));
+    restaurantMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+  } else {
+    mapEl.style.display = "none";
+  }
 
   data.forEach((cityGroup) => {
     const citySection = document.createElement("section");
@@ -261,7 +297,6 @@ function renderRestaurants() {
       card.innerHTML = `
         <header class="restaurant-card-header">
           <h3>${nameHtml}</h3>
-          ${venue.type ? `<span class="restaurant-type">${escapeHtml(venue.type)}</span>` : ""}
         </header>
         <ul class="dish-list">
           ${(venue.dishes || []).map((dish) => `
