@@ -116,9 +116,7 @@ main {
 }
 
 .intro {
-  padding: 64px 0 48px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 38px;
+  padding: 64px 0 32px;
 }
 
 .eyebrow {
@@ -607,17 +605,16 @@ textarea:focus {
 }
 
 .recipe-name-item {
-  padding: 14px 16px;
-  background: #fff;
-  border: 1px solid var(--line) !important;
-  border-left: 3px solid var(--accent) !important;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  transition: box-shadow 180ms ease;
+  padding: 10px 14px;
+  border-left: 3px solid var(--line) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-right: none !important;
+  transition: border-color 180ms ease;
 }
 
 .recipe-name-item:hover {
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  border-left-color: var(--accent) !important;
 }
 
 .recipe-name-item summary {

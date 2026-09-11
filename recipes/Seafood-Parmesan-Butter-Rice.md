@@ -34,9 +34,9 @@ source:
 
 ## Notes
 
-Reserve a little starchy rice water before draining — it helps make the rice glossy and creamy when you stir in the Parmesan.
+Reserve a little starchy rice water before draining - it helps make the rice glossy and creamy when you stir in the Parmesan.
 
-Fold the seafood back in at the very end so it doesn't overcook. The lemon is important — it balances the richness of the butter and Parmesan.
+Fold the seafood back in at the very end so it doesn't overcook. The lemon is important - it balances the richness of the butter and Parmesan.
 
 Unconventional to use Parmesan with seafood in Italian cooking, but it works well here.
 

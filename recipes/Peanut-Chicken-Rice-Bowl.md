@@ -52,7 +52,7 @@ source: https://www.instagram.com/p/DIAB1HFhqsj/
 
 Also works great served over noodles instead of rice.
 
-If you don't want to make your own sauce, use 1 jar Trader Joe's Thai Peanut Satay Sauce — add water in the last step if needed to make it more saucy.
+If you don't want to make your own sauce, use 1 jar Trader Joe's Thai Peanut Satay Sauce - add water in the last step if needed to make it more saucy.
 
 ## Instructions
 

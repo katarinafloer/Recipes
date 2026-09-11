@@ -42,7 +42,7 @@ Ratio per 1 litre of water: 1 egg yolk, 100g sour cream, 500ml yogurt/sana/kefir
 ## Instructions
 
 1. Bring salted water to a boil.
-2. Add the root vegetables first — carrots, celery root, and onion. Cook until starting to soften.
+2. Add the root vegetables first - carrots, celery root, and onion. Cook until starting to soften.
 3. Add the potatoes and bell pepper. Continue cooking until everything is tender.
 4. In a bowl, whisk together the egg yolk, sour cream, and yogurt/sana/kefir.
 5. Gradually add ladles of hot soup water into the cream mixture while whisking, to temper it.

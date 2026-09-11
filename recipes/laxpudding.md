@@ -28,7 +28,7 @@ source: https://www.instagram.com/p/DCE3Y40MTCZ/
 
 ## Notes
 
-Ended up being a bit dry — need to optimize for that next time.
+Ended up being a bit dry - need to optimize for that next time.
 
 ## Instructions
 

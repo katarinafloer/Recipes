@@ -48,7 +48,7 @@ Peel the eggplant in a stripe pattern (every other 1/2 inch) so it stays tender 
 
 Allow to stand 20-30 minutes before cutting so the pieces come out firm and clean.
 
-Can be frozen before baking — thaw overnight in the fridge and bake when ready.
+Can be frozen before baking - thaw overnight in the fridge and bake when ready.
 
 ## Instructions
 

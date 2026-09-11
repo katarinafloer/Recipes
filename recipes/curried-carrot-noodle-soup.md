@@ -45,7 +45,7 @@ Blend the carrots, coconut milk, and vegetable broth until completely smooth for
 
 The soup will thicken as the rice absorbs the liquid. Add additional vegetable broth or water if you prefer a thinner consistency.
 
-Used lentils instead of chickpeas and added lime — worked well.
+Used lentils instead of chickpeas and added lime - worked well.
 
 ## Instructions
 

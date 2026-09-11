@@ -66,22 +66,22 @@ Makes 10 meals (5 recipes × 2 servings). Mix and match for breakfast, lunch, or
 6. **Veggies:** Grate carrots and store in water. Store shredded cabbage separately. Roughly chop almonds.
 7. **Peanut sauce:** Whisk together 2½ tbsp peanut butter, 2 tbsp hot water, ½ tbsp teriyaki sauce, juice of ¼ lime, and 1 tsp sriracha.
 
-## Meal 1 — Sweet Potato Millet Congee
+## Meal 1 - Sweet Potato Millet Congee
 
 Serve millet with cubed sweet potato in bowls, top with mild teriyaki tofu, grated carrot, and pickled red onions. Heat through and add more sriracha if desired.
 
-## Meal 2 — Loaded Sweet Breakfast Potato
+## Meal 2 - Loaded Sweet Breakfast Potato
 
 Slice roasted sweet potatoes lengthwise, microwave 2-3 minutes. Top with coconut yogurt, berry chia jam, peanut butter, chopped almonds, and cinnamon.
 
-## Meal 3 — Teriyaki Fried Rice
+## Meal 3 - Teriyaki Fried Rice
 
 Sauté spinach, carrot, and cabbage in oil for 2 minutes. Add rice, plain tofu, teriyaki sauce, and sriracha. Cook 3 minutes. Top with pickled red onions and sesame seeds.
 
-## Meal 4 — Coconut Rice Porridge
+## Meal 4 - Coconut Rice Porridge
 
 Combine rice, coconut milk, maple syrup, and cinnamon in a saucepan. Boil, then simmer 5 minutes until creamy. Top with berry chia jam, coconut yogurt, peanut butter, and almonds.
 
-## Meal 5 — Teriyaki Tofu Veggie Wraps
+## Meal 5 - Teriyaki Tofu Veggie Wraps
 
 Spread peanut sauce over tortillas. Fill with carrot, cabbage, spinach, cucumber, and saucy teriyaki tofu. Roll up and grill 1-2 minutes per side.

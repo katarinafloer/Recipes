@@ -36,7 +36,7 @@ source: https://www.youtube.com/watch?v=vo81gVeRcPM
 
 Sugar in the dough is optional if the plums are very sweet.
 
-Wet your palms with water when shaping the dumplings — makes it much easier to work with the dough.
+Wet your palms with water when shaping the dumplings - makes it much easier to work with the dough.
 
 The dumplings are done when they float to the surface, then cook 5 more minutes.
 
@@ -44,7 +44,7 @@ The dumplings are done when they float to the surface, then cook 5 more minutes.
 
 1. Quarter the plums and toss with 2 tablespoons of sugar. Set aside to macerate.
 2. Boil the potatoes until fork tender. Drain and mash as smoothly as possible.
-3. Mix in the eggs, cinnamon, and sugar. Add flour gradually, kneading until you have a soft, elastic dough that you can work with. Use around 200g — stop when the consistency feels right.
+3. Mix in the eggs, cinnamon, and sugar. Add flour gradually, kneading until you have a soft, elastic dough that you can work with. Use around 200g - stop when the consistency feels right.
 4. Let the dough rest for 30 minutes.
 5. Crush the ladyfingers in a blender. In a pan, melt the butter and toast the crumbs through it. Add the cinnamon and stir to coat. Set aside.
 6. Bring a large pot of water to a boil.

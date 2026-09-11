@@ -25,7 +25,7 @@ source: https://www.mashed.com/342172/rye-bread-recipe/
 
 ## Notes
 
-No-knead recipe — minimal effort for a loaf with a rich dark crust and soft chewy interior.
+No-knead recipe - minimal effort for a loaf with a rich dark crust and soft chewy interior.
 
 Can substitute rye flour with whole wheat flour or just use all white bread flour.
 

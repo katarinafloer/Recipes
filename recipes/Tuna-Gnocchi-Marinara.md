@@ -30,7 +30,7 @@ source:
 
 ## Notes
 
-Not my favorite — wouldn't make again as-is.
+Not my favorite - wouldn't make again as-is.
 
 ## Instructions
 

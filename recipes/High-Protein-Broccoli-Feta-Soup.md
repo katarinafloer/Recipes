@@ -44,7 +44,7 @@ source: https://substack.com/@shredhappens
 
 ## Notes
 
-Cottage cheese and bone broth are the protein hacks here — blends in completely and you can't taste it.
+Cottage cheese and bone broth are the protein hacks here - blends in completely and you can't taste it.
 
 ## Instructions
 
