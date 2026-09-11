@@ -1,15 +1,16 @@
 :root {
   color-scheme: light;
-  --bg: #faf8f4;
+  --bg: #fff;
   --panel: #ffffff;
-  --text: #2c1a0e;
-  --muted: #8b6347;
-  --line: #e0d5c5;
-  --accent: #c1440e;
-  --accent-strong: #963508;
-  --label: #8b6347;
+  --text: #1a1209;
+  --muted: #6b5744;
+  --line: #e8e0d8;
+  --accent: #b83a0a;
+  --accent-strong: #922d07;
+  --label: #6b5744;
   --rose: #c4856a;
-  --soft-blue: #f2ebe0;
+  --soft-blue: #2c1a0e;
+  --soft-blue-text: #fff;
   --danger: #a75145;
   --serif: 'Playfair Display', Georgia, serif;
   --sans: 'Lato', ui-sans-serif, system-ui, sans-serif;
@@ -47,9 +48,8 @@ button {
 }
 
 .site-header {
-  border-bottom: 1px solid var(--line);
+  border-bottom: none;
   background: var(--soft-blue);
-  backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -71,6 +71,7 @@ button {
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
+  color: #fff;
 }
 
 .nav-links {
@@ -89,7 +90,7 @@ button {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--muted);
+  color: rgba(255,255,255,0.75);
   font-size: 0.95rem;
   font-weight: 650;
   text-decoration: none;
@@ -101,7 +102,7 @@ button {
 
 .nav-link:hover,
 .nav-link:focus-visible {
-  color: var(--accent-strong);
+  color: #fff;
   outline: none;
 }
 
