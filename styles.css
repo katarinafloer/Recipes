@@ -1021,18 +1021,21 @@ pre {
 .shopping-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
   padding: 6px 0;
   border-bottom: 1px solid var(--line);
   font-size: 0.9rem;
 }
 
 .shopping-item label {
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 10px;
   cursor: pointer;
   flex: 1;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text);
 }
 
 .shopping-item-checked span {
