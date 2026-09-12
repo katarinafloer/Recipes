@@ -964,6 +964,141 @@ pre {
   margin-bottom: 8px;
 }
 
+/* ── Shopping List ───────────────────────────────────────── */
+
+.shopping-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.shopping-header h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.btn-ghost:hover { border-color: var(--danger); color: var(--danger); }
+
+.shopping-group {
+  margin-bottom: 28px;
+}
+
+.shopping-recipe-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.shopping-recipe-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.shopping-recipe-title a:hover { color: var(--accent); }
+
+.shopping-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.shopping-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+
+.shopping-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.shopping-item-checked span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.shopping-remove {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.shopping-item:hover .shopping-remove { opacity: 1; }
+.shopping-remove:hover { color: var(--danger); }
+
+/* Ingredient list in recipe card */
+
+.ingredient-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.ingredient-btn {
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 0;
+  width: 100%;
+}
+
+.ingredient-btn:hover { color: var(--accent); }
+
+.ingredient-added {
+  color: #3a8c5c !important;
+}
+
+/* Tab badge */
+[data-view="shopping"][data-badge]:not([data-badge=""])::after {
+  content: attr(data-badge);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 999px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  vertical-align: middle;
+}
+
 /* ── Restaurants ─────────────────────────────────────────── */
 
 #restaurantsMap {

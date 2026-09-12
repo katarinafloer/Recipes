@@ -32,6 +32,7 @@
         <button class="tab" type="button" data-view="pantry">Pantry</button>
         <button class="tab" type="button" data-view="planner">Calendar</button>
         <button class="tab" type="button" data-view="restaurants">Restaurants</button>
+        <button class="tab" type="button" data-view="shopping">Shopping List</button>
       </nav>
 
       <section class="view active" id="recipesView">
@@ -101,6 +102,16 @@
           <span id="monthMealCount" class="stat-pill">0 meals</span>
         </div>
         <div id="mealCalendar"></div>
+      </section>
+
+      <section class="view" id="shoppingView">
+        <div class="shopping-header">
+          <h2>Shopping List</h2>
+          <button id="shareShoppingList" class="btn-ghost">Share list</button>
+          <button id="clearShoppingList" class="btn-ghost">Clear all</button>
+        </div>
+        <p class="restaurants-lede">Click any ingredient in a recipe to add it here.</p>
+        <div id="shoppingList"></div>
       </section>
 
       <section class="view" id="restaurantsView">

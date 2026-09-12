@@ -5,6 +5,47 @@ let siteData = {
   restaurants: []
 };
 
+// Shopping list — persisted in localStorage
+// Each item: { ingredient, recipeTitle, recipeId, checked }
+function loadShoppingList() {
+  try { return JSON.parse(localStorage.getItem("shoppingList") || "[]"); } catch { return []; }
+}
+function saveShoppingList(list) {
+  localStorage.setItem("shoppingList", JSON.stringify(list));
+}
+function importShoppingListFromHash() {
+  const match = window.location.hash.match(/^#shopping\?list=(.+)$/);
+  if (!match) return false;
+  try {
+    const imported = JSON.parse(atob(decodeURIComponent(match[1])));
+    if (!Array.isArray(imported)) return false;
+    const existing = loadShoppingList();
+    imported.forEach((item) => {
+      if (!existing.some((e) => e.ingredient === item.ingredient && e.recipeId === item.recipeId)) {
+        existing.push({ ...item, checked: false });
+      }
+    });
+    saveShoppingList(existing);
+    history.replaceState(null, "", "#shopping");
+    return true;
+  } catch { return false; }
+}
+function addToShoppingList(ingredient, recipeTitle, recipeId) {
+  const list = loadShoppingList();
+  const exists = list.some((i) => i.ingredient === ingredient && i.recipeId === recipeId);
+  if (!exists) {
+    list.push({ ingredient, recipeTitle, recipeId, checked: false });
+    saveShoppingList(list);
+    renderShoppingList();
+    showShoppingBadge();
+  }
+}
+function showShoppingBadge() {
+  const count = loadShoppingList().filter((i) => !i.checked).length;
+  const tab = document.querySelector("[data-view='shopping']");
+  if (tab) tab.dataset.badge = count > 0 ? count : "";
+}
+
 const activeFilters = {
   tags: new Set(),
   ingredients: new Set()
@@ -14,7 +55,8 @@ const views = {
   recipes: document.querySelector("#recipesView"),
   pantry: document.querySelector("#pantryView"),
   planner: document.querySelector("#plannerView"),
-  restaurants: document.querySelector("#restaurantsView")
+  restaurants: document.querySelector("#restaurantsView"),
+  shopping: document.querySelector("#shoppingView")
 };
 
 const recipeSections = [
@@ -41,6 +83,7 @@ document.querySelector("#heatmapMonth").addEventListener("change", () => {
 
 window.addEventListener("popstate", applyHash);
 
+importShoppingListFromHash();
 loadSiteData();
 
 async function loadSiteData() {
@@ -64,6 +107,22 @@ function render() {
   renderRecommendations();
   renderMealControls();
   renderPlanner();
+  showShoppingBadge();
+  document.querySelector("#clearShoppingList").addEventListener("click", () => {
+    saveShoppingList([]);
+    renderShoppingList();
+  });
+  document.querySelector("#shareShoppingList").addEventListener("click", () => {
+    const list = loadShoppingList();
+    if (!list.length) return;
+    const encoded = encodeURIComponent(btoa(JSON.stringify(list)));
+    const url = `${location.origin}${location.pathname}#shopping?list=${encoded}`;
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.querySelector("#shareShoppingList");
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Share list"; }, 2000);
+    });
+  });
   applyHash();
 }
 
@@ -81,6 +140,7 @@ function applyHash() {
   }
   if (hash === "#pantry") { showView("pantry"); return; }
   if (hash === "#restaurants") { showView("restaurants"); return; }
+  if (hash === "#shopping") { showView("shopping"); return; }
   if (hash === "#recipes") { showView("recipes"); return; }
 }
 
@@ -92,6 +152,9 @@ function showView(name) {
     history.replaceState(null, "", `#calendar/${month}`);
   } else if (name === "pantry") {
     history.replaceState(null, "", "#pantry");
+  } else if (name === "shopping") {
+    history.replaceState(null, "", "#shopping");
+    renderShoppingList();
   } else if (name === "restaurants") {
     history.replaceState(null, "", "#restaurants");
     setTimeout(renderRestaurants, 0);
@@ -204,12 +267,24 @@ function recipeCard(recipe) {
     </summary>
     <div class="recipe-preview">
       <span>${escapeHtml([recipe.category, recipe.prep_time, recipe.servings].filter(Boolean).join(" · "))}</span>
+      ${(recipe.ingredients || []).length ? `
+        <ul class="ingredient-list">
+          ${(recipe.ingredients).map((ing) => `<li><button class="ingredient-btn" data-ingredient="${escapeHtml(ing)}" data-recipe-title="${escapeHtml(displayTitle)}" data-recipe-id="${escapeHtml(recipe.id)}">+ ${escapeHtml(ing)}</button></li>`).join("")}
+        </ul>` : ""}
       <div class="recipe-preview-links">
         ${sourceLink}
         <a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">Open recipe</a>
       </div>
     </div>
   `;
+  item.querySelectorAll(".ingredient-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      addToShoppingList(btn.dataset.ingredient, btn.dataset.recipeTitle, btn.dataset.recipeId);
+      btn.classList.add("ingredient-added");
+      btn.textContent = "✓ " + btn.dataset.ingredient;
+    });
+  });
   return item;
 }
 
@@ -315,6 +390,65 @@ function renderRestaurants() {
 
     citySection.append(venueList);
     container.append(citySection);
+  });
+}
+
+function renderShoppingList() {
+  const container = document.querySelector("#shoppingList");
+  container.innerHTML = "";
+  const list = loadShoppingList();
+  showShoppingBadge();
+
+  if (!list.length) {
+    container.append(emptyState("No items yet. Open a recipe and click ingredients to add them."));
+    return;
+  }
+
+  // Group by recipe
+  const byRecipe = {};
+  list.forEach((item, idx) => {
+    if (!byRecipe[item.recipeId]) byRecipe[item.recipeId] = { title: item.recipeTitle, items: [] };
+    byRecipe[item.recipeId].items.push({ ...item, idx });
+  });
+
+  Object.values(byRecipe).forEach((group) => {
+    const section = document.createElement("section");
+    section.className = "shopping-group";
+
+    const recipe = siteData.recipes.find((r) => r.id === group.items[0].recipeId);
+    const titleHtml = recipe?.page
+      ? `<a href="${escapeHtml(recipe.page)}" target="_blank" rel="noopener noreferrer">${escapeHtml(group.title)}</a>`
+      : escapeHtml(group.title);
+    section.innerHTML = `<h3 class="shopping-recipe-title">${titleHtml}</h3>`;
+
+    const ul = document.createElement("ul");
+    ul.className = "shopping-items";
+    group.items.forEach(({ ingredient, checked, idx }) => {
+      const li = document.createElement("li");
+      li.className = `shopping-item${checked ? " shopping-item-checked" : ""}`;
+      li.innerHTML = `
+        <label>
+          <input type="checkbox" ${checked ? "checked" : ""} data-idx="${idx}">
+          <span>${escapeHtml(ingredient)}</span>
+        </label>
+        <button class="shopping-remove" data-idx="${idx}" title="Remove">x</button>
+      `;
+      li.querySelector("input").addEventListener("change", (e) => {
+        const l = loadShoppingList();
+        l[idx].checked = e.target.checked;
+        saveShoppingList(l);
+        renderShoppingList();
+      });
+      li.querySelector(".shopping-remove").addEventListener("click", () => {
+        const l = loadShoppingList();
+        l.splice(idx, 1);
+        saveShoppingList(l);
+        renderShoppingList();
+      });
+      ul.append(li);
+    });
+    section.append(ul);
+    container.append(section);
   });
 }
 
