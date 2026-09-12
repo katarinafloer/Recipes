@@ -1021,7 +1021,7 @@ pre {
 .shopping-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   padding: 6px 0;
   border-bottom: 1px solid var(--line);
   font-size: 0.9rem;
