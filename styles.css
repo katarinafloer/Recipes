@@ -681,6 +681,25 @@ textarea:focus {
   color: #3a8c5c !important;
 }
 
+.cooked-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+  background: transparent;
+  margin-right: 8px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+.cooked-dot-yes {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
 .recipe-preview {
   display: grid;
   gap: 6px;

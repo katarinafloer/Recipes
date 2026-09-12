@@ -196,8 +196,12 @@ function recipeCard(recipe) {
     ? `<a href="${escapeHtml(recipe.source)}" target="_blank" rel="noopener noreferrer">Source</a>`
     : "<span>No source saved</span>";
   if (recipe.title.includes("(favorite!)")) item.classList.add("favorite");
+  const cooked = recipe.dates_cooked && recipe.dates_cooked.length > 0;
+  const displayTitle = recipe.title.replace(/\s*\(favorite!\)\s*/i, "").trim();
   item.innerHTML = `
-    <summary>${escapeHtml(recipe.title)}</summary>
+    <summary>
+      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}
+    </summary>
     <div class="recipe-preview">
       <span>${escapeHtml([recipe.category, recipe.prep_time, recipe.servings].filter(Boolean).join(" · "))}</span>
       <div class="recipe-preview-links">
