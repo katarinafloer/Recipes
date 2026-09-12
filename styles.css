@@ -1027,21 +1027,28 @@ pre {
   font-size: 0.9rem;
 }
 
-.shopping-item label {
-  display: flex !important;
-  align-items: center;
-  gap: 10px;
+.shopping-check {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.shopping-check-label {
+  display: block !important;
   flex: 1;
+  cursor: pointer;
   font-size: 0.9rem;
   font-weight: 400;
   color: var(--text);
 }
 
-.shopping-item-checked span {
+.shopping-item-checked .shopping-check-label {
   text-decoration: line-through;
   color: var(--muted);
 }
+
 
 .shopping-remove {
   background: none;

@@ -427,10 +427,8 @@ function renderShoppingList() {
       const li = document.createElement("li");
       li.className = `shopping-item${checked ? " shopping-item-checked" : ""}`;
       li.innerHTML = `
-        <label>
-          <input type="checkbox" ${checked ? "checked" : ""} data-idx="${idx}">
-          <span>${escapeHtml(ingredient)}</span>
-        </label>
+        <input type="checkbox" class="shopping-check" id="si-${idx}" ${checked ? "checked" : ""} data-idx="${idx}">
+        <label class="shopping-check-label" for="si-${idx}">${escapeHtml(ingredient)}</label>
         <button class="shopping-remove" data-idx="${idx}" title="Remove">x</button>
       `;
       li.querySelector("input").addEventListener("change", (e) => {
