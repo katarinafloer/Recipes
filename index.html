@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -107,10 +110,10 @@
       <section class="view" id="shoppingView">
         <div class="shopping-header">
           <h2>Shopping List</h2>
-          <button id="shareShoppingList" class="btn-ghost">Share list</button>
+          <div id="authUI"></div>
           <button id="clearShoppingList" class="btn-ghost">Clear all</button>
         </div>
-        <p class="restaurants-lede">Click any ingredient in a recipe to add it here.</p>
+        <p class="restaurants-lede">Click any ingredient in a recipe to add it here. Sign in to sync across devices.</p>
         <div id="shoppingList"></div>
       </section>
 

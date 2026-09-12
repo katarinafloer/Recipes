@@ -979,6 +979,18 @@ pre {
   margin: 0;
 }
 
+#authUI {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.auth-user {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 .btn-ghost {
   background: none;
   border: 1px solid var(--line);

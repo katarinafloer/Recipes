@@ -1,43 +1,64 @@
-let siteData = {
-  recipes: [],
-  pantry: [],
-  meal_log: [],
-  restaurants: []
-};
+// Firebase setup
+firebase.initializeApp({
+  apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+  authDomain: "recipes-71f32.firebaseapp.com",
+  databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+  projectId: "recipes-71f32",
+  storageBucket: "recipes-71f32.firebasestorage.app",
+  messagingSenderId: "674007341993",
+  appId: "1:674007341993:web:da86b872354645254ec2b8"
+});
+const fbAuth = firebase.auth();
+const fbDb = firebase.database();
 
-// Shopping list — persisted in localStorage
-// Each item: { ingredient, recipeTitle, recipeId, checked }
-function loadShoppingList() {
-  try { return JSON.parse(localStorage.getItem("shoppingList") || "[]"); } catch { return []; }
-}
-function saveShoppingList(list) {
-  localStorage.setItem("shoppingList", JSON.stringify(list));
-}
-function importShoppingListFromHash() {
-  const match = window.location.hash.match(/^#shopping\?list=(.+)$/);
-  if (!match) return false;
-  try {
-    const imported = JSON.parse(atob(decodeURIComponent(match[1])));
-    if (!Array.isArray(imported)) return false;
-    const existing = loadShoppingList();
-    imported.forEach((item) => {
-      if (!existing.some((e) => e.ingredient === item.ingredient && e.recipeId === item.recipeId)) {
-        existing.push({ ...item, checked: false });
-      }
+let currentUser = null;
+let shoppingListRef = null;
+let localList = [];
+
+fbAuth.onAuthStateChanged((user) => {
+  currentUser = user;
+  renderAuthUI();
+  if (shoppingListRef) { shoppingListRef.off(); shoppingListRef = null; }
+  if (user) {
+    shoppingListRef = fbDb.ref(`users/${user.uid}/shoppingList`);
+    shoppingListRef.on("value", (snap) => {
+      localList = snap.val() || [];
+      renderShoppingList();
+      showShoppingBadge();
     });
-    saveShoppingList(existing);
-    history.replaceState(null, "", "#shopping");
-    return true;
-  } catch { return false; }
+  } else {
+    localList = [];
+    renderShoppingList();
+    showShoppingBadge();
+  }
+});
+
+function renderAuthUI() {
+  const el = document.querySelector("#authUI");
+  if (!el) return;
+  if (currentUser) {
+    el.innerHTML = `<span class="auth-user">${escapeHtml(currentUser.displayName || currentUser.email)}</span><button class="btn-ghost" id="signOutBtn">Sign out</button>`;
+    el.querySelector("#signOutBtn").addEventListener("click", () => fbAuth.signOut());
+  } else {
+    el.innerHTML = `<button class="btn-ghost" id="signInBtn">Sign in with Google</button>`;
+    el.querySelector("#signInBtn").addEventListener("click", () => {
+      fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    });
+  }
 }
+
+function loadShoppingList() { return localList; }
+function saveShoppingList(list) {
+  localList = list;
+  if (shoppingListRef) shoppingListRef.set(list.length ? list : null);
+}
+
 function addToShoppingList(ingredient, recipeTitle, recipeId) {
   const list = loadShoppingList();
   const exists = list.some((i) => i.ingredient === ingredient && i.recipeId === recipeId);
   if (!exists) {
     list.push({ ingredient, recipeTitle, recipeId, checked: false });
     saveShoppingList(list);
-    renderShoppingList();
-    showShoppingBadge();
   }
 }
 function showShoppingBadge() {
@@ -45,6 +66,13 @@ function showShoppingBadge() {
   const tab = document.querySelector("[data-view='shopping']");
   if (tab) tab.dataset.badge = count > 0 ? count : "";
 }
+
+let siteData = {
+  recipes: [],
+  pantry: [],
+  meal_log: [],
+  restaurants: []
+};
 
 const activeFilters = {
   tags: new Set(),
@@ -83,7 +111,6 @@ document.querySelector("#heatmapMonth").addEventListener("change", () => {
 
 window.addEventListener("popstate", applyHash);
 
-importShoppingListFromHash();
 loadSiteData();
 
 async function loadSiteData() {
@@ -110,18 +137,6 @@ function render() {
   showShoppingBadge();
   document.querySelector("#clearShoppingList").addEventListener("click", () => {
     saveShoppingList([]);
-    renderShoppingList();
-  });
-  document.querySelector("#shareShoppingList").addEventListener("click", () => {
-    const list = loadShoppingList();
-    if (!list.length) return;
-    const encoded = encodeURIComponent(btoa(JSON.stringify(list)));
-    const url = `${location.origin}${location.pathname}#shopping?list=${encoded}`;
-    navigator.clipboard.writeText(url).then(() => {
-      const btn = document.querySelector("#shareShoppingList");
-      btn.textContent = "Copied!";
-      setTimeout(() => { btn.textContent = "Share list"; }, 2000);
-    });
   });
   applyHash();
 }
@@ -140,7 +155,7 @@ function applyHash() {
   }
   if (hash === "#pantry") { showView("pantry"); return; }
   if (hash === "#restaurants") { showView("restaurants"); return; }
-  if (hash === "#shopping") { showView("shopping"); return; }
+  if (hash === "#shopping" || hash.startsWith("#shopping?")) { showView("shopping"); return; }
   if (hash === "#recipes") { showView("recipes"); return; }
 }
 
