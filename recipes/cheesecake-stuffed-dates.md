@@ -20,6 +20,7 @@ tags:
   - no bake
   - stuffed dates
 dates_cooked:
+  - "2026-09-12"
 source: https://www.instagram.com/p/C34geLdtNje/
 ---
 

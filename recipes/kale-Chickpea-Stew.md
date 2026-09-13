@@ -29,6 +29,7 @@ tags:
   - vegetarian
   - one pot
 dates_cooked:
+  - "2026-09-12"
 source: https://www.instagram.com/p/Cyavo0BKfUa/
 ---
 
