@@ -26,6 +26,7 @@ tags:
   - vegetarian
   - fall
 dates_cooked:
+  - "2026-09-18"
 source: https://www.instagram.com/p/Cz9PwrlsUPj/
 ---
 

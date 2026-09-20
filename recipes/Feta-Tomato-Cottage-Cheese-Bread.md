@@ -20,6 +20,7 @@ tags:
   - vegetarian
   - quick
 dates_cooked:
+  - "2026-09-13"
 source: https://www.instagram.com/p/Da4Y2h4xCup/
 ---
 

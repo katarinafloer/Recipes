@@ -20,6 +20,7 @@ tags:
   - no-knead
   - vegetarian
 dates_cooked:
+  - "2026-09-19"
 source: https://www.mashed.com/342172/rye-bread-recipe/
 ---
 

@@ -32,6 +32,7 @@ tags:
   - Vietnamese
   - broth
 dates_cooked:
+  - "2026-09-18"
 source: https://www.lovingpho.com/pho-opinion-editorial/pho-broth-soup-base/
 
 ---
