@@ -28,6 +28,7 @@ tags:
   - roasted
   - vegetarian
 dates_cooked:
+  - "2026-10-13"
 source: https://www.instagram.com/p/Co4biMIjoRo/
 ---
 
