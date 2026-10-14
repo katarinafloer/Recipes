@@ -29,6 +29,7 @@ tags:
   - romanian
   - comfort food
 dates_cooked:
+  - "2026-10-12"
   - 2026-08-30
 source:
 ---

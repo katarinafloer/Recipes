@@ -24,6 +24,7 @@ tags:
   - chicken
   - gluten free option
 dates_cooked:
+  - "2026-10-13"
 source: https://www.recipetineats.com/honey-garlic-chicken/
 ---
 

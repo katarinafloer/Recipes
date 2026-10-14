@@ -24,6 +24,7 @@ tags:
   - spread
 dates_cooked:
   - "2026-10-03"
+  - "2026-10-04"
 source:
 ---
 

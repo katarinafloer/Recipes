@@ -21,6 +21,7 @@ tags:
   - vegetarian
 dates_cooked:
   - "2026-09-19"
+  - "2026-10-04"
 source: https://www.mashed.com/342172/rye-bread-recipe/
 ---
 
