@@ -27,7 +27,6 @@ tags:
   - dairy free
 dates_cooked:
   - "2026-10-03"
-  - "2026-10-04"
 source: https://www.joshuaweissman.com/recipes/best-flavorful-chicken-broth-recipe
 ---
 

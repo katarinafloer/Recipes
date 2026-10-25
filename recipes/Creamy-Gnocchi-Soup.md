@@ -1,5 +1,5 @@
 ---
-title: Creamy Gnocchi Soup
+title: Creamy Gnocchi Soup (favorite!)
 category: Dinner
 prep_time: 20 minutes
 cook_time: 20 minutes
