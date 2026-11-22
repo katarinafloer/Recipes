@@ -8,9 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
   </head>
@@ -34,7 +32,6 @@
         <button class="tab active" type="button" data-view="recipes">Recipes</button>
         <button class="tab" type="button" data-view="pantry">Pantry</button>
         <button class="tab" type="button" data-view="planner">Calendar</button>
-        <button class="tab" type="button" data-view="restaurants">Restaurants</button>
         <button class="tab" type="button" data-view="shopping">Shopping List</button>
       </nav>
 
@@ -115,12 +112,6 @@
         </div>
         <p class="restaurants-lede">Click any ingredient in a recipe to add it here. Sign in to sync across devices.</p>
         <div id="shoppingList"></div>
-      </section>
-
-      <section class="view" id="restaurantsView">
-        <p class="restaurants-lede">Things I've tried at restaurants that I want to recreate at home.</p>
-        <div id="restaurantsMap"></div>
-        <div id="restaurantsList"></div>
       </section>
 
     </main>

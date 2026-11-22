@@ -700,6 +700,13 @@ textarea:focus {
   border-color: var(--accent);
 }
 
+.diet-badge {
+  font-style: normal;
+  font-size: 0.85em;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
 .recipe-preview {
   display: grid;
   gap: 6px;
@@ -961,6 +968,14 @@ pre {
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.recipe-page-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
 }
 
 .recipe-page-meta {

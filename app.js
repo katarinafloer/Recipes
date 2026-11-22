@@ -61,6 +61,11 @@ function addToShoppingList(ingredient, recipeTitle, recipeId) {
     saveShoppingList(list);
   }
 }
+
+function removeFromShoppingList(ingredient, recipeId) {
+  const list = loadShoppingList().filter((i) => !(i.ingredient === ingredient && i.recipeId === recipeId));
+  saveShoppingList(list);
+}
 function showShoppingBadge() {
   const count = loadShoppingList().filter((i) => !i.checked).length;
   const tab = document.querySelector("[data-view='shopping']");
@@ -71,7 +76,6 @@ let siteData = {
   recipes: [],
   pantry: [],
   meal_log: [],
-  restaurants: []
 };
 
 const activeFilters = {
@@ -83,7 +87,6 @@ const views = {
   recipes: document.querySelector("#recipesView"),
   pantry: document.querySelector("#pantryView"),
   planner: document.querySelector("#plannerView"),
-  restaurants: document.querySelector("#restaurantsView"),
   shopping: document.querySelector("#shoppingView")
 };
 
@@ -154,7 +157,6 @@ function applyHash() {
     return;
   }
   if (hash === "#pantry") { showView("pantry"); return; }
-  if (hash === "#restaurants") { showView("restaurants"); return; }
   if (hash === "#shopping" || hash.startsWith("#shopping?")) { showView("shopping"); return; }
   if (hash === "#recipes") { showView("recipes"); return; }
 }
@@ -170,9 +172,6 @@ function showView(name) {
   } else if (name === "shopping") {
     history.replaceState(null, "", "#shopping");
     renderShoppingList();
-  } else if (name === "restaurants") {
-    history.replaceState(null, "", "#restaurants");
-    setTimeout(renderRestaurants, 0);
   } else {
     history.replaceState(null, "", "#recipes");
   }
@@ -276,9 +275,13 @@ function recipeCard(recipe) {
   if (recipe.title.includes("(favorite!)")) item.classList.add("favorite");
   const cooked = recipe.dates_cooked && recipe.dates_cooked.length > 0;
   const displayTitle = recipe.title.replace(/\s*\(favorite!\)\s*/i, "").trim();
+  const tags = recipe.tags || [];
+  const isVeg = tags.some((t) => t === "vegetarian" || t === "vegan");
+  const isPesc = !isVeg && tags.some((t) => t === "pescatarian");
+  const dietBadge = isVeg ? ' <span class="diet-badge" title="Vegetarian">🌿</span>' : isPesc ? ' <span class="diet-badge" title="Pescatarian">🐟</span>' : "";
   item.innerHTML = `
     <summary>
-      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}
+      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}
     </summary>
     <div class="recipe-preview">
       ${recipe.image ? `<img class="recipe-preview-img" src="${escapeHtml(recipe.image)}" alt="${escapeHtml(displayTitle)}" loading="lazy">` : ""}
@@ -294,11 +297,21 @@ function recipeCard(recipe) {
     </div>
   `;
   item.querySelectorAll(".ingredient-btn").forEach((btn) => {
+    const isAdded = () => loadShoppingList().some((i) => i.ingredient === btn.dataset.ingredient && i.recipeId === btn.dataset.recipeId);
+    const updateBtn = () => {
+      const added = isAdded();
+      btn.classList.toggle("ingredient-added", added);
+      btn.textContent = (added ? "✓ " : "+ ") + btn.dataset.ingredient;
+    };
+    updateBtn();
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      addToShoppingList(btn.dataset.ingredient, btn.dataset.recipeTitle, btn.dataset.recipeId);
-      btn.classList.add("ingredient-added");
-      btn.textContent = "✓ " + btn.dataset.ingredient;
+      if (isAdded()) {
+        removeFromShoppingList(btn.dataset.ingredient, btn.dataset.recipeId);
+      } else {
+        addToShoppingList(btn.dataset.ingredient, btn.dataset.recipeTitle, btn.dataset.recipeId);
+      }
+      updateBtn();
     });
   });
   return item;
@@ -333,79 +346,6 @@ function renderPantry() {
     });
 
     list.append(section);
-  });
-}
-
-let restaurantMap = null;
-
-function renderRestaurants() {
-  const container = document.querySelector("#restaurantsList");
-  container.innerHTML = "";
-  const data = siteData.restaurants || [];
-  if (!data.length) return container.append(emptyState("No restaurants added yet."));
-
-  // Build map
-  const mapEl = document.querySelector("#restaurantsMap");
-  const cityPoints = data.filter((g) => g.lat && g.lng);
-  if (typeof L !== "undefined" && cityPoints.length) {
-    if (restaurantMap) { restaurantMap.remove(); restaurantMap = null; }
-    restaurantMap = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 18
-    }).addTo(restaurantMap);
-
-    const accentIcon = L.divIcon({
-      className: "",
-      html: `<div style="width:12px;height:12px;background:#b83a0a;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)"></div>`,
-      iconSize: [12, 12],
-      iconAnchor: [6, 6]
-    });
-
-    cityPoints.forEach((g) => {
-      const venueLines = (g.venues || []).map((v) => {
-        const dishes = (v.dishes || []).map((d) => `<em>${d.name}</em>`).join(", ");
-        return `<strong>${v.name}</strong>${dishes ? `: ${dishes}` : ""}`;
-      }).join("<br>");
-      L.marker([g.lat, g.lng], { icon: accentIcon })
-        .addTo(restaurantMap)
-        .bindPopup(`<div style="font-family:sans-serif;font-size:13px"><strong style="font-size:14px">${g.city}</strong><br><br>${venueLines}</div>`);
-    });
-
-    const bounds = L.latLngBounds(cityPoints.map((g) => [g.lat, g.lng]));
-    restaurantMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
-  } else {
-    mapEl.style.display = "none";
-  }
-
-  data.forEach((cityGroup) => {
-    const citySection = document.createElement("section");
-    citySection.className = "restaurant-city";
-    citySection.innerHTML = `<h3 class="restaurant-city-heading">${escapeHtml(cityGroup.city)}</h3>`;
-
-    const venueList = document.createElement("ul");
-    venueList.className = "venue-list";
-
-    (cityGroup.venues || []).forEach((venue) => {
-      const nameHtml = venue.url
-        ? `<a href="${escapeHtml(venue.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(venue.name)}</a>`
-        : escapeHtml(venue.name);
-      const dishes = (venue.dishes || [])
-        .filter((d) => d.name && d.name !== "Everything")
-        .map((d) => {
-          const parts = [d.name, d.description].filter(Boolean).join(": ");
-          return `<span class="venue-dish">${escapeHtml(parts)}</span>`;
-        }).join("");
-      const everythingNote = (venue.dishes || []).find((d) => d.name === "Everything");
-
-      const li = document.createElement("li");
-      li.className = "venue-row";
-      li.innerHTML = `<span class="venue-name">${nameHtml}</span>${dishes ? `<span class="venue-dishes">${dishes}</span>` : ""}${everythingNote ? `<span class="venue-note">${escapeHtml(everythingNote.description)}</span>` : ""}`;
-      venueList.append(li);
-    });
-
-    citySection.append(venueList);
-    container.append(citySection);
   });
 }
 

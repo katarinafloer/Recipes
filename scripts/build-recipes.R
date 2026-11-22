@@ -352,6 +352,12 @@ write_recipe_page <- function(recipe) {
     "<h2>Date Cooked</h2>\n<p>Not logged yet.</p>"
   }
 
+  image_html <- if (nzchar(recipe$image)) {
+    paste0('<img class="recipe-page-img" src="', html_escape(recipe$image), '" alt="', html_escape(recipe$title), '">')
+  } else {
+    ""
+  }
+
   page <- c(
     "<!doctype html>",
     '<html lang="en">',
@@ -364,6 +370,7 @@ write_recipe_page <- function(recipe) {
     '  <body class="recipe-page">',
     '    <main class="recipe-page-main">',
     paste0("      <h1>", html_escape(recipe$title), "</h1>"),
+    image_html,
     paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),
     source_link,
     ingredients_html,
