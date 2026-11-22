@@ -255,6 +255,7 @@ parse_recipe <- function(path) {
     tags = json_array(tags),
     dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
+    source_2 = metadata$source_2 %||% "",
     image = metadata$image %||% "",
     file = file.path("recipes", basename(path)),
     page = file.path("recipes", paste0(slugify(title), ".html")),
@@ -328,7 +329,9 @@ markdown_to_html <- function(markdown) {
 
 write_recipe_page <- function(recipe) {
   meta <- paste(Filter(nzchar, c(recipe$category, recipe$prep_time, recipe$servings)), collapse = " · ")
-  source_link <- if (nzchar(recipe$source)) {
+  source_link <- if (nzchar(recipe$source) && nzchar(recipe$source_2)) {
+    paste0('<p><a href="', html_escape(recipe$source), '">Source</a> &middot; <a href="', html_escape(recipe$source_2), '">Source 2</a></p>')
+  } else if (nzchar(recipe$source)) {
     paste0('<p><a href="', html_escape(recipe$source), '">Source</a></p>')
   } else {
     ""
