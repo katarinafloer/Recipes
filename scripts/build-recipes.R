@@ -223,7 +223,7 @@ parse_front_matter <- function(lines) {
       next
     }
 
-    if (grepl("^[A-Za-z_]+:", line)) {
+    if (grepl("^[A-Za-z_][A-Za-z0-9_]*:", line)) {
       parts <- strsplit(line, ":", fixed = TRUE)[[1]]
       key <- trim(parts[[1]])
       value <- clean_front_matter_value(paste(parts[-1], collapse = ":"))
