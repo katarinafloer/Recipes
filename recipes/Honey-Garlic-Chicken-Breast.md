@@ -26,6 +26,7 @@ tags:
 dates_cooked:
   - "2026-10-13"
   - "2026-10-22"
+image: https://www.recipetineats.com/tachyon/2018/09/Honey-Garlic-Chicken-Breast_5.jpg
 source: https://www.recipetineats.com/honey-garlic-chicken/
 ---
 

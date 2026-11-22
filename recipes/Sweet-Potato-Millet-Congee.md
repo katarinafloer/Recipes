@@ -31,6 +31,7 @@ tags:
   - high protein
 dates_cooked:
   - 2026-11-21
+image: https://cdn.pickuplimes.com/cache/2e/f9/2ef9e656c03df74868f9d23999abe8f6.jpg
 source: https://www.pickuplimes.com/recipe/sweet-potato-millet-congee-1246
 ---
 

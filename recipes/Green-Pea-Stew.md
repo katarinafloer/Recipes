@@ -34,6 +34,7 @@ tags:
   - gluten free
 dates_cooked:
   - 2026-11-17
+image: https://cristinaskitchen.com/wp-content/uploads/2023/11/Romanian-green-pea-stew-square.jpg
 source: https://cristinaskitchen.com/romaniangreenpeastew/
 ---
 

@@ -32,6 +32,7 @@ tags:
   - quick
   - gluten free
 dates_cooked:
+image: https://substackcdn.com/image/fetch/$s_!s4_y!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc19a1cb2-5f77-428a-931d-3de22dd82d01_1947x2954.jpeg
 source: https://madelinemcgeorge.substack.com/p/salmon-en-papillote
 ---
 

@@ -25,6 +25,7 @@ tags:
   - vegetarian
 dates_cooked:
   - 2026-11-21
+image: https://desertislanddishes.co/wp-content/uploads/2025/07/puff-pastry-apple-4.jpg
 source: https://desertislanddishes.co/apple-tart-puff-pastry/
 ---
 

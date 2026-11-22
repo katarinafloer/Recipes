@@ -40,6 +40,7 @@ tags:
   - comfort food
 dates_cooked:
   - "2026-10-16"
+image: https://cdn.pickuplimes.com/cache/40/48/4048d20f215ada5042722887c710e2ca.jpg
 source: https://www.pickuplimes.com/recipe/creamy-gnocchi-soup-2657
 ---
 

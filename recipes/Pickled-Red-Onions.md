@@ -20,6 +20,7 @@ tags:
   - no cook
   - meal prep
 dates_cooked:
+image: https://cdn.pickuplimes.com/cache/69/97/699723ef16ddda14825d6fd97bd4db78.jpg
 source: https://www.pickuplimes.com/recipe/pickled-red-onions-388
 ---
 

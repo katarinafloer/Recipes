@@ -31,6 +31,7 @@ tags:
   - quick
   - high protein
 dates_cooked:
+image: https://ginabnutrition.com/wp-content/uploads/2024/08/y-scaled.jpg
 source: https://ginabnutrition.com/dinner/smashed-peas-on-toast/
 ---
 

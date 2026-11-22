@@ -255,6 +255,7 @@ parse_recipe <- function(path) {
     tags = json_array(tags),
     dates_cooked = json_array(metadata$dates_cooked %||% character()),
     source = metadata$source %||% "",
+    image = metadata$image %||% "",
     file = file.path("recipes", basename(path)),
     page = file.path("recipes", paste0(slugify(title), ".html")),
     body = parsed$body
