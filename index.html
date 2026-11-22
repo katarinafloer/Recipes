@@ -33,6 +33,7 @@
         <button class="tab" type="button" data-view="pantry">Pantry</button>
         <button class="tab" type="button" data-view="planner">Calendar</button>
         <button class="tab" type="button" data-view="shopping">Shopping List</button>
+        <button class="tab" type="button" data-view="stats">Stats</button>
       </nav>
 
       <section class="view active" id="recipesView">
@@ -116,6 +117,15 @@
         </div>
         <p class="restaurants-lede">Click any ingredient in a recipe to add it here. Sign in to sync across devices.</p>
         <div id="shoppingList"></div>
+      </section>
+
+      <section class="view" id="statsView">
+        <div class="stats-grid">
+          <div class="stats-panel" id="statsMealsPerMonth"></div>
+          <div class="stats-panel" id="statsMostCooked"></div>
+          <div class="stats-panel" id="statsBySection"></div>
+          <div class="stats-panel" id="statsCookedRatio"></div>
+        </div>
       </section>
 
     </main>

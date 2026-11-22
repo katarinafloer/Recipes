@@ -369,6 +369,7 @@ write_recipe_page <- function(recipe) {
     "  </head>",
     '  <body class="recipe-page">',
     '    <main class="recipe-page-main">',
+    '      <a class="recipe-back-link" href="../index.html">&larr; Back</a>',
     paste0("      <h1>", html_escape(recipe$title), "</h1>"),
     image_html,
     paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),

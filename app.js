@@ -96,7 +96,8 @@ const views = {
   recipes: document.querySelector("#recipesView"),
   pantry: document.querySelector("#pantryView"),
   planner: document.querySelector("#plannerView"),
-  shopping: document.querySelector("#shoppingView")
+  shopping: document.querySelector("#shoppingView"),
+  stats: document.querySelector("#statsView")
 };
 
 const recipeSections = [
@@ -167,6 +168,7 @@ function applyHash() {
   }
   if (hash === "#pantry") { showView("pantry"); return; }
   if (hash === "#shopping" || hash.startsWith("#shopping?")) { showView("shopping"); return; }
+  if (hash === "#stats") { showView("stats"); return; }
   if (hash === "#recipes") { showView("recipes"); return; }
 }
 
@@ -181,6 +183,9 @@ function showView(name) {
   } else if (name === "shopping") {
     history.replaceState(null, "", "#shopping");
     renderShoppingList();
+  } else if (name === "stats") {
+    history.replaceState(null, "", "#stats");
+    renderStats();
   } else {
     history.replaceState(null, "", "#recipes");
   }
@@ -385,6 +390,128 @@ function renderPantry() {
 
     list.append(section);
   });
+}
+
+function renderStats() {
+  renderStatsMealsPerMonth();
+  renderStatsMostCooked();
+  renderStatsBySection();
+  renderStatsCookedRatio();
+}
+
+function renderStatsMealsPerMonth() {
+  const el = document.querySelector("#statsMealsPerMonth");
+  el.innerHTML = "<h3>Meals cooked per month</h3>";
+
+  const counts = {};
+  (siteData.meal_log || []).forEach(({ date }) => {
+    const month = date.slice(0, 7);
+    counts[month] = (counts[month] || 0) + 1;
+  });
+
+  const months = Object.keys(counts).sort();
+  if (!months.length) { el.append(emptyState("No meals logged yet.")); return; }
+
+  const max = Math.max(...Object.values(counts));
+  const W = 480, H = 200, padL = 36, padB = 48, padT = 12, padR = 12;
+  const barW = Math.min(32, Math.floor((W - padL - padR) / months.length) - 4);
+  const gap = (W - padL - padR - barW * months.length) / (months.length - 1 || 1);
+
+  const rects = months.map((m, i) => {
+    const x = padL + i * (barW + gap);
+    const h = Math.round(((H - padT - padB) * counts[m]) / max);
+    const y = H - padB - h;
+    const label = m.slice(5) + "/" + m.slice(2, 4);
+    return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" fill="var(--accent)"/>
+      <text x="${x + barW / 2}" y="${H - padB + 14}" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-40,${x + barW / 2},${H - padB + 14})">${label}</text>
+      <text x="${x + barW / 2}" y="${y - 4}" text-anchor="middle" font-size="10" fill="var(--text)">${counts[m]}</text>`;
+  });
+
+  const yLines = [0, Math.ceil(max / 2), max].map((v) => {
+    const y = H - padB - Math.round(((H - padT - padB) * v) / max);
+    return `<line x1="${padL}" x2="${W - padR}" y1="${y}" y2="${y}" stroke="var(--border)" stroke-dasharray="3 3"/>
+      <text x="${padL - 4}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--muted)">${v}</text>`;
+  });
+
+  el.innerHTML += `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:${W}px">${yLines.join("")}${rects.join("")}</svg>`;
+}
+
+function renderStatsMostCooked() {
+  const el = document.querySelector("#statsMostCooked");
+  el.innerHTML = "<h3>Most cooked</h3>";
+
+  const counts = {};
+  (siteData.meal_log || []).forEach(({ recipe }) => {
+    counts[recipe] = (counts[recipe] || 0) + 1;
+  });
+
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (!sorted.length) { el.append(emptyState("No meals logged yet.")); return; }
+
+  const max = sorted[0][1];
+  const list = document.createElement("ol");
+  list.className = "stats-ranked-list";
+  sorted.forEach(([id, count]) => {
+    const recipe = siteData.recipes.find((r) => r.id === id);
+    const title = recipe ? recipe.title.replace(/\s*\(favorite!\)\s*/i, "").trim() : id;
+    const pct = Math.round((count / max) * 100);
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="stats-bar-label">${escapeHtml(title)}</span>
+      <span class="stats-bar-track"><span class="stats-bar-fill" style="width:${pct}%"></span></span>
+      <span class="stats-bar-count">${count}x</span>`;
+    list.append(li);
+  });
+  el.append(list);
+}
+
+function renderStatsBySection() {
+  const el = document.querySelector("#statsBySection");
+  el.innerHTML = "<h3>Recipes by section</h3>";
+
+  const counts = {};
+  (siteData.recipes || []).forEach((r) => {
+    const s = r.section || "Other";
+    counts[s] = (counts[s] || 0) + 1;
+  });
+
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const total = entries.reduce((s, [, v]) => s + v, 0);
+  const colors = ["var(--accent)", "var(--accent-strong)", "#b07d3a", "#6a8c5a", "#7a6a9a", "#5a8c8c"];
+
+  const SIZE = 180, cx = SIZE / 2, cy = SIZE / 2, r = 72, ri = 44;
+  let angle = -Math.PI / 2;
+  const slices = entries.map(([label, count], i) => {
+    const sweep = (count / total) * 2 * Math.PI;
+    const x1 = cx + r * Math.cos(angle), y1 = cy + r * Math.sin(angle);
+    angle += sweep;
+    const x2 = cx + r * Math.cos(angle), y2 = cy + r * Math.sin(angle);
+    const xi1 = cx + ri * Math.cos(angle - sweep), yi1 = cy + ri * Math.sin(angle - sweep);
+    const xi2 = cx + ri * Math.cos(angle), yi2 = cy + ri * Math.sin(angle);
+    const large = sweep > Math.PI ? 1 : 0;
+    const path = `M${x1},${y1} A${r},${r} 0 ${large} 1 ${x2},${y2} L${xi2},${yi2} A${ri},${ri} 0 ${large} 0 ${xi1},${yi1} Z`;
+    return `<path d="${path}" fill="${colors[i % colors.length]}" stroke="var(--bg)" stroke-width="2"/>`;
+  });
+
+  const legend = entries.map(([label, count], i) =>
+    `<li><span class="legend-dot" style="background:${colors[i % colors.length]}"></span>${escapeHtml(label)} <span class="stats-muted">${count}</span></li>`
+  ).join("");
+
+  el.innerHTML += `<div class="stats-donut-wrap">
+    <svg viewBox="0 0 ${SIZE} ${SIZE}" style="width:${SIZE}px;flex-shrink:0">${slices.join("")}</svg>
+    <ul class="stats-legend">${legend}</ul>
+  </div>`;
+}
+
+function renderStatsCookedRatio() {
+  const el = document.querySelector("#statsCookedRatio");
+  const total = siteData.recipes.length;
+  const cooked = siteData.recipes.filter((r) => r.dates_cooked && r.dates_cooked.length > 0).length;
+  const pct = Math.round((cooked / total) * 100);
+
+  el.innerHTML = `<h3>Cooked vs. never tried</h3>
+    <div class="stats-ratio-numbers"><span class="stats-big">${cooked}</span><span class="stats-muted"> of ${total} recipes cooked</span></div>
+    <div class="stats-ratio-track"><div class="stats-ratio-fill" style="width:${pct}%"></div></div>
+    <div class="stats-ratio-labels"><span>${pct}% tried</span><span>${100 - pct}% still to try</span></div>`;
 }
 
 function renderShoppingList() {
