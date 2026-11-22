@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Raw Mint Leaf Syrup &amp; Mint Lemonade</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,12 +17,12 @@
       <p class="recipe-page-meta">Drinks · 15 minutes · 1 jar</p>
 <p><a href="https://www.instagram.com/p/DanVPS1tcCi/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>fresh mint leaves</li>
-<li>white granulated sugar (equal parts to mint)</li>
-<li>2-3 lemons (for syrup)</li>
-<li>sparkling water (for lemonade)</li>
-<li>ice</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="fresh mint leaves" data-recipe-id="raw-mint-leaf-syrup-mint-lemonade" data-recipe-title="Raw Mint Leaf Syrup &amp; Mint Lemonade">+ fresh mint leaves</button></li>
+<li><button class="ingredient-btn" data-ingredient="white granulated sugar (equal parts to mint)" data-recipe-id="raw-mint-leaf-syrup-mint-lemonade" data-recipe-title="Raw Mint Leaf Syrup &amp; Mint Lemonade">+ white granulated sugar (equal parts to mint)</button></li>
+<li><button class="ingredient-btn" data-ingredient="2-3 lemons (for syrup)" data-recipe-id="raw-mint-leaf-syrup-mint-lemonade" data-recipe-title="Raw Mint Leaf Syrup &amp; Mint Lemonade">+ 2-3 lemons (for syrup)</button></li>
+<li><button class="ingredient-btn" data-ingredient="sparkling water (for lemonade)" data-recipe-id="raw-mint-leaf-syrup-mint-lemonade" data-recipe-title="Raw Mint Leaf Syrup &amp; Mint Lemonade">+ sparkling water (for lemonade)</button></li>
+<li><button class="ingredient-btn" data-ingredient="ice" data-recipe-id="raw-mint-leaf-syrup-mint-lemonade" data-recipe-title="Raw Mint Leaf Syrup &amp; Mint Lemonade">+ ice</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -38,5 +41,57 @@
 </ol>
 <p>For mint lemonade: fill a glass with ice, add juice of one lemon, a pour of mint syrup, and top with sparkling water. Mix and enjoy.</p>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

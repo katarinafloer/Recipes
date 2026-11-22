@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lion's Mane Mushroom Steak Sandwich</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,23 +17,23 @@
       <p class="recipe-page-meta">Lunch · 45 minutes</p>
 <p><a href="https://www.instagram.com/p/C4nP6L1ND9G/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>lion's mane mushrooms</li>
-<li>ciabatta bread</li>
-<li>rocket</li>
-<li>crispy onions</li>
-<li>olive oil, for frying</li>
-<li>2 tablespoons wholegrain mustard</li>
-<li>2 tablespoons vegan mayonnaise</li>
-<li>1 handful fresh parsley, chopped</li>
-<li>100 ml beetroot juice</li>
-<li>2 tablespoons dark soy sauce</li>
-<li>1 teaspoon smoked paprika</li>
-<li>2 tablespoons maple syrup or agave</li>
-<li>2 tablespoons olive oil</li>
-<li>1 teaspoon brown miso paste</li>
-<li>1 pinch salt</li>
-<li>1 teaspoon garlic powder</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="lion's mane mushrooms" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ lion's mane mushrooms</button></li>
+<li><button class="ingredient-btn" data-ingredient="ciabatta bread" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ ciabatta bread</button></li>
+<li><button class="ingredient-btn" data-ingredient="rocket" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ rocket</button></li>
+<li><button class="ingredient-btn" data-ingredient="crispy onions" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ crispy onions</button></li>
+<li><button class="ingredient-btn" data-ingredient="olive oil, for frying" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ olive oil, for frying</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tablespoons wholegrain mustard" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 2 tablespoons wholegrain mustard</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tablespoons vegan mayonnaise" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 2 tablespoons vegan mayonnaise</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 handful fresh parsley, chopped" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 1 handful fresh parsley, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="100 ml beetroot juice" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 100 ml beetroot juice</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tablespoons dark soy sauce" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 2 tablespoons dark soy sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 teaspoon smoked paprika" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 1 teaspoon smoked paprika</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tablespoons maple syrup or agave" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 2 tablespoons maple syrup or agave</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tablespoons olive oil" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 2 tablespoons olive oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 teaspoon brown miso paste" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 1 teaspoon brown miso paste</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 pinch salt" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 1 pinch salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 teaspoon garlic powder" data-recipe-id="lion-s-mane-mushroom-steak-sandwich" data-recipe-title="Lion's Mane Mushroom Steak Sandwich">+ 1 teaspoon garlic powder</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -55,5 +58,57 @@
 <li>Close the sandwich and serve immediately.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

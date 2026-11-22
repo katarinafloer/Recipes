@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crispy Pan-Fried Onigirazu</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Lunch · 6 sandwiches</p>
 <p><a href="https://www.instagram.com/p/DZDFKL2JuQ1/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>2 cans Skipjack tuna</li>
-<li>3 tbsp mayo</li>
-<li>1 tsp Sriracha</li>
-<li>1 avocado, thinly sliced</li>
-<li>1 cucumber, peeled into thin strips</li>
-<li>6 eggs, fried</li>
-<li>3 cups cooked short-grain white rice, seasoned with salt</li>
-<li>12 sheets nori</li>
-<li>24 sheets rice paper</li>
-<li>black sesame seeds</li>
-<li>neutral oil for frying</li>
-<li>salt</li>
-<li>pepper</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="2 cans Skipjack tuna" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 2 cans Skipjack tuna</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tbsp mayo" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 3 tbsp mayo</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp Sriracha" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 1 tsp Sriracha</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 avocado, thinly sliced" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 1 avocado, thinly sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cucumber, peeled into thin strips" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 1 cucumber, peeled into thin strips</button></li>
+<li><button class="ingredient-btn" data-ingredient="6 eggs, fried" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 6 eggs, fried</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 cups cooked short-grain white rice, seasoned with salt" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 3 cups cooked short-grain white rice, seasoned with salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="12 sheets nori" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 12 sheets nori</button></li>
+<li><button class="ingredient-btn" data-ingredient="24 sheets rice paper" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ 24 sheets rice paper</button></li>
+<li><button class="ingredient-btn" data-ingredient="black sesame seeds" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ black sesame seeds</button></li>
+<li><button class="ingredient-btn" data-ingredient="neutral oil for frying" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ neutral oil for frying</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="pepper" data-recipe-id="crispy-pan-fried-onigirazu" data-recipe-title="Crispy Pan-Fried Onigirazu">+ pepper</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -48,5 +51,57 @@
 <li>Slice in half.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

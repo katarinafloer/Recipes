@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Grandma's Soup (Dresa)</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,17 +17,17 @@
       <p class="recipe-page-meta">Dinner · 15 minutes · 4</p>
 
 <h2>Ingredients</h2>
-<ul>
-<li>salted water</li>
-<li>potatoes</li>
-<li>onion</li>
-<li>carrots</li>
-<li>celery root (țelină)</li>
-<li>bell pepper</li>
-<li>parsley</li>
-<li>1 egg yolk per litre of water</li>
-<li>100g sour cream (smântână) per litre of water</li>
-<li>500ml yogurt, sana, or kefir per litre of water</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="salted water" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ salted water</button></li>
+<li><button class="ingredient-btn" data-ingredient="potatoes" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ potatoes</button></li>
+<li><button class="ingredient-btn" data-ingredient="onion" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ onion</button></li>
+<li><button class="ingredient-btn" data-ingredient="carrots" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ carrots</button></li>
+<li><button class="ingredient-btn" data-ingredient="celery root (țelină)" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ celery root (țelină)</button></li>
+<li><button class="ingredient-btn" data-ingredient="bell pepper" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ bell pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="parsley" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ parsley</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 egg yolk per litre of water" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ 1 egg yolk per litre of water</button></li>
+<li><button class="ingredient-btn" data-ingredient="100g sour cream (smântână) per litre of water" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ 100g sour cream (smântână) per litre of water</button></li>
+<li><button class="ingredient-btn" data-ingredient="500ml yogurt, sana, or kefir per litre of water" data-recipe-id="grandma-s-soup-dresa" data-recipe-title="Grandma's Soup (Dresa)">+ 500ml yogurt, sana, or kefir per litre of water</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -44,5 +47,57 @@
 <li>Pour the tempered mixture back into the pot, stir, and serve with parsley.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

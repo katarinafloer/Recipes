@@ -24,6 +24,7 @@ tags:
   - chicken
   - gluten free option
 dates_cooked:
+  - 2026-11-16
   - "2026-10-13"
   - "2026-10-22"
 image: https://www.recipetineats.com/tachyon/2018/09/Honey-Garlic-Chicken-Breast_5.jpg
@@ -34,7 +35,7 @@ source: https://www.recipetineats.com/honey-garlic-chicken/
 
 Dust chicken with flour before searing -- it creates a crust so the sauce clings better. Can substitute cornstarch for gluten free.
 
-Works with any protein: pork, beef, lamb, shrimp, tofu. Adjust cook times accordingly.
+Works with any protein: pork, beef, lamb, shrimp, tofu. For tofu, use firm or extra-firm, press dry, and cube or slice. Adjust cook times accordingly.
 
 ## Instructions
 

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chicken Liver Pate</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,14 +17,14 @@
       <p class="recipe-page-meta">Snack/Appetizers · 5 minutes · 4</p>
 
 <h2>Ingredients</h2>
-<ul>
-<li>1/2 onion, chopped</li>
-<li>chicken livers</li>
-<li>butter</li>
-<li>2 garlic cloves, minced</li>
-<li>fresh parsley</li>
-<li>hot water</li>
-<li>salt and pepper</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1/2 onion, chopped" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ 1/2 onion, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="chicken livers" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ chicken livers</button></li>
+<li><button class="ingredient-btn" data-ingredient="butter" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 garlic cloves, minced" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ 2 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh parsley" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ fresh parsley</button></li>
+<li><button class="ingredient-btn" data-ingredient="hot water" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ hot water</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt and pepper" data-recipe-id="chicken-liver-pate" data-recipe-title="Chicken Liver Pate">+ salt and pepper</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -37,5 +40,57 @@
 <li>Season with salt and pepper. Serve as a spread on bread.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

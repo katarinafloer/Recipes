@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Seafood Parmesan Butter Rice</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,17 +17,17 @@
       <p class="recipe-page-meta">Dinner · 5 minutes · 2</p>
 
 <h2>Ingredients</h2>
-<ul>
-<li>1 cup uncooked rice</li>
-<li>250-350 g mixed seafood</li>
-<li>2-3 tablespoons butter</li>
-<li>2 garlic cloves, minced</li>
-<li>1/3-1/2 cup finely grated Parmesan</li>
-<li>fresh parsley, chopped</li>
-<li>fresh dill, chopped</li>
-<li>juice of 1/2 lemon</li>
-<li>black pepper</li>
-<li>salt</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 cup uncooked rice" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ 1 cup uncooked rice</button></li>
+<li><button class="ingredient-btn" data-ingredient="250-350 g mixed seafood" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ 250-350 g mixed seafood</button></li>
+<li><button class="ingredient-btn" data-ingredient="2-3 tablespoons butter" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ 2-3 tablespoons butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 garlic cloves, minced" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ 2 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/3-1/2 cup finely grated Parmesan" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ 1/3-1/2 cup finely grated Parmesan</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh parsley, chopped" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ fresh parsley, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh dill, chopped" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ fresh dill, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="juice of 1/2 lemon" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ juice of 1/2 lemon</button></li>
+<li><button class="ingredient-btn" data-ingredient="black pepper" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt" data-recipe-id="seafood-parmesan-butter-rice" data-recipe-title="Seafood Parmesan Butter Rice">+ salt</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -45,5 +48,57 @@
 <li>Finish with lots of parsley, a smaller amount of dill, black pepper, and lemon juice. Season with salt to taste.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

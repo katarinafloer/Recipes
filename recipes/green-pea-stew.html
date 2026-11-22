@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Green Pea Stew</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Lunch/Dinner · 20 minutes · 4</p>
 <p><a href="https://cristinaskitchen.com/romaniangreenpeastew/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>450g frozen or fresh green peas</li>
-<li>400g tomato puree (about 14 oz)</li>
-<li>2 tbsp sunflower oil</li>
-<li>1 yellow onion, finely diced</li>
-<li>4 stalks celery, thinly sliced</li>
-<li>2 large carrots, cut into medallions</li>
-<li>6 small potatoes, cut into small cubes</li>
-<li>1 cup fresh dill, roughly chopped</li>
-<li>3 dried bay leaves</li>
-<li>2 tsp cimbru (or thyme)</li>
-<li>1 tsp paprika</li>
-<li>1 tsp salt, or more to taste</li>
-<li>1/2 tsp white pepper (or black pepper)</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="450g frozen or fresh green peas" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 450g frozen or fresh green peas</button></li>
+<li><button class="ingredient-btn" data-ingredient="400g tomato puree (about 14 oz)" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 400g tomato puree (about 14 oz)</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp sunflower oil" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 2 tbsp sunflower oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 yellow onion, finely diced" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 1 yellow onion, finely diced</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 stalks celery, thinly sliced" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 4 stalks celery, thinly sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 large carrots, cut into medallions" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 2 large carrots, cut into medallions</button></li>
+<li><button class="ingredient-btn" data-ingredient="6 small potatoes, cut into small cubes" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 6 small potatoes, cut into small cubes</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup fresh dill, roughly chopped" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 1 cup fresh dill, roughly chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 dried bay leaves" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 3 dried bay leaves</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tsp cimbru (or thyme)" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 2 tsp cimbru (or thyme)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp paprika" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 1 tsp paprika</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp salt, or more to taste" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 1 tsp salt, or more to taste</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tsp white pepper (or black pepper)" data-recipe-id="green-pea-stew" data-recipe-title="Green Pea Stew">+ 1/2 tsp white pepper (or black pepper)</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -43,5 +46,57 @@
 <li>Taste and adjust salt. Serve hot with crusty bread.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

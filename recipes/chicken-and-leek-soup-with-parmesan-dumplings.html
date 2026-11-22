@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chicken and Leek Soup with Parmesan Dumplings</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Lunch/Dinner · 30 minutes · 4</p>
 <p><a href="The Ultimate Meal Prep Cookbook">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>4 tablespoons unsalted butter</li>
-<li>1 pound leeks, white and light green parts only, halved lengthwise, sliced 1/2 inch thick, and thoroughly washed</li>
-<li>1 teaspoon table salt, divided</li>
-<li>2 garlic cloves, minced</li>
-<li>6 cups chicken broth</li>
-<li>1 cup all-purpose flour</li>
-<li>1 ounce Parmesan cheese, grated (about 1/2 cup)</li>
-<li>1/3 cup water</li>
-<li>1 large egg, lightly beaten</li>
-<li>1/2 teaspoon baking powder</li>
-<li>1/4 teaspoon black pepper</li>
-<li>3 cups shredded rotisserie chicken</li>
-<li>fresh parsley, chopped, for serving (optional)</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="4 tablespoons unsalted butter" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 4 tablespoons unsalted butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 pound leeks, white and light green parts only, halved lengthwise, sliced 1/2 inch thick, and thoroughly washed" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1 pound leeks, white and light green parts only, halved lengthwise, sliced 1/2 inch thick, and thoroughly washed</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 teaspoon table salt, divided" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1 teaspoon table salt, divided</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 garlic cloves, minced" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 2 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="6 cups chicken broth" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 6 cups chicken broth</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup all-purpose flour" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1 cup all-purpose flour</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 ounce Parmesan cheese, grated (about 1/2 cup)" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1 ounce Parmesan cheese, grated (about 1/2 cup)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/3 cup water" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1/3 cup water</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 large egg, lightly beaten" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1 large egg, lightly beaten</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 teaspoon baking powder" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1/2 teaspoon baking powder</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 teaspoon black pepper" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 1/4 teaspoon black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 cups shredded rotisserie chicken" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ 3 cups shredded rotisserie chicken</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh parsley, chopped, for serving (optional)" data-recipe-id="chicken-and-leek-soup-with-parmesan-dumplings" data-recipe-title="Chicken and Leek Soup with Parmesan Dumplings">+ fresh parsley, chopped, for serving (optional)</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -56,5 +59,57 @@
 <li>Divide among bowls, garnish with chopped parsley if desired, and serve hot.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

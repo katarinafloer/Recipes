@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,18 +17,18 @@
       <p class="recipe-page-meta">Dinner · 5 minutes · 2</p>
 
 <h2>Ingredients</h2>
-<ul>
-<li>200 g pasta</li>
-<li>2 shallots, finely sliced</li>
-<li>3 garlic cloves, minced</li>
-<li>1 cup frozen peas</li>
-<li>100 g gorgonzola, crumbled</li>
-<li>150 ml cooking cream</li>
-<li>juice of half a lemon</li>
-<li>butter, for cooking</li>
-<li>black pepper</li>
-<li>salt</li>
-<li>parmesan, to serve</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="200 g pasta" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 200 g pasta</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 shallots, finely sliced" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 2 shallots, finely sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 garlic cloves, minced" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 3 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup frozen peas" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 1 cup frozen peas</button></li>
+<li><button class="ingredient-btn" data-ingredient="100 g gorgonzola, crumbled" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 100 g gorgonzola, crumbled</button></li>
+<li><button class="ingredient-btn" data-ingredient="150 ml cooking cream" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ 150 ml cooking cream</button></li>
+<li><button class="ingredient-btn" data-ingredient="juice of half a lemon" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ juice of half a lemon</button></li>
+<li><button class="ingredient-btn" data-ingredient="butter, for cooking" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ butter, for cooking</button></li>
+<li><button class="ingredient-btn" data-ingredient="black pepper" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="parmesan, to serve" data-recipe-id="pasta-with-shallot-peas-gorgonzola-cream-favorite" data-recipe-title="Pasta with Shallot, Peas &amp; Gorgonzola Cream (favorite!)">+ parmesan, to serve</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -42,5 +45,57 @@
 <li>Finish with lemon juice and black pepper. Serve with parmesan.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

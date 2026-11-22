@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cinnamon French Toast Rolls</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Dessert · 15 minutes · 6 rolls</p>
 <p><a href="https://www.instagram.com/p/CxMCLoWSI7t/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>6 slices soft sandwich bread</li>
-<li>35 g butter, melted</li>
-<li>35 g brown sugar</li>
-<li>1/2 tablespoon cinnamon</li>
-<li>1 egg</li>
-<li>1/2 cup milk</li>
-<li>1/4 teaspoon vanilla extract</li>
-<li>3 tablespoons granulated sugar</li>
-<li>1/2 tablespoon cinnamon, for coating</li>
-<li>butter, for cooking</li>
-<li>Nutella, for serving (optional)</li>
-<li>powdered sugar, for serving (optional)</li>
-<li>strawberries, for serving (optional)</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="6 slices soft sandwich bread" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 6 slices soft sandwich bread</button></li>
+<li><button class="ingredient-btn" data-ingredient="35 g butter, melted" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 35 g butter, melted</button></li>
+<li><button class="ingredient-btn" data-ingredient="35 g brown sugar" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 35 g brown sugar</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tablespoon cinnamon" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 1/2 tablespoon cinnamon</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 egg" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 1 egg</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup milk" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 1/2 cup milk</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 teaspoon vanilla extract" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 1/4 teaspoon vanilla extract</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tablespoons granulated sugar" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 3 tablespoons granulated sugar</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tablespoon cinnamon, for coating" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ 1/2 tablespoon cinnamon, for coating</button></li>
+<li><button class="ingredient-btn" data-ingredient="butter, for cooking" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ butter, for cooking</button></li>
+<li><button class="ingredient-btn" data-ingredient="Nutella, for serving (optional)" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ Nutella, for serving (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="powdered sugar, for serving (optional)" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ powdered sugar, for serving (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="strawberries, for serving (optional)" data-recipe-id="cinnamon-french-toast-rolls" data-recipe-title="Cinnamon French Toast Rolls">+ strawberries, for serving (optional)</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -52,5 +55,57 @@
 <li>Garnish with sliced strawberries and serve warm.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

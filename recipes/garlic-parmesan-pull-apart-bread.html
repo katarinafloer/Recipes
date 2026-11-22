@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Garlic Parmesan Pull-Apart Bread</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,21 +17,21 @@
       <p class="recipe-page-meta">Snack/Appetizers · 20 minutes · 8</p>
 <p><a href="https://bymesika.com/garlic-parmesan-pull-apart-bread/">Source</a> &middot; <a href="https://www.instagram.com/p/DfFdXaSpuUk/">Source 2</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>500g bread flour</li>
-<li>1 tbsp dry yeast</li>
-<li>2 tbsp sugar</li>
-<li>2 tbsp honey</li>
-<li>250ml water</li>
-<li>50g canola oil</li>
-<li>1/2 tbsp salt</li>
-<li>1 cup peeled garlic cloves</li>
-<li>olive oil, enough to cover garlic</li>
-<li>3 tbsp butter, softened</li>
-<li>2 tbsp fresh parsley, chopped</li>
-<li>1 tsp chili flakes</li>
-<li>1 tsp sesame seeds</li>
-<li>parmesan, grated, for coating</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="500g bread flour" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 500g bread flour</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tbsp dry yeast" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 1 tbsp dry yeast</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp sugar" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 2 tbsp sugar</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp honey" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 2 tbsp honey</button></li>
+<li><button class="ingredient-btn" data-ingredient="250ml water" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 250ml water</button></li>
+<li><button class="ingredient-btn" data-ingredient="50g canola oil" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 50g canola oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tbsp salt" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 1/2 tbsp salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup peeled garlic cloves" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 1 cup peeled garlic cloves</button></li>
+<li><button class="ingredient-btn" data-ingredient="olive oil, enough to cover garlic" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ olive oil, enough to cover garlic</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tbsp butter, softened" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 3 tbsp butter, softened</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp fresh parsley, chopped" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 2 tbsp fresh parsley, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp chili flakes" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 1 tsp chili flakes</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp sesame seeds" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ 1 tsp sesame seeds</button></li>
+<li><button class="ingredient-btn" data-ingredient="parmesan, grated, for coating" data-recipe-id="garlic-parmesan-pull-apart-bread" data-recipe-title="Garlic Parmesan Pull-Apart Bread">+ parmesan, grated, for coating</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -47,5 +50,57 @@
 <li>Serve warm and pull apart.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

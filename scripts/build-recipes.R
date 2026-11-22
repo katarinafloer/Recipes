@@ -361,6 +361,23 @@ write_recipe_page <- function(recipe) {
     ""
   }
 
+  recipe_id_js <- json_escape(recipe$id)
+  recipe_title_js <- json_escape(recipe$title)
+
+  ingredients_btns_html <- if (length(recipe$ingredients)) {
+    items <- paste0(
+      '<li><button class="ingredient-btn" data-ingredient="',
+      html_escape(recipe$ingredients),
+      '" data-recipe-id="', html_escape(recipe$id),
+      '" data-recipe-title="', html_escape(recipe$title),
+      '">+ ', html_escape(recipe$ingredients), '</button></li>',
+      collapse = "\n"
+    )
+    paste0("<h2>Ingredients</h2>\n<ul class=\"ingredients-list\">\n", items, "\n</ul>")
+  } else {
+    ""
+  }
+
   page <- c(
     "<!doctype html>",
     '<html lang="en">',
@@ -369,6 +386,9 @@ write_recipe_page <- function(recipe) {
     '    <meta name="viewport" content="width=device-width, initial-scale=1">',
     paste0("    <title>", html_escape(recipe$title), "</title>"),
     '    <link rel="stylesheet" href="../styles.css">',
+    '    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>',
+    '    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>',
+    '    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>',
     "  </head>",
     '  <body class="recipe-page">',
     '    <main class="recipe-page-main">',
@@ -377,10 +397,62 @@ write_recipe_page <- function(recipe) {
     image_html,
     paste0('      <p class="recipe-page-meta">', html_escape(meta), "</p>"),
     source_link,
-    ingredients_html,
+    ingredients_btns_html,
     dates_cooked_html,
     markdown_to_html(recipe$body),
     "    </main>",
+    "    <script>",
+    "      firebase.initializeApp({",
+    '        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",',
+    '        authDomain: "recipes-71f32.firebaseapp.com",',
+    '        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",',
+    '        projectId: "recipes-71f32",',
+    '        storageBucket: "recipes-71f32.firebasestorage.app",',
+    '        messagingSenderId: "674007341993",',
+    '        appId: "1:674007341993:web:da86b872354645254ec2b8"',
+    "      });",
+    "      const fbAuth = firebase.auth();",
+    "      const fbDb = firebase.database();",
+    "      let localList = [];",
+    "      let listRef = null;",
+    "      fbAuth.onAuthStateChanged(function(user) {",
+    "        if (user) {",
+    "          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');",
+    "          listRef.on('value', function(snap) {",
+    "            localList = snap.val() || [];",
+    "            updateAllBtns();",
+    "          });",
+    "        }",
+    "      });",
+    "      function saveList() {",
+    "        if (listRef) listRef.set(localList);",
+    "      }",
+    "      function isAdded(ingredient, recipeId) {",
+    "        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });",
+    "      }",
+    "      function updateBtn(btn) {",
+    "        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);",
+    "        btn.classList.toggle('ingredient-added', added);",
+    "        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;",
+    "      }",
+    "      function updateAllBtns() {",
+    "        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);",
+    "      }",
+    "      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {",
+    "        btn.addEventListener('click', function() {",
+    "          var ing = btn.dataset.ingredient;",
+    "          var rid = btn.dataset.recipeId;",
+    "          var rtitle = btn.dataset.recipeTitle;",
+    "          if (isAdded(ing, rid)) {",
+    "            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });",
+    "          } else {",
+    "            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });",
+    "          }",
+    "          saveList();",
+    "          updateBtn(btn);",
+    "        });",
+    "      });",
+    "    </script>",
     "  </body>",
     "</html>"
   )

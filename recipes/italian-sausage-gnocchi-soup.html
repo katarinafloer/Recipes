@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Italian Sausage Gnocchi Soup</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,24 +17,24 @@
       <p class="recipe-page-meta">Dinner · 10 minutes · 6</p>
 <p><a href="https://theeverydaycookbook.com/italian-sausage-gnocchi-soup/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 lb mild Italian sausage</li>
-<li>1 yellow onion, diced</li>
-<li>1-2 tbsp minced garlic</li>
-<li>1 tbsp tomato paste</li>
-<li>2 cups bone broth (beef or chicken)</li>
-<li>2 cups heavy cream</li>
-<li>3 oz parmesan, grated</li>
-<li>16 oz dry gnocchi</li>
-<li>2 cups fresh spinach, chopped</li>
-<li>1 tsp Italian seasoning</li>
-<li>1 tsp oregano</li>
-<li>1 tsp parsley</li>
-<li>1 tsp garlic and onion powder</li>
-<li>1 tsp crushed red pepper (optional)</li>
-<li>1/2 tsp salt</li>
-<li>1 tsp pepper</li>
-<li>olive oil</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 lb mild Italian sausage" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 lb mild Italian sausage</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 yellow onion, diced" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 yellow onion, diced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1-2 tbsp minced garlic" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1-2 tbsp minced garlic</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tbsp tomato paste" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tbsp tomato paste</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups bone broth (beef or chicken)" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 2 cups bone broth (beef or chicken)</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups heavy cream" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 2 cups heavy cream</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 oz parmesan, grated" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 3 oz parmesan, grated</button></li>
+<li><button class="ingredient-btn" data-ingredient="16 oz dry gnocchi" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 16 oz dry gnocchi</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups fresh spinach, chopped" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 2 cups fresh spinach, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp Italian seasoning" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp Italian seasoning</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp oregano" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp oregano</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp parsley" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp parsley</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp garlic and onion powder" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp garlic and onion powder</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp crushed red pepper (optional)" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp crushed red pepper (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tsp salt" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1/2 tsp salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp pepper" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ 1 tsp pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="olive oil" data-recipe-id="italian-sausage-gnocchi-soup" data-recipe-title="Italian Sausage Gnocchi Soup">+ olive oil</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -51,5 +54,57 @@
 <li>Simmer on low for 10 minutes to thicken. Serve with extra parmesan and crusty bread.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

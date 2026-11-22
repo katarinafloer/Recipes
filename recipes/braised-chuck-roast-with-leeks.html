@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Braised Chuck Roast with Leeks</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,22 +17,22 @@
       <p class="recipe-page-meta">Dinner · 20 minutes · 6</p>
 <p><a href="https://www.instagram.com/p/DdE_olKPHtB/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>3 lb chuck roast, cut into large 3-inch chunks</li>
-<li>1-2 shallots, quartered</li>
-<li>5-6 garlic cloves, peeled</li>
-<li>1/3 cup dry white wine (such as Chardonnay)</li>
-<li>1 tsp whole black peppercorns</li>
-<li>3 bay leaves</li>
-<li>pinch of ground turmeric (optional)</li>
-<li>water as needed</li>
-<li>3-4 medium leeks, cut into 1.5-inch pieces</li>
-<li>1 tsp fresh thyme leaves</li>
-<li>1.5 to 2 cups reserved braising liquid</li>
-<li>2 tbsp neutral oil (avocado oil)</li>
-<li>olive oil</li>
-<li>fresh parsley, for serving</li>
-<li>salt and pepper</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="3 lb chuck roast, cut into large 3-inch chunks" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 3 lb chuck roast, cut into large 3-inch chunks</button></li>
+<li><button class="ingredient-btn" data-ingredient="1-2 shallots, quartered" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 1-2 shallots, quartered</button></li>
+<li><button class="ingredient-btn" data-ingredient="5-6 garlic cloves, peeled" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 5-6 garlic cloves, peeled</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/3 cup dry white wine (such as Chardonnay)" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 1/3 cup dry white wine (such as Chardonnay)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp whole black peppercorns" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 1 tsp whole black peppercorns</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 bay leaves" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 3 bay leaves</button></li>
+<li><button class="ingredient-btn" data-ingredient="pinch of ground turmeric (optional)" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ pinch of ground turmeric (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="water as needed" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ water as needed</button></li>
+<li><button class="ingredient-btn" data-ingredient="3-4 medium leeks, cut into 1.5-inch pieces" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 3-4 medium leeks, cut into 1.5-inch pieces</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp fresh thyme leaves" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 1 tsp fresh thyme leaves</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.5 to 2 cups reserved braising liquid" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 1.5 to 2 cups reserved braising liquid</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp neutral oil (avocado oil)" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ 2 tbsp neutral oil (avocado oil)</button></li>
+<li><button class="ingredient-btn" data-ingredient="olive oil" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ olive oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh parsley, for serving" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ fresh parsley, for serving</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt and pepper" data-recipe-id="braised-chuck-roast-with-leeks" data-recipe-title="Braised Chuck Roast with Leeks">+ salt and pepper</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -51,5 +54,57 @@
 <li>Serve beef over or alongside the braised leeks. Drizzle with olive oil and garnish with parsley and fresh thyme. Serve with crusty bread.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Finnish Salmon Soup (Lohikeitto) (favorite!)</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,18 +17,18 @@
       <p class="recipe-page-meta">Dinner · 10 minutes · 4</p>
 <p><a href="https://www.instagram.com/p/Cyfq_QZpnyT/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>500 g salmon, skin removed and cut into large cubes</li>
-<li>400 g firm potatoes, cut into cubes</li>
-<li>3 leeks, thinly sliced and thoroughly washed</li>
-<li>3 carrots, peeled and sliced</li>
-<li>1.2 liters fish stock</li>
-<li>200 ml heavy cream</li>
-<li>1 large bunch fresh dill, finely chopped</li>
-<li>1 lemon</li>
-<li>butter or olive oil, for cooking</li>
-<li>salt</li>
-<li>black pepper</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="500 g salmon, skin removed and cut into large cubes" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 500 g salmon, skin removed and cut into large cubes</button></li>
+<li><button class="ingredient-btn" data-ingredient="400 g firm potatoes, cut into cubes" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 400 g firm potatoes, cut into cubes</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 leeks, thinly sliced and thoroughly washed" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 3 leeks, thinly sliced and thoroughly washed</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 carrots, peeled and sliced" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 3 carrots, peeled and sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.2 liters fish stock" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 1.2 liters fish stock</button></li>
+<li><button class="ingredient-btn" data-ingredient="200 ml heavy cream" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 200 ml heavy cream</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 large bunch fresh dill, finely chopped" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 1 large bunch fresh dill, finely chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 lemon" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ 1 lemon</button></li>
+<li><button class="ingredient-btn" data-ingredient="butter or olive oil, for cooking" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ butter or olive oil, for cooking</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="black pepper" data-recipe-id="finnish-salmon-soup-lohikeitto-favorite" data-recipe-title="Finnish Salmon Soup (Lohikeitto) (favorite!)">+ black pepper</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -55,5 +58,57 @@
 <li>Serve in bowls topped with additional dill, freshly ground black pepper, and a drizzle of lemon juice.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Green Chicken Chili</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Lunch/Dinner · 15 minutes · 4</p>
 <p><a href="The Ultimate Meal Prep Cookbook">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 tablespoon oil</li>
-<li>1 onion, finely chopped</li>
-<li>3/4 teaspoon black pepper</li>
-<li>1/2 teaspoon table salt</li>
-<li>3 garlic cloves, minced</li>
-<li>2 teaspoons ground cumin</li>
-<li>4 cups chicken broth</li>
-<li>2 cans (15 oz each) cannellini beans, rinsed and drained</li>
-<li>1 cup jarred green salsa</li>
-<li>3 cups shredded rotisserie chicken</li>
-<li>1/2 cup fresh cilantro, chopped</li>
-<li>1/4 cup sour cream</li>
-<li>lime wedges, for serving (optional)</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon oil" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1 tablespoon oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 onion, finely chopped" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1 onion, finely chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="3/4 teaspoon black pepper" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 3/4 teaspoon black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 teaspoon table salt" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1/2 teaspoon table salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 garlic cloves, minced" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 3 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 teaspoons ground cumin" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 2 teaspoons ground cumin</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 cups chicken broth" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 4 cups chicken broth</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cans (15 oz each) cannellini beans, rinsed and drained" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 2 cans (15 oz each) cannellini beans, rinsed and drained</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup jarred green salsa" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1 cup jarred green salsa</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 cups shredded rotisserie chicken" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 3 cups shredded rotisserie chicken</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup fresh cilantro, chopped" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1/2 cup fresh cilantro, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 cup sour cream" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ 1/4 cup sour cream</button></li>
+<li><button class="ingredient-btn" data-ingredient="lime wedges, for serving (optional)" data-recipe-id="green-chicken-chili" data-recipe-title="Green Chicken Chili">+ lime wedges, for serving (optional)</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -57,5 +60,57 @@
 <li>Serve hot with lime wedges if desired.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Honey Garlic Chicken Breast</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,24 +17,25 @@
       <p class="recipe-page-meta">Dinner · 4 minutes · 4</p>
 <p><a href="https://www.recipetineats.com/honey-garlic-chicken/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>500g / 1 lb chicken breast, boneless and skinless (2 pieces)</li>
-<li>salt and pepper</li>
-<li>1/4 cup flour</li>
-<li>3.5 tbsp unsalted butter</li>
-<li>2 garlic cloves, minced</li>
-<li>1.5 tbsp apple cider vinegar</li>
-<li>1 tbsp soy sauce</li>
-<li>1/3 cup honey</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="500g / 1 lb chicken breast, boneless and skinless (2 pieces)" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 500g / 1 lb chicken breast, boneless and skinless (2 pieces)</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt and pepper" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ salt and pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 cup flour" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 1/4 cup flour</button></li>
+<li><button class="ingredient-btn" data-ingredient="3.5 tbsp unsalted butter" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 3.5 tbsp unsalted butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 garlic cloves, minced" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 2 garlic cloves, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.5 tbsp apple cider vinegar" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 1.5 tbsp apple cider vinegar</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tbsp soy sauce" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 1 tbsp soy sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/3 cup honey" data-recipe-id="honey-garlic-chicken-breast" data-recipe-title="Honey Garlic Chicken Breast">+ 1/3 cup honey</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
+<li>2026-11-16</li>
 <li>2026-10-13</li>
 <li>2026-10-22</li>
 </ul>
 <h2>Notes</h2>
 <p>Dust chicken with flour before searing -- it creates a crust so the sauce clings better. Can substitute cornstarch for gluten free.</p>
-<p>Works with any protein: pork, beef, lamb, shrimp, tofu. Adjust cook times accordingly.</p>
+<p>Works with any protein: pork, beef, lamb, shrimp, tofu. For tofu, use firm or extra-firm, press dry, and cube or slice. Adjust cook times accordingly.</p>
 <h2>Instructions</h2>
 <ol>
 <li>Cut chicken breasts in half horizontally to make 4 thin steaks. Season with salt and pepper.</li>
@@ -45,5 +49,57 @@
 <li>Remove from heat and serve immediately, drizzling remaining sauce over.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

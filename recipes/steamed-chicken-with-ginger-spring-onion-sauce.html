@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Steamed Chicken with Ginger Spring Onion Sauce</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,20 +17,20 @@
       <p class="recipe-page-meta">Lunch/Dinner · 10 minutes · 2</p>
 <p><a href="https://www.instagram.com/p/DeqoWn0uLIE/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>4 chicken drumsticks</li>
-<li>4-5 slices fresh ginger</li>
-<li>1 stalk spring onion, cut into batons</li>
-<li>2 stalks spring onion, finely chopped</li>
-<li>6 cloves garlic, finely diced</li>
-<li>1 knob ginger, grated</li>
-<li>1/2 tbsp salt</li>
-<li>3 tbsp neutral oil</li>
-<li>2 tbsp light soy sauce</li>
-<li>1.5 tbsp oyster sauce</li>
-<li>1/2 tbsp sugar</li>
-<li>1/4 cup fresh coriander, finely chopped</li>
-<li>rice, for serving</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="4 chicken drumsticks" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 4 chicken drumsticks</button></li>
+<li><button class="ingredient-btn" data-ingredient="4-5 slices fresh ginger" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 4-5 slices fresh ginger</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 stalk spring onion, cut into batons" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1 stalk spring onion, cut into batons</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 stalks spring onion, finely chopped" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 2 stalks spring onion, finely chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="6 cloves garlic, finely diced" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 6 cloves garlic, finely diced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 knob ginger, grated" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1 knob ginger, grated</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tbsp salt" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1/2 tbsp salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tbsp neutral oil" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 3 tbsp neutral oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp light soy sauce" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 2 tbsp light soy sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.5 tbsp oyster sauce" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1.5 tbsp oyster sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tbsp sugar" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1/2 tbsp sugar</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 cup fresh coriander, finely chopped" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ 1/4 cup fresh coriander, finely chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="rice, for serving" data-recipe-id="steamed-chicken-with-ginger-spring-onion-sauce" data-recipe-title="Steamed Chicken with Ginger Spring Onion Sauce">+ rice, for serving</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -44,5 +47,57 @@
 <li>Thinly slice drumsticks, toss in the sauce with coriander, and serve with rice.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

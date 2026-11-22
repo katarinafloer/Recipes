@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Apple Puff Pastry Tart</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,16 +17,16 @@
       <p class="recipe-page-meta">Desserts · 15 minutes · 10</p>
 <p><a href="https://desertislanddishes.co/apple-tart-puff-pastry/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 sheet pre-rolled puff pastry</li>
-<li>6 apples (Pink Lady, Gala, or Braeburn)</li>
-<li>75g unsalted butter, softened</li>
-<li>75g soft light brown sugar, plus more for sprinkling</li>
-<li>1 tsp vanilla extract</li>
-<li>1 tsp ground cinnamon</li>
-<li>pinch of salt</li>
-<li>2 tbsp apricot jam</li>
-<li>1 egg, beaten, for egg wash</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 sheet pre-rolled puff pastry" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 1 sheet pre-rolled puff pastry</button></li>
+<li><button class="ingredient-btn" data-ingredient="6 apples (Pink Lady, Gala, or Braeburn)" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 6 apples (Pink Lady, Gala, or Braeburn)</button></li>
+<li><button class="ingredient-btn" data-ingredient="75g unsalted butter, softened" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 75g unsalted butter, softened</button></li>
+<li><button class="ingredient-btn" data-ingredient="75g soft light brown sugar, plus more for sprinkling" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 75g soft light brown sugar, plus more for sprinkling</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp vanilla extract" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 1 tsp vanilla extract</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp ground cinnamon" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 1 tsp ground cinnamon</button></li>
+<li><button class="ingredient-btn" data-ingredient="pinch of salt" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ pinch of salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tbsp apricot jam" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 2 tbsp apricot jam</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 egg, beaten, for egg wash" data-recipe-id="apple-puff-pastry-tart" data-recipe-title="Apple Puff Pastry Tart">+ 1 egg, beaten, for egg wash</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -44,5 +47,57 @@
 <li>Warm apricot jam for 15 seconds in the microwave, then brush over the warm tart. Serve warm or at room temperature.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

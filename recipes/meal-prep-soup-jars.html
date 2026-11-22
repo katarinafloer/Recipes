@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Meal Prep Soup Jars</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,22 +17,22 @@
       <p class="recipe-page-meta">Lunch · 10 minutes · 4 jars</p>
 <p><a href="https://olivia-yi.com/meal-prep-soup-jars/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>4 servings quick-cook noodles</li>
-<li>2 cups cooked protein (chicken, pork, beef, or tofu), shredded or cubed</li>
-<li>2 cups carrots, grated or julienned</li>
-<li>2 cups bell pepper, thinly sliced</li>
-<li>1 cup shelled edamame</li>
-<li>4 stalks bok choy, chopped</li>
-<li>2 green onion stalks, thinly sliced</li>
-<li>1 cup fresh cilantro, chopped</li>
-<li>4 tablespoons soy sauce</li>
-<li>4 tablespoons miso paste</li>
-<li>4 teaspoons sriracha</li>
-<li>4 teaspoons sesame oil</li>
-<li>4 teaspoons Better than Bouillon chicken soup base (or 4 chicken bouillon cubes)</li>
-<li>1 teaspoon grated ginger</li>
-<li>2 teaspoons garlic powder</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="4 servings quick-cook noodles" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 servings quick-cook noodles</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups cooked protein (chicken, pork, beef, or tofu), shredded or cubed" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 2 cups cooked protein (chicken, pork, beef, or tofu), shredded or cubed</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups carrots, grated or julienned" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 2 cups carrots, grated or julienned</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups bell pepper, thinly sliced" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 2 cups bell pepper, thinly sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup shelled edamame" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 1 cup shelled edamame</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 stalks bok choy, chopped" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 stalks bok choy, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 green onion stalks, thinly sliced" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 2 green onion stalks, thinly sliced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 cup fresh cilantro, chopped" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 1 cup fresh cilantro, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 tablespoons soy sauce" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 tablespoons soy sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 tablespoons miso paste" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 tablespoons miso paste</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 teaspoons sriracha" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 teaspoons sriracha</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 teaspoons sesame oil" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 teaspoons sesame oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 teaspoons Better than Bouillon chicken soup base (or 4 chicken bouillon cubes)" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 4 teaspoons Better than Bouillon chicken soup base (or 4 chicken bouillon cubes)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 teaspoon grated ginger" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 1 teaspoon grated ginger</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 teaspoons garlic powder" data-recipe-id="meal-prep-soup-jars" data-recipe-title="Meal Prep Soup Jars">+ 2 teaspoons garlic powder</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -54,5 +57,57 @@
 <li>Enjoy directly from the jar or transfer to a bowl.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

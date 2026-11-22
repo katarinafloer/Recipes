@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Peanut Chicken Rice Bowl (favorite!)</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,24 +17,24 @@
       <p class="recipe-page-meta">Dinner · 5 minutes · 4</p>
 <p><a href="https://www.instagram.com/p/DIAB1HFhqsj/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 tablespoon toasted sesame oil</li>
-<li>1 tablespoon minced garlic</li>
-<li>1 tablespoon grated ginger</li>
-<li>1 lb ground chicken</li>
-<li>1/2 cup creamy peanut butter</li>
-<li>3 tablespoons low sodium soy sauce</li>
-<li>1 tablespoon rice vinegar</li>
-<li>2 teaspoons sriracha</li>
-<li>juice of 1 lime</li>
-<li>1 tablespoon honey</li>
-<li>1/4 cup water</li>
-<li>3 cups cooked jasmine rice</li>
-<li>sliced cucumber, for serving</li>
-<li>sliced scallion, for serving</li>
-<li>chopped cilantro, for serving</li>
-<li>chopped roasted salted peanuts, for serving</li>
-<li>lime wedges, for serving</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon toasted sesame oil" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 tablespoon toasted sesame oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon minced garlic" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 tablespoon minced garlic</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon grated ginger" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 tablespoon grated ginger</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 lb ground chicken" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 lb ground chicken</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup creamy peanut butter" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1/2 cup creamy peanut butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tablespoons low sodium soy sauce" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 3 tablespoons low sodium soy sauce</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon rice vinegar" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 tablespoon rice vinegar</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 teaspoons sriracha" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 2 teaspoons sriracha</button></li>
+<li><button class="ingredient-btn" data-ingredient="juice of 1 lime" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ juice of 1 lime</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tablespoon honey" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1 tablespoon honey</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 cup water" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 1/4 cup water</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 cups cooked jasmine rice" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ 3 cups cooked jasmine rice</button></li>
+<li><button class="ingredient-btn" data-ingredient="sliced cucumber, for serving" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ sliced cucumber, for serving</button></li>
+<li><button class="ingredient-btn" data-ingredient="sliced scallion, for serving" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ sliced scallion, for serving</button></li>
+<li><button class="ingredient-btn" data-ingredient="chopped cilantro, for serving" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ chopped cilantro, for serving</button></li>
+<li><button class="ingredient-btn" data-ingredient="chopped roasted salted peanuts, for serving" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ chopped roasted salted peanuts, for serving</button></li>
+<li><button class="ingredient-btn" data-ingredient="lime wedges, for serving" data-recipe-id="peanut-chicken-rice-bowl-favorite" data-recipe-title="Peanut Chicken Rice Bowl (favorite!)">+ lime wedges, for serving</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <ul>
@@ -49,5 +52,57 @@
 <li>Cook the rice according to package directions. Add rice to shallow bowls, then top with the chicken, cucumber, scallion, cilantro, chopped peanuts, and lime wedges.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

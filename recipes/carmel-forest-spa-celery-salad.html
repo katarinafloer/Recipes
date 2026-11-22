@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Carmel Forest Spa Celery Salad</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,23 +17,23 @@
       <p class="recipe-page-meta">Snack/Appetizers · 15 minutes · 4</p>
 <p><a href="https://www.instagram.com/p/DFIS6qzxPzm/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 bunch celery, chopped</li>
-<li>1 large honeycrisp apple, diced</li>
-<li>1 large cucumber, diced</li>
-<li>1 bunch fresh parsley, finely chopped</li>
-<li>handful microgreens</li>
-<li>8-10 pitted medjool dates, chopped</li>
-<li>1/2 cup pecans, chopped</li>
-<li>1.5 cups parmesan, shaved</li>
-<li>1 bunch fresh dill, chopped</li>
-<li>2-3 large lemons, juiced</li>
-<li>1/2 cup mayonnaise</li>
-<li>1/4 cup avocado oil</li>
-<li>1 tsp salt</li>
-<li>1 tsp black pepper</li>
-<li>2 cloves garlic, minced</li>
-<li>2 tsp maple syrup</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 bunch celery, chopped" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 bunch celery, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 large honeycrisp apple, diced" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 large honeycrisp apple, diced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 large cucumber, diced" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 large cucumber, diced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 bunch fresh parsley, finely chopped" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 bunch fresh parsley, finely chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="handful microgreens" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ handful microgreens</button></li>
+<li><button class="ingredient-btn" data-ingredient="8-10 pitted medjool dates, chopped" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 8-10 pitted medjool dates, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup pecans, chopped" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1/2 cup pecans, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.5 cups parmesan, shaved" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1.5 cups parmesan, shaved</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 bunch fresh dill, chopped" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 bunch fresh dill, chopped</button></li>
+<li><button class="ingredient-btn" data-ingredient="2-3 large lemons, juiced" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 2-3 large lemons, juiced</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup mayonnaise" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1/2 cup mayonnaise</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/4 cup avocado oil" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1/4 cup avocado oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp salt" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 tsp salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp black pepper" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 1 tsp black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cloves garlic, minced" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 2 cloves garlic, minced</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 tsp maple syrup" data-recipe-id="carmel-forest-spa-celery-salad" data-recipe-title="Carmel Forest Spa Celery Salad">+ 2 tsp maple syrup</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -41,5 +44,57 @@
 <li>Pour dressing over salad and toss to combine.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

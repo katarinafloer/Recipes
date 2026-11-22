@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Fondant Potatoes</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,16 +17,16 @@
       <p class="recipe-page-meta">Side Dish · 30 minutes · 8 potato rounds</p>
 <p><a href="https://www.instagram.com/p/C61PV29LmJD/">Source</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>4 russet potatoes, peeled and cut into 1-inch rounds</li>
-<li>10 garlic cloves, smashed</li>
-<li>salt</li>
-<li>black pepper</li>
-<li>avocado oil</li>
-<li>4 tablespoons butter</li>
-<li>2 sprigs rosemary</li>
-<li>4 sprigs thyme</li>
-<li>1/2 cup chicken stock</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="4 russet potatoes, peeled and cut into 1-inch rounds" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 4 russet potatoes, peeled and cut into 1-inch rounds</button></li>
+<li><button class="ingredient-btn" data-ingredient="10 garlic cloves, smashed" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 10 garlic cloves, smashed</button></li>
+<li><button class="ingredient-btn" data-ingredient="salt" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="black pepper" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="avocado oil" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ avocado oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 tablespoons butter" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 4 tablespoons butter</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 sprigs rosemary" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 2 sprigs rosemary</button></li>
+<li><button class="ingredient-btn" data-ingredient="4 sprigs thyme" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 4 sprigs thyme</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 cup chicken stock" data-recipe-id="fondant-potatoes" data-recipe-title="Fondant Potatoes">+ 1/2 cup chicken stock</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -45,5 +48,57 @@
 <li>Spoon the garlic-herb butter and reduced cooking liquid over the potatoes and serve hot.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>

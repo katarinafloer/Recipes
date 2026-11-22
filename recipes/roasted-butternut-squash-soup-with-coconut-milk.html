@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Roasted Butternut Squash Soup with Coconut Milk</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   </head>
   <body class="recipe-page">
     <main class="recipe-page-main">
@@ -14,27 +17,27 @@
       <p class="recipe-page-meta">Lunch/Dinner · 15 minutes · 6</p>
 <p><a href="https://drveganblog.com/roasted-butternut-squash-soup/">Source</a> &middot; <a href="https://www.instagram.com/p/DdW822uMvGp/">Source 2</a></p>
 <h2>Ingredients</h2>
-<ul>
-<li>1 medium butternut squash, halved and seeds removed</li>
-<li>1 red onion, halved</li>
-<li>1 red bell pepper</li>
-<li>2 carrots, peeled</li>
-<li>2 heads garlic, tops sliced off</li>
-<li>2 cups cherry tomatoes</li>
-<li>3 tbsp olive oil</li>
-<li>1 tsp ground cumin</li>
-<li>1 tsp smoked paprika</li>
-<li>1 tsp dried thyme</li>
-<li>1 tsp dried rosemary</li>
-<li>1 tsp salt</li>
-<li>1/2 tsp black pepper</li>
-<li>1/2 tsp chili flakes (optional)</li>
-<li>1.5 cups vegetable broth, plus up to 1/2 cup more to thin</li>
-<li>3/4 cup canned full fat coconut milk, plus more to drizzle</li>
-<li>1 tsp fresh ginger, grated (optional)</li>
-<li>chili oil or chili crisp, to serve</li>
-<li>fresh parsley or cilantro, chopped, to serve</li>
-<li>toasted sourdough, to serve</li>
+<ul class="ingredients-list">
+<li><button class="ingredient-btn" data-ingredient="1 medium butternut squash, halved and seeds removed" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 medium butternut squash, halved and seeds removed</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 red onion, halved" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 red onion, halved</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 red bell pepper" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 red bell pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 carrots, peeled" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 2 carrots, peeled</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 heads garlic, tops sliced off" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 2 heads garlic, tops sliced off</button></li>
+<li><button class="ingredient-btn" data-ingredient="2 cups cherry tomatoes" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 2 cups cherry tomatoes</button></li>
+<li><button class="ingredient-btn" data-ingredient="3 tbsp olive oil" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 3 tbsp olive oil</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp ground cumin" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp ground cumin</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp smoked paprika" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp smoked paprika</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp dried thyme" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp dried thyme</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp dried rosemary" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp dried rosemary</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp salt" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp salt</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tsp black pepper" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1/2 tsp black pepper</button></li>
+<li><button class="ingredient-btn" data-ingredient="1/2 tsp chili flakes (optional)" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1/2 tsp chili flakes (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="1.5 cups vegetable broth, plus up to 1/2 cup more to thin" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1.5 cups vegetable broth, plus up to 1/2 cup more to thin</button></li>
+<li><button class="ingredient-btn" data-ingredient="3/4 cup canned full fat coconut milk, plus more to drizzle" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 3/4 cup canned full fat coconut milk, plus more to drizzle</button></li>
+<li><button class="ingredient-btn" data-ingredient="1 tsp fresh ginger, grated (optional)" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ 1 tsp fresh ginger, grated (optional)</button></li>
+<li><button class="ingredient-btn" data-ingredient="chili oil or chili crisp, to serve" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ chili oil or chili crisp, to serve</button></li>
+<li><button class="ingredient-btn" data-ingredient="fresh parsley or cilantro, chopped, to serve" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ fresh parsley or cilantro, chopped, to serve</button></li>
+<li><button class="ingredient-btn" data-ingredient="toasted sourdough, to serve" data-recipe-id="roasted-butternut-squash-soup-with-coconut-milk" data-recipe-title="Roasted Butternut Squash Soup with Coconut Milk">+ toasted sourdough, to serve</button></li>
 </ul>
 <h2>Date Cooked</h2>
 <p>Not logged yet.</p>
@@ -52,5 +55,57 @@
 <li>Serve with a swirl of chili oil, drizzle of coconut milk, fresh herbs, and toasted sourdough.</li>
 </ol>
     </main>
+    <script>
+      firebase.initializeApp({
+        apiKey: "AIzaSyCQ8aCJWo6gs3lIK9H6IAXwRYGNB2sXzD0",
+        authDomain: "recipes-71f32.firebaseapp.com",
+        databaseURL: "https://recipes-71f32-default-rtdb.firebaseio.com",
+        projectId: "recipes-71f32",
+        storageBucket: "recipes-71f32.firebasestorage.app",
+        messagingSenderId: "674007341993",
+        appId: "1:674007341993:web:da86b872354645254ec2b8"
+      });
+      const fbAuth = firebase.auth();
+      const fbDb = firebase.database();
+      let localList = [];
+      let listRef = null;
+      fbAuth.onAuthStateChanged(function(user) {
+        if (user) {
+          listRef = fbDb.ref('users/' + user.uid + '/shoppingList');
+          listRef.on('value', function(snap) {
+            localList = snap.val() || [];
+            updateAllBtns();
+          });
+        }
+      });
+      function saveList() {
+        if (listRef) listRef.set(localList);
+      }
+      function isAdded(ingredient, recipeId) {
+        return localList.some(function(i) { return i.ingredient === ingredient && i.recipeId === recipeId; });
+      }
+      function updateBtn(btn) {
+        var added = isAdded(btn.dataset.ingredient, btn.dataset.recipeId);
+        btn.classList.toggle('ingredient-added', added);
+        btn.textContent = (added ? '✓ ' : '+ ') + btn.dataset.ingredient;
+      }
+      function updateAllBtns() {
+        document.querySelectorAll('.ingredient-btn').forEach(updateBtn);
+      }
+      document.querySelectorAll('.ingredient-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var ing = btn.dataset.ingredient;
+          var rid = btn.dataset.recipeId;
+          var rtitle = btn.dataset.recipeTitle;
+          if (isAdded(ing, rid)) {
+            localList = localList.filter(function(i) { return !(i.ingredient === ing && i.recipeId === rid); });
+          } else {
+            localList.push({ ingredient: ing, recipeTitle: rtitle, recipeId: rid, checked: false });
+          }
+          saveList();
+          updateBtn(btn);
+        });
+      });
+    </script>
   </body>
 </html>
