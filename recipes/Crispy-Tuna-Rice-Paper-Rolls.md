@@ -30,6 +30,7 @@ tags:
   - dairy free option
   - pescatarian
 dates_cooked:
+  - 2026-11-06
 source: https://www.instagram.com/p/DdpVZqtAni8/
 ---
 

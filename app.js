@@ -79,7 +79,7 @@ let siteData = {
 };
 
 const activeFilters = {
-  tags: new Set(),
+  cooked: new Set(),
   ingredients: new Set(),
   diet: new Set()
 };
@@ -197,9 +197,27 @@ function renderFilterControls() {
     .map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
     .join("");
 
-  renderChipGroup("#tagFilters", unique(siteData.recipes.flatMap((recipe) => recipe.tags)).sort(), "tags");
+  renderCookedChips();
   renderChipGroup("#ingredientFilters", unique(siteData.recipes.flatMap((recipe) => recipe.labels)).sort(), "ingredients");
   renderDietChips();
+}
+
+function renderCookedChips() {
+  const container = document.querySelector("#cookedFilters");
+  container.innerHTML = "";
+  [{ key: "cooked", label: "Cooked" }, { key: "uncooked", label: "Not yet tried" }].forEach(({ key, label }) => {
+    const chip = document.createElement("button");
+    chip.className = "filter-chip";
+    chip.type = "button";
+    chip.textContent = label;
+    chip.setAttribute("aria-pressed", "false");
+    chip.addEventListener("click", () => {
+      toggleFilter("cooked", key);
+      chip.setAttribute("aria-pressed", String(activeFilters.cooked.has(key)));
+      renderRecipes();
+    });
+    container.append(chip);
+  });
 }
 
 function renderDietChips() {
@@ -261,10 +279,13 @@ function renderRecipes() {
       ].join(" ").toLowerCase();
       const matchesSearch = !search || searchable.includes(search);
       const matchesCategory = category === "All" || getRecipeSection(recipe) === category;
-      const matchesTags = [...activeFilters.tags].every((tag) => recipe.tags.includes(tag));
+      const isCooked = recipe.dates_cooked && recipe.dates_cooked.length > 0;
+      const matchesCooked = !activeFilters.cooked.size ||
+        (activeFilters.cooked.has("cooked") && isCooked) ||
+        (activeFilters.cooked.has("uncooked") && !isCooked);
       const matchesIngredients = [...activeFilters.ingredients].every((ingredient) => recipe.labels.includes(ingredient));
       const matchesDiet = [...activeFilters.diet].every((key) => dietOptions.find((o) => o.key === key)?.test(recipe));
-      return matchesSearch && matchesCategory && matchesTags && matchesIngredients && matchesDiet;
+      return matchesSearch && matchesCategory && matchesCooked && matchesIngredients && matchesDiet;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
 
@@ -318,13 +339,15 @@ function recipeCard(recipe) {
   const meatLabels = new Set(["chicken","beef","ground beef","ground chicken","ground pork","pork","ham"]);
   const hasDairy = labels.some((l) => dairyLabels.has(l));
   const hasMeat = labels.some((l) => meatLabels.has(l));
+  const isDisliked = tags.some((t) => t === "disliked");
   const dietBadge = isVeg ? ' <span class="diet-badge" title="Vegetarian">🌿</span>' : isPesc ? ' <span class="diet-badge" title="Pescatarian">🐟</span>' : "";
   const eggBadge = hasEgg ? ' <span class="diet-badge" title="Contains egg">🥚</span>' : "";
   const dairyBadge = hasDairy ? ' <span class="diet-badge" title="Contains dairy">🥛</span>' : "";
   const meatBadge = hasMeat ? ' <span class="diet-badge" title="Contains meat">🥩</span>' : "";
+  const dislikedBadge = isDisliked ? ' <span class="diet-badge" title="Didn\'t like this">👎</span>' : "";
   item.innerHTML = `
     <summary>
-      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}${eggBadge}${dairyBadge}${meatBadge}
+      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}${eggBadge}${dairyBadge}${meatBadge}${dislikedBadge}
     </summary>
     <div class="recipe-preview">
       ${recipe.image ? `<img class="recipe-preview-img" src="${escapeHtml(recipe.image)}" alt="${escapeHtml(displayTitle)}" loading="lazy">` : ""}

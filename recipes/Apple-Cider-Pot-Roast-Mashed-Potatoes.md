@@ -35,6 +35,7 @@ tags:
   - braised
   - gluten free
 dates_cooked:
+  - 2026-10-30
 source: https://abrightmoment.com/apple-cider-pot-roast-with-creamy-roasted-garlic-mashed-potatoes/
 ---
 

@@ -36,6 +36,7 @@ tags:
   - appetizer
   - vegetarian
   - gluten free
+  - disliked
 dates_cooked:
 source: https://www.instagram.com/p/DFIS6qzxPzm/
 ---
