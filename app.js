@@ -276,12 +276,15 @@ function recipeCard(recipe) {
   const cooked = recipe.dates_cooked && recipe.dates_cooked.length > 0;
   const displayTitle = recipe.title.replace(/\s*\(favorite!\)\s*/i, "").trim();
   const tags = recipe.tags || [];
+  const labels = recipe.labels || [];
   const isVeg = tags.some((t) => t === "vegetarian" || t === "vegan");
   const isPesc = !isVeg && tags.some((t) => t === "pescatarian");
+  const hasEgg = labels.some((l) => l === "eggs" || l === "egg");
   const dietBadge = isVeg ? ' <span class="diet-badge" title="Vegetarian">🌿</span>' : isPesc ? ' <span class="diet-badge" title="Pescatarian">🐟</span>' : "";
+  const eggBadge = hasEgg ? ' <span class="diet-badge" title="Contains egg">🥚</span>' : "";
   item.innerHTML = `
     <summary>
-      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}
+      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}${eggBadge}
     </summary>
     <div class="recipe-preview">
       ${recipe.image ? `<img class="recipe-preview-img" src="${escapeHtml(recipe.image)}" alt="${escapeHtml(displayTitle)}" loading="lazy">` : ""}
