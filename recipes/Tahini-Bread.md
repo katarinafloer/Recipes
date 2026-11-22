@@ -18,6 +18,7 @@ tags:
   - gluten free
   - high protein
   - quick
+  - vegetarian
 dates_cooked:
   - 2026-11-21
 source: https://www.instagram.com/p/Df5IXMYhFIJ/

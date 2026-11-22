@@ -30,6 +30,7 @@ tags:
   - Finnish
   - seafood
   - one pot
+  - pescatarian
 dates_cooked:
   - 2026-07-27
   - 2026-09-02

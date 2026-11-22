@@ -21,6 +21,7 @@ tags:
   - dessert
   - tiramisu
   - no bake
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/C6I8Zgci9jE/
 ---

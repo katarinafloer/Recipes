@@ -24,6 +24,7 @@ labels:
 tags:
   - side dish
   - Mediterranean
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/C5wZddLSq2r/
 ---

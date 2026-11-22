@@ -27,6 +27,7 @@ tags:
   - gluten free
   - dairy free
   - baking
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/DctRcgHAjCj/
 ---

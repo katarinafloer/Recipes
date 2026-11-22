@@ -23,6 +23,7 @@ labels:
 tags:
   - quick
   - pasta
+  - pescatarian
 dates_cooked:
   - 2026-08-01
 source:

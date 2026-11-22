@@ -19,6 +19,7 @@ tags:
   - dip
   - guacamole
   - snack
+  - vegetarian
 dates_cooked: "2026-07-12"
 source:
 ---

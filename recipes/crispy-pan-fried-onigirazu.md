@@ -33,6 +33,7 @@ tags:
   - meal prep
   - high protein
   - seafood
+  - pescatarian
 dates_cooked:
   - 2026-07-21
 source: https://www.instagram.com/p/DZDFKL2JuQ1/

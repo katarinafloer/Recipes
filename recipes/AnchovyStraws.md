@@ -18,6 +18,7 @@ labels:
   - Parmesan
 tags:
   - snack
+  - pescatarian
 dates_cooked:
   - "2026-10-13"
 source: https://www.instagram.com/p/C60S9wkLA42/

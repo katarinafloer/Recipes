@@ -24,6 +24,7 @@ labels:
 tags:
   - dinner
   - seafood
+  - pescatarian
 dates_cooked:
 source: The ultimate meal prep cookbook
 ---

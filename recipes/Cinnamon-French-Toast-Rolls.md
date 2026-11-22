@@ -32,6 +32,7 @@ labels:
 tags:
   - dessert
   - French toast
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/CxMCLoWSI7t/
 ---

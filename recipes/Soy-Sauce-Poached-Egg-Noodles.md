@@ -25,6 +25,7 @@ tags:
   - breakfast
   - quick
   - korean
+  - pescatarian
 dates_cooked:
 source: https://www.instagram.com/p/Dcklp5ZS-d2/
 ---

@@ -27,6 +27,7 @@ tags:
   - romanian
   - dumplings
   - baking
+  - vegetarian
 dates_cooked:
   - 2026-09-07
 source: https://www.youtube.com/watch?v=vo81gVeRcPM

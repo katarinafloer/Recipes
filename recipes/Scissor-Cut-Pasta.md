@@ -16,6 +16,7 @@ tags:
   - pasta
   - homemade pasta
   - Italian
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/CygcpevKb-0/
 ---

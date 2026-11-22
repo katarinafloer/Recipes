@@ -80,8 +80,17 @@ let siteData = {
 
 const activeFilters = {
   tags: new Set(),
-  ingredients: new Set()
+  ingredients: new Set(),
+  diet: new Set()
 };
+
+const dietOptions = [
+  { key: "vegetarian", label: "🌿 Vegetarian", test: (r) => (r.tags||[]).some((t) => t === "vegetarian" || t === "vegan") },
+  { key: "pescatarian", label: "🐟 Pescatarian", test: (r) => (r.tags||[]).some((t) => t === "pescatarian") },
+  { key: "egg", label: "🥚 Egg", test: (r) => (r.labels||[]).some((l) => l === "eggs" || l === "egg") },
+  { key: "dairy", label: "🥛 Dairy", test: (r) => { const s = new Set(["milk","butter","cream","heavy cream","sour cream","feta","parmesan","mozzarella","ricotta","mascarpone","cheddar cheese","goat cheese","greek yogurt","cottage cheese"]); return (r.labels||[]).some((l) => s.has(l)); } },
+  { key: "meat", label: "🥩 Meat", test: (r) => { const s = new Set(["chicken","beef","ground beef","ground chicken","ground pork","pork","ham"]); return (r.labels||[]).some((l) => s.has(l)); } },
+];
 
 const views = {
   recipes: document.querySelector("#recipesView"),
@@ -185,6 +194,25 @@ function renderFilterControls() {
 
   renderChipGroup("#tagFilters", unique(siteData.recipes.flatMap((recipe) => recipe.tags)).sort(), "tags");
   renderChipGroup("#ingredientFilters", unique(siteData.recipes.flatMap((recipe) => recipe.labels)).sort(), "ingredients");
+  renderDietChips();
+}
+
+function renderDietChips() {
+  const container = document.querySelector("#dietFilters");
+  container.innerHTML = "";
+  dietOptions.forEach((opt) => {
+    const chip = document.createElement("button");
+    chip.className = "filter-chip";
+    chip.type = "button";
+    chip.textContent = opt.label;
+    chip.setAttribute("aria-pressed", "false");
+    chip.addEventListener("click", () => {
+      toggleFilter("diet", opt.key);
+      chip.setAttribute("aria-pressed", String(activeFilters.diet.has(opt.key)));
+      renderRecipes();
+    });
+    container.append(chip);
+  });
 }
 
 function renderChipGroup(selector, values, filterKey) {
@@ -230,7 +258,8 @@ function renderRecipes() {
       const matchesCategory = category === "All" || getRecipeSection(recipe) === category;
       const matchesTags = [...activeFilters.tags].every((tag) => recipe.tags.includes(tag));
       const matchesIngredients = [...activeFilters.ingredients].every((ingredient) => recipe.labels.includes(ingredient));
-      return matchesSearch && matchesCategory && matchesTags && matchesIngredients;
+      const matchesDiet = [...activeFilters.diet].every((key) => dietOptions.find((o) => o.key === key)?.test(recipe));
+      return matchesSearch && matchesCategory && matchesTags && matchesIngredients && matchesDiet;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
 
@@ -280,11 +309,17 @@ function recipeCard(recipe) {
   const isVeg = tags.some((t) => t === "vegetarian" || t === "vegan");
   const isPesc = !isVeg && tags.some((t) => t === "pescatarian");
   const hasEgg = labels.some((l) => l === "eggs" || l === "egg");
+  const dairyLabels = new Set(["milk","butter","cream","heavy cream","sour cream","feta","parmesan","mozzarella","ricotta","mascarpone","cheddar cheese","goat cheese","greek yogurt","cottage cheese"]);
+  const meatLabels = new Set(["chicken","beef","ground beef","ground chicken","ground pork","pork","ham"]);
+  const hasDairy = labels.some((l) => dairyLabels.has(l));
+  const hasMeat = labels.some((l) => meatLabels.has(l));
   const dietBadge = isVeg ? ' <span class="diet-badge" title="Vegetarian">🌿</span>' : isPesc ? ' <span class="diet-badge" title="Pescatarian">🐟</span>' : "";
   const eggBadge = hasEgg ? ' <span class="diet-badge" title="Contains egg">🥚</span>' : "";
+  const dairyBadge = hasDairy ? ' <span class="diet-badge" title="Contains dairy">🥛</span>' : "";
+  const meatBadge = hasMeat ? ' <span class="diet-badge" title="Contains meat">🥩</span>' : "";
   item.innerHTML = `
     <summary>
-      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}${eggBadge}
+      <span class="cooked-dot${cooked ? " cooked-dot-yes" : ""}" title="${cooked ? `Cooked ${recipe.dates_cooked.length}x` : "Never cooked"}"></span>${escapeHtml(displayTitle)}${dietBadge}${eggBadge}${dairyBadge}${meatBadge}
     </summary>
     <div class="recipe-preview">
       ${recipe.image ? `<img class="recipe-preview-img" src="${escapeHtml(recipe.image)}" alt="${escapeHtml(displayTitle)}" loading="lazy">` : ""}

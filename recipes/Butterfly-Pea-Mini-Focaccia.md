@@ -28,6 +28,7 @@ tags:
   - focaccia
   - sourdough
   - mini focaccia
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/CtRq7-apb-C/
 ---

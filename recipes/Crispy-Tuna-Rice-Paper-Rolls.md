@@ -28,6 +28,7 @@ tags:
   - dinner
   - high protein
   - dairy free option
+  - pescatarian
 dates_cooked:
 source: https://www.instagram.com/p/DdpVZqtAni8/
 ---

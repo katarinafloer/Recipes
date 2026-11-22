@@ -23,6 +23,7 @@ tags:
   - brunch
   - French
   - baked eggs
+  - vegetarian
 dates_cooked:
 source: https://www.instagram.com/p/C0wySanMX_A/
 ---

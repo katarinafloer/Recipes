@@ -19,6 +19,7 @@ tags:
   - dessert
   - no bake
   - stuffed dates
+  - vegetarian
 dates_cooked:
   - "2026-09-12"
 source: https://www.instagram.com/p/C34geLdtNje/
