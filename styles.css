@@ -243,9 +243,11 @@ h3 {
 .filter-panel {
   position: sticky;
   top: 96px;
+  max-height: calc(100vh - 112px);
+  overflow-y: auto;
   display: grid;
   gap: 20px;
-  padding: 0;
+  padding: 0 4px 0 0;
 }
 
 .filter-panel h2,
