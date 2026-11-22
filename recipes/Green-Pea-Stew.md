@@ -33,6 +33,7 @@ tags:
   - vegan
   - gluten free
 dates_cooked:
+  - 2026-11-17
 source: https://cristinaskitchen.com/romaniangreenpeastew/
 ---
 

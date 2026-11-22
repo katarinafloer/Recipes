@@ -41,6 +41,7 @@ tags:
   - dairy free
 dates_cooked:
   - "2026-10-10"
+  - 2026-11-03
 source:
 ---
 

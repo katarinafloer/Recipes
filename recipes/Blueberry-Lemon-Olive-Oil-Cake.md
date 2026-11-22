@@ -30,6 +30,7 @@ tags:
   - vegetarian
 dates_cooked:
   - "2026-10-13"
+  - 2026-11-18
 source: https://www.instagram.com/p/Db8FMelNB_1/
 ---
 
