@@ -80,7 +80,6 @@ let siteData = {
 
 const activeFilters = {
   cooked: new Set(),
-  ingredients: new Set(),
   diet: new Set()
 };
 
@@ -115,7 +114,6 @@ document.querySelectorAll(".tab").forEach((tab) => {
 });
 
 document.querySelector("#recipeSearch").addEventListener("input", renderRecipes);
-document.querySelector("#categoryFilter").addEventListener("change", renderRecipes);
 document.querySelector("#heatmapMonth").addEventListener("change", () => {
   const month = document.querySelector("#heatmapMonth").value;
   history.replaceState(null, "", `#calendar/${month}`);
@@ -192,13 +190,7 @@ function showView(name) {
 }
 
 function renderFilterControls() {
-  const categories = ["All", ...recipeSections.map((section) => section.label)];
-  document.querySelector("#categoryFilter").innerHTML = categories
-    .map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
-    .join("");
-
   renderCookedChips();
-  renderChipGroup("#ingredientFilters", unique(siteData.recipes.flatMap((recipe) => recipe.labels)).sort(), "ingredients");
   renderDietChips();
 }
 
@@ -265,7 +257,6 @@ function toggleFilter(filterKey, value) {
 
 function renderRecipes() {
   const search = document.querySelector("#recipeSearch").value.trim().toLowerCase();
-  const category = document.querySelector("#categoryFilter").value || "All";
   const recipes = siteData.recipes
     .filter((recipe) => {
       const searchable = [
@@ -278,14 +269,12 @@ function renderRecipes() {
         recipe.body
       ].join(" ").toLowerCase();
       const matchesSearch = !search || searchable.includes(search);
-      const matchesCategory = category === "All" || getRecipeSection(recipe) === category;
       const isCooked = recipe.dates_cooked && recipe.dates_cooked.length > 0;
       const matchesCooked = !activeFilters.cooked.size ||
         (activeFilters.cooked.has("cooked") && isCooked) ||
         (activeFilters.cooked.has("uncooked") && !isCooked);
-      const matchesIngredients = [...activeFilters.ingredients].every((ingredient) => recipe.labels.includes(ingredient));
       const matchesDiet = [...activeFilters.diet].every((key) => dietOptions.find((o) => o.key === key)?.test(recipe));
-      return matchesSearch && matchesCategory && matchesCooked && matchesIngredients && matchesDiet;
+      return matchesSearch && matchesCooked && matchesDiet;
     })
     .sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
 
